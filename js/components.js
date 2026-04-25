@@ -164,7 +164,7 @@
             <p class="t-dim mt-3" style="max-width: 320px;">Pequenos reparos domésticos com prestadores verificados.<br/>Cuidar do lar, sem depender de ninguém.</p>
           </div>
           <div>
-            <h4>Para clientes</h4>
+            <h3>Para clientes</h3>
             <ul class="footer-list">
               <li><a href="#/como-funciona/cliente">Como funciona</a></li>
               <li><a href="#/cadastro/cliente">Criar conta</a></li>
@@ -172,7 +172,7 @@
             </ul>
           </div>
           <div>
-            <h4>Para prestadores</h4>
+            <h3>Para prestadores</h3>
             <ul class="footer-list">
               <li><a href="#/como-funciona/prestador">Como funciona</a></li>
               <li><a href="#/cadastro/prestador">Cadastre-se</a></li>
@@ -180,7 +180,7 @@
             </ul>
           </div>
           <div>
-            <h4>Institucional</h4>
+            <h3>Institucional</h3>
             <ul class="footer-list">
               <li><a href="#/sobre">Sobre o LarCare</a></li>
               <li><a href="#/contato">Suporte</a></li>

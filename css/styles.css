@@ -694,7 +694,8 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 .site-footer {
   background: var(--text); color: #cdd0cd; padding: var(--space-9) 0 var(--space-7); margin-top: var(--space-9);
 }
-.site-footer h4 { color: #fff; font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 var(--space-3); }
+.site-footer h3, .site-footer h4 { color: #fff; font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 var(--space-3); }
+.site-footer .t-dim { color: #a4a8a4; }
 .site-footer a { color: #cdd0cd; }
 .site-footer a:hover { color: #fff; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-6); }
