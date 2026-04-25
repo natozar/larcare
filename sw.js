@@ -1,5 +1,5 @@
 /* LarCare service worker — cache-first for static assets, network-first for HTML. */
-const CACHE_VERSION = 'larcare-v1.3.1';
+const CACHE_VERSION = 'larcare-v1.3.2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -21,7 +21,8 @@ const PRECACHE = [
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
   './icons/favicon-32.png',
-  './icons/favicon.ico'
+  './icons/favicon.ico',
+  './icons/og-image-v3.png'
 ];
 
 self.addEventListener('install', (event) => {
