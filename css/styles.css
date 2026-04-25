@@ -618,6 +618,23 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 .proposal__msg { font-size: 14px; color: var(--text); line-height: 1.5; padding: var(--space-3); background: var(--surface-2); border-radius: var(--radius-sm); border-left: 3px solid var(--primary-soft); }
 .proposal__cta { display: flex; gap: var(--space-2); margin-top: var(--space-2); flex-wrap: wrap; }
 
+/* mobile-first layout repair for proposal card on narrow screens */
+@media (max-width: 520px) {
+  .proposal { padding: var(--space-4); gap: var(--space-3); }
+  .proposal__head { flex-wrap: wrap; gap: var(--space-3); align-items: flex-start; }
+  .proposal__head .avatar--lg { width: 56px; height: 56px; font-size: 22px; }
+  .proposal__head > div:not(.avatar):not(.text-right) { flex: 1 1 calc(100% - 68px); min-width: 0; }
+  .proposal__head .text-right {
+    flex: 1 1 100%;
+    display: flex; align-items: baseline; justify-content: flex-start;
+    gap: var(--space-3); text-align: left;
+    border-top: 1px dashed var(--border); padding-top: var(--space-3); margin-top: 4px;
+  }
+  .proposal__price { font-size: 26px; }
+  .proposal__cta { flex-direction: column; }
+  .proposal__cta .btn { width: 100%; justify-content: center; }
+}
+
 /* demand card (provider feed) */
 .demand {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
@@ -629,6 +646,14 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 .demand__title { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--text); margin: 0; }
 .demand__meta { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--text-dim); }
 .demand__footer { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+@media (max-width: 520px) {
+  .demand { padding: var(--space-4); }
+  .demand__title { font-size: 16px; }
+  .demand__footer { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+  .demand__footer > .row { width: 100%; }
+  .demand__footer .btn { flex: 1; justify-content: center; }
+}
 
 /* status pill list */
 .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); }

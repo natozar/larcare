@@ -581,7 +581,7 @@
       published_at_iso: '2026-04-25T10:05:00',
       published_minutes_ago: 5,
       status: 'open',
-      proposal_count: 1
+      proposal_count: 3
     },
     {
       id: 'dem-010',
@@ -598,7 +598,7 @@
       published_at_iso: '2026-04-25T11:55:00',
       published_minutes_ago: 1,
       status: 'open',
-      proposal_count: 0
+      proposal_count: 4
     }
   ];
 
@@ -675,8 +675,16 @@
     { id: 'prop-008-a', demand_id: 'dem-008', provider_id: 'pro-008', value: 150, time_estimate: '1 hora', availability_text: 'Amanhã 8h', message: 'Levo cortador profissional, descarte combinado. Quintal pequeno, atendo rápido.', sent_minutes_ago: 60*15, status: 'pending' },
     { id: 'prop-008-b', demand_id: 'dem-008', provider_id: 'pro-005', value: 180, time_estimate: '1h30', availability_text: 'Sexta de manhã', message: 'Faço corte e adubação leve no mesmo dia se quiser.', sent_minutes_ago: 60*8, status: 'pending' },
 
-    // dem-009 — 1
-    { id: 'prop-009-a', demand_id: 'dem-009', provider_id: 'pro-006', value: 120, time_estimate: '40 min', availability_text: 'Hoje à tarde', message: 'Furadeira de impacto Bosch. 8 furos em alvenaria são rápidos. Levo bucha de 8 mm.', sent_minutes_ago: 4, status: 'pending' }
+    // dem-009 — 3
+    { id: 'prop-009-a', demand_id: 'dem-009', provider_id: 'pro-006', value: 120, time_estimate: '40 min', availability_text: 'Hoje à tarde', message: 'Furadeira de impacto Bosch. 8 furos em alvenaria são rápidos. Levo bucha de 8 mm.', sent_minutes_ago: 4, status: 'pending' },
+    { id: 'prop-009-b', demand_id: 'dem-009', provider_id: 'pro-001', value: 95, time_estimate: '30 min', availability_text: 'Hoje 15h-17h', message: 'Atendo Ipiranga hoje mesmo. Levo furadeira SDS, broca widia e buchas de 8 mm. Sem volta à loja.', sent_minutes_ago: 12, status: 'pending' },
+    { id: 'prop-009-c', demand_id: 'dem-009', provider_id: 'pro-005', value: 140, time_estimate: '45 min', availability_text: 'Amanhã pela manhã', message: 'Posso passar amanhã se topar. Trago tudo que precisa, inclusive nivelamento dos furos.', sent_minutes_ago: 22, status: 'pending' },
+
+    // dem-010 — 4 (urgente, alta atividade)
+    { id: 'prop-010-a', demand_id: 'dem-010', provider_id: 'pro-006', value: 180, time_estimate: '40 min', availability_text: 'Posso ir agora, em 30 min', message: 'Atendo Vila Madalena, posso sair agora. Levo serralheria portátil, troca de cilindro se precisar.', sent_minutes_ago: 1, status: 'pending' },
+    { id: 'prop-010-b', demand_id: 'dem-010', provider_id: 'pro-001', value: 220, time_estimate: '1 hora', availability_text: 'Em 1 hora', message: 'Estou aqui na região. Cilindro Yale e Stam de reserva no carro. Garantia de 30 dias.', sent_minutes_ago: 1, status: 'pending' },
+    { id: 'prop-010-c', demand_id: 'dem-010', provider_id: 'pro-011', value: 150, time_estimate: '30 min', availability_text: 'Amanhã 7h antes da viagem', message: 'Posso passar amanhã bem cedinho, antes da sua viagem. Conserto rápido.', sent_minutes_ago: 0.5, status: 'pending' },
+    { id: 'prop-010-d', demand_id: 'dem-010', provider_id: 'pro-009', value: 130, time_estimate: '40 min', availability_text: 'Hoje à noite', message: 'Atendo até as 22h hoje. Cilindro novo + lubrificação completa.', sent_minutes_ago: 0.2, status: 'pending' }
   ];
 
   // ------------------------------------------------------------------
@@ -701,7 +709,9 @@
     const pro = findProvider(id);
     if (!pro) return DEMANDS;
     const cats = pro.specialties.map((s) => s.cat);
-    return DEMANDS.filter((d) => cats.indexOf(d.cat) !== -1 || true); // for demo, show all
+    // For demo: prioritize matches, fall back to all if too few
+    const matched = DEMANDS.filter((d) => cats.indexOf(d.cat) !== -1);
+    return matched.length >= 4 ? matched : DEMANDS;
   }
   function proposalsByProvider(id) { return PROPOSALS.filter((p) => p.provider_id === id); }
 
