@@ -2,8 +2,9 @@
   "name": "LarCare — Cuidar do lar, sem depender de ninguém",
   "short_name": "LarCare",
   "description": "Pequenos reparos domésticos com prestadores verificados.",
-  "start_url": "./",
+  "start_url": "./app.html",
   "scope": "./",
+  "id": "/larcare/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FAF8F4",
@@ -21,14 +22,14 @@
       "name": "Nova solicitação",
       "short_name": "Solicitar",
       "description": "Descreva um reparo e receba propostas",
-      "url": "./#/cliente/nova-demanda",
+      "url": "./app.html#/cliente/nova-demanda",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Sou prestador",
       "short_name": "Prestador",
       "description": "Veja demandas próximas",
-      "url": "./#/prestador",
+      "url": "./app.html#/prestador",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ]

@@ -466,6 +466,13 @@
     setupInstallBanner();
     setupDemoFab();
     registerSW();
+    // Auto-start guided tour when arriving from LP via ?tour=1
+    try {
+      const search = new URLSearchParams(window.location.search);
+      if (search.get('tour') === '1' && global.LarCareTour) {
+        setTimeout(() => global.LarCareTour.start(), 600);
+      }
+    } catch (_) { /* noop */ }
   }
 
   if (document.readyState === 'loading') {

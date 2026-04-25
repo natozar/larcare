@@ -1,65 +1,720 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#3E6B5C" />
   <meta name="color-scheme" content="light" />
-  <meta name="description" content="LarCare — pequenos reparos domésticos com prestadores verificados. Cuidar do lar, sem depender de ninguém." />
-  <meta property="og:title" content="LarCare — Cuidar do lar, sem depender de ninguém" />
-  <meta property="og:description" content="Pequenos reparos domésticos com prestadores verificados. Propostas transparentes, contato direto." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="icons/og-image.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <title>LarCare — Cuidar do lar, sem depender de ninguém</title>
 
+  <!-- Primary SEO -->
+  <title>LarCare — Pequenos reparos domésticos com prestadores verificados em São Paulo</title>
+  <meta name="description" content="Encontre eletricistas, encanadores, marceneiros e montadores verificados perto de você. Receba propostas em até duas horas. Avaliação cruzada, contato direto, zero taxa para o cliente." />
+  <meta name="keywords" content="pequenos reparos domésticos, eletricista verificado, encanador residencial, marceneiro São Paulo, montador de móveis, manutenção doméstica, prestador de serviços, reparos elétricos, hidráulica residencial, pintura interna, jardinagem, montagem de móveis, conserto residencial, plataforma de serviços" />
+  <meta name="author" content="LarCare" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="rating" content="general" />
+  <meta name="geo.region" content="BR-SP" />
+  <meta name="geo.placename" content="São Paulo" />
+  <link rel="canonical" href="https://natozar.github.io/larcare/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://natozar.github.io/larcare/" />
+  <link rel="alternate" hreflang="x-default" href="https://natozar.github.io/larcare/" />
+
+  <!-- Icons & PWA -->
   <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="LarCare" />
+  <meta name="application-name" content="LarCare" />
+  <meta name="msapplication-TileColor" content="#3E6B5C" />
 
+  <!-- OpenGraph -->
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LarCare" />
+  <meta property="og:url" content="https://natozar.github.io/larcare/" />
+  <meta property="og:title" content="LarCare — Cuidar do lar, sem depender de ninguém" />
+  <meta property="og:description" content="Pequenos reparos domésticos com prestadores verificados. Propostas em duas horas. Contato direto com quem topou." />
+  <meta property="og:image" content="https://natozar.github.io/larcare/icons/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="LarCare — plataforma de pequenos reparos domésticos com prestadores verificados" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LarCare — Cuidar do lar, sem depender de ninguém" />
+  <meta name="twitter:description" content="Pequenos reparos domésticos com prestadores verificados. Propostas em duas horas. Contato direto com quem topou." />
+  <meta name="twitter:image" content="https://natozar.github.io/larcare/icons/og-image.png" />
+  <meta name="twitter:image:alt" content="LarCare" />
+
+  <!-- Performance hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="prefetch" href="app.html" />
+  <link rel="prefetch" href="css/styles.css" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://natozar.github.io/larcare/#organization",
+        "name": "LarCare",
+        "url": "https://natozar.github.io/larcare/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://natozar.github.io/larcare/icons/icon-512.png",
+          "width": 512,
+          "height": 512
+        },
+        "description": "Plataforma de conexão entre clientes e prestadores autônomos verificados para pequenos reparos domésticos.",
+        "areaServed": {
+          "@type": "City",
+          "name": "São Paulo",
+          "containedInPlace": { "@type": "Country", "name": "Brasil" }
+        },
+        "slogan": "Cuidar do lar, sem depender de ninguém",
+        "knowsLanguage": "pt-BR"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://natozar.github.io/larcare/#website",
+        "url": "https://natozar.github.io/larcare/",
+        "name": "LarCare",
+        "description": "Pequenos reparos domésticos com prestadores verificados",
+        "inLanguage": "pt-BR",
+        "publisher": { "@id": "https://natozar.github.io/larcare/#organization" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://natozar.github.io/larcare/#service",
+        "name": "Pequenos reparos domésticos",
+        "provider": { "@id": "https://natozar.github.io/larcare/#organization" },
+        "areaServed": { "@type": "City", "name": "São Paulo" },
+        "serviceType": [
+          "Elétrica residencial",
+          "Hidráulica residencial",
+          "Marcenaria leve",
+          "Pintura interna",
+          "Jardinagem",
+          "Montagem de móveis",
+          "Instalação de equipamentos",
+          "Reparos gerais"
+        ],
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "Donas de casa e moradores urbanos em domicílios sem habilidade técnica disponível"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quanto custa para usar o LarCare?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Para clientes não há mensalidade nem taxa por serviço. Você paga somente o prestador, no valor combinado diretamente com ele."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como sei que o prestador é confiável?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Toda pessoa cadastrada como prestador passa por verificação de identidade, antecedente criminal e aprovação manual da equipe LarCare antes de receber demandas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Em quanto tempo recebo propostas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A primeira proposta costuma chegar em menos de duas horas. Demandas marcadas como urgentes recebem propostas mais rapidamente."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Os prestadores são da minha região?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. Você só recebe propostas de prestadores cadastrados que atendem o seu CEP, dentro do raio de atuação que cada um informou."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso negociar o valor com o prestador?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. Após aceitar a proposta, você combina os detalhes diretamente com o prestador. O LarCare não interfere no contato nem na negociação."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como funciona para o prestador?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Após cadastro aprovado, o prestador visualiza demandas próximas, envia propostas e atende. Sua reputação acumula entre serviços, sem custo de captação."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <a class="skip-link" href="#app">Pular para conteúdo principal</a>
+  <a class="skip" href="#main">Pular para conteúdo</a>
 
-  <header id="site-header" class="site-header" data-variant="public"></header>
-
-  <main id="app" class="app" tabindex="-1"></main>
-
-  <footer id="site-footer" class="site-footer"></footer>
-
-  <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
-  <div id="modal-root" class="modal-root" aria-hidden="true"></div>
-
-  <button id="demo-fab" class="demo-fab" type="button" hidden>
-    <span class="demo-fab__pulse" aria-hidden="true"></span>
-    <span class="demo-fab__label">Ver demonstração rápida</span>
-  </button>
-
-  <div id="install-banner" class="install-banner" hidden>
-    <div class="install-banner__inner">
-      <div class="install-banner__copy">
-        <strong>Instale o LarCare no seu celular</strong>
-        <span id="install-banner-hint">Acesso rápido, sem entrar pelo navegador.</span>
-      </div>
-      <div class="install-banner__actions">
-        <button class="btn btn--ghost btn--sm" id="install-dismiss" type="button">Agora não</button>
-        <button class="btn btn--primary btn--sm" id="install-accept" type="button">Instalar</button>
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="/larcare/" class="nav__logo" aria-label="LarCare — página inicial">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" fill="#3E6B5C"/>
+          <path d="M9 17.5L16 11l7 6.5V22a1 1 0 0 1-1 1h-3.5v-4h-5v4H10a1 1 0 0 1-1-1v-4.5z" fill="#FAF8F4"/>
+          <path d="M14.5 14.6c.4-.5 1-.8 1.5-.8s1.1.3 1.5.8c.3.5.3 1.1 0 1.6l-1.5 1.6-1.5-1.6c-.3-.5-.3-1.1 0-1.6z" fill="#D4A574"/>
+        </svg>
+        <span>LarCare</span>
+      </a>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#categorias">Serviços</a>
+        <a href="#prestadores">Para prestadores</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__cta">
+        <a href="app.html" class="btn btn--ghost btn--sm">Entrar no app</a>
+        <a href="app.html#/cadastro/cliente" class="btn btn--primary btn--sm">Começar grátis</a>
       </div>
     </div>
-  </div>
+  </header>
 
-  <script src="js/mock_data.js"></script>
-  <script src="js/components.js"></script>
-  <script src="js/views.js"></script>
-  <script src="js/views_provider.js"></script>
-  <script src="js/demo_tour.js"></script>
-  <script src="js/app.js"></script>
+  <main id="main">
+    <!-- =================================================================
+         HERO
+         ================================================================= -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero__grid">
+          <div class="hero__copy">
+            <span class="eyebrow"><span class="dot"></span>Operando em São Paulo &middot; Verificação 100%</span>
+            <h1>Pequenos reparos, <em>sem depender de ninguém.</em></h1>
+            <p class="hero__lede">Encontre eletricistas, encanadores, marceneiros e montadores verificados perto de você. Receba propostas em duas horas. Combine direto com quem topou.</p>
+            <div class="hero__ctas">
+              <a href="app.html#/cliente" class="btn btn--primary btn--xl">Quero contratar um serviço</a>
+              <a href="app.html?tour=1" class="btn btn--ghost btn--xl">Ver demonstração de 90s →</a>
+            </div>
+            <ul class="hero__proof">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Identidade conferida
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Antecedente criminal validado
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Avaliação cruzada
+              </li>
+            </ul>
+          </div>
+          <div class="hero__visual">
+            <div class="mockup" role="img" aria-label="Tela do aplicativo LarCare exibindo quatro propostas de prestadores para um reparo doméstico">
+              <div class="mockup__floater mockup__floater--top">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Verificado
+              </div>
+              <div class="mockup__floater mockup__floater--bottom">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.3l-6.18 3.7 1.64-7.03L2 9.24l7.19-.62L12 2l2.81 6.62L22 9.24l-5.46 4.73 1.64 7.03z"/></svg>
+                Avaliação 4.9
+              </div>
+              <div class="mockup__screen">
+                <div class="mockup__head">
+                  <div class="mockup__title">4 propostas recebidas</div>
+                  <div class="mockup__sub">Torneira da pia · Pinheiros</div>
+                </div>
+                <div class="mockup__body">
+                  <div class="mockup__card">
+                    <div class="mockup__avatar">RF</div>
+                    <div>
+                      <div class="mockup__name">Roberto F.</div>
+                      <div class="mockup__meta">★ 4.9 · 2.1km · 2h</div>
+                    </div>
+                    <div class="mockup__price">R$ 180</div>
+                  </div>
+                  <div class="mockup__card">
+                    <div class="mockup__avatar a2">JE</div>
+                    <div>
+                      <div class="mockup__name">José E.</div>
+                      <div class="mockup__meta">★ 4.7 · 3.4km · hoje</div>
+                    </div>
+                    <div class="mockup__price">R$ 140</div>
+                  </div>
+                  <div class="mockup__card">
+                    <div class="mockup__avatar a3">FG</div>
+                    <div>
+                      <div class="mockup__name">Felipe G.</div>
+                      <div class="mockup__meta">★ 4.5 · 5.1km · amanhã</div>
+                    </div>
+                    <div class="mockup__price">R$ 95</div>
+                  </div>
+                  <div class="mockup__card">
+                    <div class="mockup__avatar a4">CH</div>
+                    <div>
+                      <div class="mockup__name">Carlos H.</div>
+                      <div class="mockup__meta">★ 4.8 · 1.8km · 3h</div>
+                    </div>
+                    <div class="mockup__price">R$ 220</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         METRICS BAND
+         ================================================================= -->
+    <section class="metrics" aria-label="Indicadores">
+      <div class="container metrics__grid">
+        <div><strong>47</strong><span>categorias cobertas</span></div>
+        <div><strong>2h</strong><span>tempo médio até primeira proposta</span></div>
+        <div><strong>100%</strong><span>prestadores verificados</span></div>
+        <div><strong>R$ 0</strong><span>taxa para o cliente</span></div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PROBLEM
+         ================================================================= -->
+    <section class="problem block reveal">
+      <div class="container">
+        <header class="section-header">
+          <span class="eyebrow">O cenário de hoje</span>
+          <h2>Você reconhece esse problema?</h2>
+          <p>Resolver um pequeno reparo no Brasil ainda depende de favor, sorte e indicação de indicação.</p>
+        </header>
+        <div class="problem__grid">
+          <div class="problem__item">Lâmpada queimada há semanas porque você não acha quem topa trocar uma só.</div>
+          <div class="problem__item">Vazamento na torneira que vira goteira que vira balde.</div>
+          <div class="problem__item">Móvel novo na caixa, esperando alguém com tempo e ferramenta para montar.</div>
+          <div class="problem__item">Quando o prestador aparece, é por indicação de terceiro, sem avaliação, sem garantia.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         HOW IT WORKS
+         ================================================================= -->
+    <section id="como-funciona" class="how block reveal">
+      <div class="container">
+        <header class="section-header">
+          <span class="eyebrow">Como funciona</span>
+          <h2>Resolva em três passos.</h2>
+          <p>Sem cadastro longo, sem cara de aplicativo bancário, sem caça-cliente.</p>
+        </header>
+        <ol class="how__steps">
+          <li class="how__step">
+            <div class="how__step__num">1</div>
+            <h3>Você descreve o que precisa</h3>
+            <p>Conte em texto, mande uma foto se ajudar, defina o prazo. Em três minutos a demanda está publicada.</p>
+          </li>
+          <li class="how__step">
+            <div class="how__step__num">2</div>
+            <h3>Prestadores verificados enviam propostas</h3>
+            <p>Apenas profissionais aprovados, com identidade e antecedente conferidos, recebem sua demanda.</p>
+          </li>
+          <li class="how__step">
+            <div class="how__step__num">3</div>
+            <h3>Você escolhe e fala direto</h3>
+            <p>Compare valor, prazo, avaliação. Aceita uma proposta, recebe o contato, combina o resto pelo WhatsApp.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         FEATURED SCREEN — proposals
+         ================================================================= -->
+    <section class="featured reveal" aria-label="Tela de propostas">
+      <div class="container featured__grid">
+        <div class="featured__copy">
+          <span class="eyebrow">A tela-coração</span>
+          <h2>Compare quatro propostas em uma manhã.</h2>
+          <p>Valor, prazo, distância, avaliação acumulada e mensagem específica do prestador para a sua demanda. A escolha é sua, e ela leva minutos.</p>
+          <a href="app.html#/cliente/demanda/dem-001/propostas" class="btn btn--accent btn--lg">Abrir essa tela no protótipo</a>
+        </div>
+        <div class="featured__visual" aria-hidden="true">
+          <h4>4 propostas · Pinheiros</h4>
+          <div class="demand-title">Torneira da pia da cozinha pingando há 3 dias</div>
+          <div class="fp-list">
+            <div class="fp-item">
+              <div class="fp-avatar c1">RF</div>
+              <div>
+                <div class="fp-name">Roberto F. <span class="fp-stars">★ 4.9</span></div>
+                <div class="fp-meta">2,1 km · pode ir hoje 14h · leva material</div>
+              </div>
+              <div class="fp-price">R$ 180</div>
+            </div>
+            <div class="fp-item">
+              <div class="fp-avatar c2">JE</div>
+              <div>
+                <div class="fp-name">José E. <span class="fp-stars">★ 4.7</span></div>
+                <div class="fp-meta">3,4 km · disponível hoje à noite</div>
+              </div>
+              <div class="fp-price">R$ 140</div>
+            </div>
+            <div class="fp-item">
+              <div class="fp-avatar c3">FG</div>
+              <div>
+                <div class="fp-name">Felipe G. <span class="fp-stars">★ 4.5</span></div>
+                <div class="fp-meta">5,1 km · amanhã pela manhã</div>
+              </div>
+              <div class="fp-price">R$ 95</div>
+            </div>
+            <div class="fp-item">
+              <div class="fp-avatar c4">CH</div>
+              <div>
+                <div class="fp-name">Carlos H. <span class="fp-stars">★ 4.8</span></div>
+                <div class="fp-meta">1,8 km · pode ir em 3h · leva material</div>
+              </div>
+              <div class="fp-price">R$ 220</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         CATEGORIES
+         ================================================================= -->
+    <section id="categorias" class="categories block reveal">
+      <div class="container">
+        <header class="section-header">
+          <span class="eyebrow">Serviços que cobrimos</span>
+          <h2>Pequenos e médios. Não fazemos obra.</h2>
+          <p>Categorias mais pedidas pelos clientes LarCare em São Paulo.</p>
+        </header>
+        <ul class="categories__grid">
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-3 7h4l-3 9 8-12h-5l3-4z"/></svg></div>
+            <div class="cat-name">Elétrica residencial</div>
+            <div class="cat-sub">Tomada, lâmpada, ventilador, disjuntor.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c4 5 6 9 6 12a6 6 0 0 1-12 0c0-3 2-7 6-12z"/></svg></div>
+            <div class="cat-name">Hidráulica residencial</div>
+            <div class="cat-sub">Vazamento, torneira, descarga, ralo.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M5 8l-2 4 2 4M19 8l2 4-2 4"/></svg></div>
+            <div class="cat-name">Marcenaria leve</div>
+            <div class="cat-sub">Prateleira, ajuste de porta, pequenos reparos.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l3-3 4 4-3 3-4-4z"/><path d="M14 3l7 7-7 7-7-7 7-7z"/></svg></div>
+            <div class="cat-name">Pintura interna</div>
+            <div class="cat-sub">Quarto, sala, parede pontual, retoque.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-4 4-9 7-11 3 2 7 7 7 11a7 7 0 0 1-7 7z"/><path d="M11 20v-6"/></svg></div>
+            <div class="cat-name">Jardinagem</div>
+            <div class="cat-sub">Cortar grama, podar, replantar.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></div>
+            <div class="cat-name">Montagem de móveis</div>
+            <div class="cat-sub">Guarda-roupa, estante, mesa, cama.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M9 21h6M12 17v4"/></svg></div>
+            <div class="cat-name">Instalação de equipamentos</div>
+            <div class="cat-sub">TV, suporte, ar condicionado, antena.</div>
+          </li>
+          <li class="cat-item">
+            <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 7 3 3-9 9-3-3z"/><path d="m17 7 3-3a2 2 0 0 0-3-3l-3 3"/></svg></div>
+            <div class="cat-name">Reparos gerais</div>
+            <div class="cat-sub">Fechadura, dobradiça, ajuste de janela.</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         TRUST / SECURITY
+         ================================================================= -->
+    <section id="seguranca" class="trust block reveal">
+      <div class="container trust__grid">
+        <div class="trust__copy">
+          <span class="eyebrow">Segurança e LGPD</span>
+          <h2>Confiança não é discurso. É processo.</h2>
+          <p>Toda pessoa que aparece como prestador no LarCare passou por verificação documental e aprovação manual. Seus dados são tratados com a mesma seriedade que esperamos da pessoa que vai entrar na sua casa.</p>
+          <a href="app.html#/seguranca" class="btn btn--ghost btn--sm" style="margin-top:24px">Ler política completa →</a>
+        </div>
+        <ul class="trust__checks">
+          <li class="trust__check">
+            <div class="trust__check__mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <div>
+              <h4>Identidade conferida</h4>
+              <p>Documento oficial cruzado com selfie ao vivo no momento do cadastro.</p>
+            </div>
+          </li>
+          <li class="trust__check">
+            <div class="trust__check__mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div>
+              <h4>Antecedente criminal validado</h4>
+              <p>Certidão emitida em órgão oficial, conferida pela equipe LarCare antes da aprovação.</p>
+            </div>
+          </li>
+          <li class="trust__check">
+            <div class="trust__check__mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div>
+              <h4>Avaliação cruzada após cada serviço</h4>
+              <p>Cliente avalia prestador. Prestador avalia cliente. Reputação acumula entre serviços.</p>
+            </div>
+          </li>
+          <li class="trust__check">
+            <div class="trust__check__mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div>
+              <h4>Conformidade com a LGPD</h4>
+              <p>Dados pessoais criptografados, base legal explícita e canal de denúncia humano.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         TESTIMONIALS
+         ================================================================= -->
+    <section class="testimonials block reveal">
+      <div class="container">
+        <header class="section-header">
+          <span class="eyebrow">Quem já usou conta</span>
+          <h2>Resolvido em horas, não em semanas.</h2>
+        </header>
+        <div class="testimonials__grid">
+          <blockquote class="quote">
+            <p>Tinha uma lâmpada queimada há um mês. Em duas horas tinha três propostas. Em quatro horas estava resolvido. Sem favor pra ninguém.</p>
+            <div class="quote__person">
+              <div class="quote__avatar">M</div>
+              <div>
+                <div class="quote__name">Maria Cristina, 42</div>
+                <div class="quote__city">Pinheiros · São Paulo</div>
+              </div>
+            </div>
+          </blockquote>
+          <blockquote class="quote">
+            <p>O Roberto chegou no horário, fez o serviço bem feito, cobrou exatamente o combinado. Já contratei ele de novo pra outra coisa.</p>
+            <div class="quote__person">
+              <div class="quote__avatar b">B</div>
+              <div>
+                <div class="quote__name">Beatriz S., 51</div>
+                <div class="quote__city">Vila Mariana · São Paulo</div>
+              </div>
+            </div>
+          </blockquote>
+          <blockquote class="quote">
+            <p>Pelo preço de uma única emergência mal resolvida no boca a boca, eu pago três serviços bem feitos no LarCare. E ainda tenho avaliação de quem foi atendido antes.</p>
+            <div class="quote__person">
+              <div class="quote__avatar c">H</div>
+              <div>
+                <div class="quote__name">Helena R., 38</div>
+                <div class="quote__city">Tatuapé · São Paulo</div>
+              </div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PROVIDER section
+         ================================================================= -->
+    <section id="prestadores" class="provider reveal">
+      <div class="provider__grid">
+        <div class="provider__copy">
+          <span class="eyebrow">Para prestadores</span>
+          <h2>Tem ofício e quer agenda preenchida?</h2>
+          <p>Cadastre-se. Receba demandas próximas. Envie propostas. Construa reputação que viaja entre serviços. Sem custo de captação, sem boca a boca, sem perder o sábado caçando cliente.</p>
+          <a href="app.html#/cadastro/prestador" class="btn btn--accent btn--lg">Quero me cadastrar como prestador</a>
+        </div>
+        <ul class="provider__benefits">
+          <li>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <div>Demandas pré-qualificadas dentro do seu raio de atendimento.</div>
+          </li>
+          <li>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <div>Pagamento direto com o cliente, sem retenção da plataforma.</div>
+          </li>
+          <li>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <div>Sua reputação acumula entre serviços e fica visível no perfil.</div>
+          </li>
+          <li>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <div>Aprovação humana em até 72 horas, com retorno claro.</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         FAQ
+         ================================================================= -->
+    <section id="faq" class="block reveal">
+      <div class="container">
+        <header class="section-header">
+          <span class="eyebrow">Perguntas frequentes</span>
+          <h2>Respostas diretas.</h2>
+        </header>
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary>Quanto custa para usar o LarCare?</summary>
+            <div class="faq__item__body">Para clientes não há mensalidade nem taxa por serviço. Você paga somente o prestador, no valor combinado diretamente com ele.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Como sei que o prestador é confiável?</summary>
+            <div class="faq__item__body">Toda pessoa cadastrada como prestador passa por verificação de identidade, antecedente criminal e aprovação manual antes de receber demandas. Você também vê a avaliação acumulada nos serviços anteriores.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Em quanto tempo eu recebo propostas?</summary>
+            <div class="faq__item__body">A primeira proposta costuma chegar em menos de duas horas. Demandas marcadas como urgentes recebem propostas mais rápido. Você é notificada por WhatsApp ou e-mail.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Os prestadores são da minha região?</summary>
+            <div class="faq__item__body">Sim. Você só recebe propostas de prestadores cadastrados que atendem o seu CEP, dentro do raio de atuação que cada um informou no cadastro.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Posso negociar o valor?</summary>
+            <div class="faq__item__body">Sim. Após aceitar uma proposta, você combina os detalhes diretamente com o prestador. O LarCare libera o contato e não interfere na negociação.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Quais serviços não são cobertos?</summary>
+            <div class="faq__item__body">Não fazemos obra estrutural, reforma de grande porte, ampliação ou serviço que demande projeto de engenharia. Foco é o pequeno e médio reparo do dia a dia.</div>
+          </details>
+          <details class="faq__item">
+            <summary>Como funciona para o prestador?</summary>
+            <div class="faq__item__body">Após cadastro aprovado, o prestador visualiza demandas próximas, envia propostas com valor, prazo e mensagem específica. Ao ser aceito, recebe o contato do cliente para combinar diretamente. Reputação acumula entre serviços.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         FINAL CTA
+         ================================================================= -->
+    <section class="final-cta reveal">
+      <div class="container">
+        <h2>Cuidar do lar, sem depender de ninguém.</h2>
+        <p>Comece agora. Leva três minutos.</p>
+        <div class="final-cta__split">
+          <div class="final-cta__card">
+            <h3>Sou cliente</h3>
+            <p>Tenho um pequeno reparo para resolver.</p>
+            <a href="app.html#/cadastro/cliente" class="btn btn--primary btn--block">Quero contratar</a>
+          </div>
+          <div class="final-cta__card">
+            <h3>Sou prestador</h3>
+            <p>Tenho ofício e quero agenda preenchida.</p>
+            <a href="app.html#/cadastro/prestador" class="btn btn--ghost btn--block">Quero me cadastrar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="container">
+      <div class="lp-footer__grid">
+        <div class="lp-footer__brand">
+          <strong>LarCare</strong>
+          <p>Pequenos reparos domésticos com prestadores verificados. Cuidar do lar, sem depender de ninguém.</p>
+        </div>
+        <div>
+          <h5>Plataforma</h5>
+          <ul>
+            <li><a href="app.html">Abrir aplicativo</a></li>
+            <li><a href="app.html?tour=1">Demonstração rápida</a></li>
+            <li><a href="#como-funciona">Como funciona</a></li>
+            <li><a href="#categorias">Serviços</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Empresa</h5>
+          <ul>
+            <li><a href="app.html#/sobre">Sobre o LarCare</a></li>
+            <li><a href="app.html#/seguranca">Segurança</a></li>
+            <li><a href="app.html#/contato">Contato</a></li>
+            <li><a href="#prestadores">Para prestadores</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Legal</h5>
+          <ul>
+            <li><a href="app.html#/termos">Termos de uso</a></li>
+            <li><a href="app.html#/privacidade">Política de privacidade</a></li>
+            <li><a href="app.html#/faq">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="lp-footer__legal">
+        <p>LarCare é plataforma de conexão entre clientes e prestadores de serviço autônomos. Não somos empregadores dos prestadores e não respondemos solidariamente pelos serviços prestados, salvo nos limites previstos em contrato e legislação aplicável. Operamos em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+        <p>&copy; 2026 LarCare</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav shadow on scroll
+    (function () {
+      var nav = document.getElementById('nav');
+      var update = function () {
+        nav.classList.toggle('is-scrolled', window.scrollY > 4);
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    // Reveal-on-scroll animations
+    (function () {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+
+    // Service worker (best-effort)
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () { /* offline-first é best-effort */ });
+      });
+    }
+  </script>
 </body>
 </html>

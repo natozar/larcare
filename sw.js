@@ -1,14 +1,16 @@
 /* LarCare service worker — cache-first for static assets, network-first for HTML. */
-const CACHE_VERSION = 'larcare-v1.0.0';
+const CACHE_VERSION = 'larcare-v1.1.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
 const PRECACHE = [
   './',
   './index.html',
+  './app.html',
   './offline.html',
   './manifest.json',
   './css/styles.css',
+  './css/landing.css',
   './js/app.js',
   './js/components.js',
   './js/views.js',
