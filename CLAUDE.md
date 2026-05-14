@@ -1013,6 +1013,51 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO G — SPRINT CONSOLIDADO FINAL: ADMIN + PAGAMENTO + DARK + PUSH + i18n + PNGs (2026-05-15, v1.9.0)
+
+Sétimo bloco. 5 sistemas estruturais novos que faltavam pra parecer "Série A": painel admin, pagamento, modo escuro, push notifications, internacionalização. PNGs do logo via script Node + sharp.
+
+### 5 sistemas novos
+
+1. **Admin oculto** (`#/admin`, easter egg 10-tap no logo). 5 tabs: métricas com gráfico SVG 30d + tabela de prestadores com export CSV + tabela de demandas + lista de avaliações com moderação + configurações com backup/restore localStorage.
+
+2. **Pagamento mock** (`#/pagamento` + `#/recibo` + `#/financeiro-prestador` + `#/dashboard-cliente`). PIX com QR code visual gerado dinamicamente + Cartão com validação Luhn e detecção de bandeira. Recibo printável. Saldo do prestador com saque PIX mock. Comissão LarCare 5% calculada e mostrada em cada transação.
+
+3. **Modo escuro** (`js/theme.js` + tokens dark em styles.css). 3 modos: claro/escuro/sistema. Tokens **repensados** (não invertidos). `theme-color` dinâmico no PWA status bar. Toggle em Perfil > Preferências.
+
+4. **Push notifications** (`js/notifications.js` + sw.js). 4 categorias toggleable. Permission UX: pede após 1ª proposta ou pagamento (regra valor-primeiro). Listeners no SW para push + notificationclick + navigate. Botão "Testar" em Perfil.
+
+5. **i18n** (`js/i18n.js`). 3 locales (pt-BR/en-US/es-ES). API `t()` com interpolação. 33 chaves inicial. `formatCurrency`/`formatDate` via `Intl`. `<html lang>` dinâmico. Toggle em Perfil > Idioma.
+
+### Tools
+
+`tools/generate-icons.js` + `npm run icons` (devDep sharp) — owner roda em máquina dele para gerar 24+ PNGs (standard, maskable, apple-touch, splash iOS, OG, Twitter card). Não rodado neste ambiente por ausência de sharp pré-instalado.
+
+### Storage adicionado (localStorage)
+
+| Chave | Conteúdo |
+| --- | --- |
+| `larcare:theme_preference` | 'light' / 'dark' / 'system' |
+| `larcare:locale` | 'pt-BR' / 'en-US' / 'es-ES' |
+| `larcare:push_enabled` | boolean global |
+| `larcare:push_categories` | objeto por categoria |
+| `larcare:push_asked` | flag já-perguntou |
+| `larcare:payments` | array de transações |
+| `larcare:provider_balance` | objeto { proId: { available, pending, history } } |
+| `larcare:admin_authed` (session) | flag autenticação admin |
+| `larcare:maintenance` | flag modo manutenção |
+
+### O que NÃO entrou (documentado, deferido)
+
+- **Refator de tokens das 22 telas antigas**: alto risco de regressão. Novas telas (admin, pagamento, dashboards, FAQ, legal) já usam tokens.
+- **Geração efetiva dos PNGs**: script pronto mas sharp não está pré-instalado no ambiente. Owner roda `npm install && npm run icons` quando quiser.
+- **Splash screens iOS dedicadas referenciadas no `<head>`**: tags `<link rel="apple-touch-startup-image">` não foram adicionadas porque os PNGs ainda não existem. Owner adiciona depois.
+- **i18n full refactor de todas as 22 views**: stub-only com 33 chaves. Owner expande conforme demanda.
+- **Lighthouse re-medição**: pendente.
+- **Tokens semânticos extras** (`--text-xs`, `--space-7`, etc.): tokens existentes em `:root` mantidos; novas variáveis seriam aditivas e estão fora de escopo crítico.
+
+---
+
 ## ANEXO F — SPRINT DE FECHAMENTO: FAQ + LEGAL + REACTIONS + POLISH (2026-05-15, v1.8.0)
 
 Sexto e último bloco antes do pitch. Foco: eliminar débitos técnicos visuais e estruturais. Resultado: app em estado "produção real, com tração há 6 meses".

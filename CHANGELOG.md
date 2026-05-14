@@ -2,6 +2,75 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v1.9.0 — 15 de maio de 2026 — Sprint consolidado final
+
+**Foco**: adicionar 5 sistemas estruturais que faltavam para o produto parecer "Série A" — admin panel, pagamento, dark mode, push notifications, i18n. PNGs do logo via script Node + sharp.
+
+### Added
+
+#### Painel admin oculto (`#/admin`)
+- Easter egg: **10 toques rápidos** no logo abre login (`sucata2026`). Persiste em sessionStorage.
+- 5 tabs: **Métricas** (6 cards de KPI + gráfico SVG 30 dias), **Prestadores** (tabela com busca/filtro + export CSV), **Demandas** (tabela com status pills), **Avaliações** (lista das últimas 50 com moderação), **Configurações** (toggle Supabase runtime, backup/restore JSON do localStorage, toggle modo manutenção).
+- Layout distinto do app: fundo cinza warm, header preto, tabelas densas tipo BI.
+
+#### Sistema de pagamento mock (`#/pagamento`, `#/recibo`, `#/financeiro-prestador`, `#/dashboard-cliente`)
+- Checkout com resumo + breakdown (valor + taxa LarCare 5% + total).
+- **Tabs PIX / Cartão / Boleto**:
+  - PIX: QR Code mock generated dinamicamente (25×25 grid com finder patterns + hash determinístico), código EMV BR Code copiável, spinner "aguardando".
+  - Cartão: 4 campos com máscara, validação Luhn no front, detecção de bandeira por prefixo (Visa/Mastercard/Elo/Amex/Hipercard).
+- Recibo printável (`@media print` ajustado).
+- Financeiro do prestador: saldo disponível + pendente, histórico, "Sacar via PIX" mock.
+- Dashboard cliente: serviços contratados + total investido + histórico.
+- Persistência: `larcare:payments` e `larcare:provider_balance`.
+
+#### Modo escuro (`js/theme.js` + tokens dark em styles.css)
+- 3 modos: **claro / escuro / sistema** (default).
+- Aplicação via `[data-theme="dark"]` no `<html>`.
+- Auto via `prefers-color-scheme` quando preferência é "sistema".
+- Tokens dark **repensados** (não invertidos): bg `#1A2E27`, surface `#243530`, primary `#5A9B82` mais claro, accent `#E0B689`.
+- `<meta name="theme-color">` dinâmico para PWA status bar.
+- `color-scheme: dark` para form controls nativos.
+- Transição suave 200ms em background/color/border.
+
+#### Internacionalização (`js/i18n.js`)
+- 3 locales: **pt-BR** (default), **en-US**, **es-ES**.
+- API `t(key, params?)` com interpolação `{var}`.
+- 33 chaves cobrindo: common, home, nav, profile, payment, chat, time.
+- Auto-detecção via `navigator.language` na 1ª visita.
+- `formatCurrency` local-aware (BRL/USD/EUR), `formatDate` via `Intl`.
+- `<html lang>` dinâmico.
+
+#### Push notifications (`js/notifications.js` + sw.js)
+- SW ganha listeners `push` (parse JSON + showNotification) e `notificationclick` (focus aba + navigate).
+- 4 categorias toggleable: proposals, payments, reviews, demands.
+- `maybeAskPermission` pede após 1ª proposta ou 1º pagamento (regra UX: valor antes da permissão).
+- `wireSimulatorEvents` escuta `larcare:*` e dispara notificações com URL deeplink.
+- Botão "Testar notificação" em Perfil.
+
+#### Tools (`tools/generate-icons.js`)
+- Script Node + sharp que lê `icons/favicon.svg` e gera:
+  - Standard PNGs: 16, 32, 72, 96, 128, 144, 152, 192, 384, 512
+  - Maskable: 192, 512 (80% safe zone, fundo sálvia)
+  - Apple touch: 152, 167, 180 (sálvia sólido, sem transparência)
+  - Splash iOS: 6 tamanhos (iPhone 15 Pro Max → SE, Android)
+  - OG image 1200×630 + Twitter card 1200×600 com tagline
+- Comando: `npm run icons`
+- Adicionado em `devDependencies`: `sharp: ^0.33.0`
+
+### Changed
+- `CACHE_VERSION` → `larcare-v1.9.0`
+- `LarCareConfig.VERSION` → `1.9.0`
+- sw.js precache estendido com novos JS modules
+- Profile (clientProfile) ganha 4 controles em Preferências: testar push, select tema, select idioma, testar notificação
+
+### Deferred (documentado)
+- Refator completo de tokens das 22 telas antigas (alto risco vs ganho médio)
+- Geração efetiva dos PNGs neste ambiente (sharp não pré-instalado; owner roda `npm install && npm run icons` em máquina dele)
+- Lighthouse re-medição (sem chrome-launcher confiável)
+- i18n refactor das 22 views: stub-only com 33 chaves; expansão fica para owner
+
+---
+
 ## v1.8.0 — 15 de maio de 2026 — Sprint de fechamento
 
 **Foco**: encerrar débitos técnicos visuais e estruturais antes do pitch, transformando o app em "produção real com tração".

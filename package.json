@@ -15,9 +15,11 @@
   "scripts": {
     "serve": "python -m http.server 8000",
     "db:push": "supabase db push",
-    "db:seed": "supabase db execute --linked --file supabase/seed.sql"
+    "db:seed": "supabase db execute --linked --file supabase/seed.sql",
+    "icons": "node tools/generate-icons.js"
   },
   "devDependencies": {
-    "supabase": "^2.78.0"
+    "supabase": "^2.78.0",
+    "sharp": "^0.33.0"
   }
 }

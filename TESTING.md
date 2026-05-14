@@ -159,6 +159,45 @@ Para versão v1.8.0+:
 - [ ] Múltiplos toasts empilham vertical sem sobrepor
 - [ ] `LarCareConfig.VERSION` no Perfil mostra `1.8.0`
 
+## 5.7. Sprint consolidado final — v1.9.0 (8 min)
+
+### Admin oculto
+- [ ] Faça **10 toques rápidos** no logo do header (em qualquer tela) — tela de login admin abre
+- [ ] Senha: `sucata2026` — entra no painel
+- [ ] Tab Métricas mostra 6 cards de KPI + gráfico de barras 30 dias
+- [ ] Tab Prestadores tem tabela com 15 linhas + filtros funcionando + botão "Exportar CSV" baixa arquivo
+- [ ] Tab Configurações: toggle Supabase muda o estado runtime; botão "Baixar backup" gera JSON
+
+### Pagamento
+- [ ] Em qualquer proposta aceita, navegue para `#/pagamento?proposta=prop-001-a` — checkout abre
+- [ ] Tab PIX: QR Code aparece, código copia ao toque, botão "Simular pagamento confirmado" redireciona para recibo
+- [ ] Tab Cartão: digite `4111 1111 1111 1111` (Visa Luhn-valid) + validade `12/30` + CVV `123` + nome — submit processa em 2s
+- [ ] Recibo (`#/recibo?pagamento=pay-XXX`) mostra status verde "Aprovado", botão Imprimir abre dialog
+- [ ] `#/financeiro-prestador` mostra saldo disponível incrementado; botão "Sacar via PIX" zera saldo
+
+### Modo escuro
+- [ ] Em Perfil > Preferências, select **Tema** muda entre Sistema/Claro/Escuro
+- [ ] Selecione "Escuro" — toda a paleta muda em <300ms (background sage profundo, texto claro)
+- [ ] Status bar do PWA muda de #3E6B5C para #1A2E27 (modo escuro)
+- [ ] Volte a "Sistema" e mude o tema do iOS/Android — app responde automaticamente
+
+### Internacionalização
+- [ ] Em Perfil > Preferências, select **Idioma** muda entre PT-BR / EN-US / ES-ES
+- [ ] Após mudar, app re-renderiza com strings traduzidas (limitadas ao subset)
+- [ ] `<html lang>` reflete o idioma escolhido (DevTools → Elements)
+
+### Push notifications
+- [ ] Em Perfil, toque "Testar" no item Notificações — browser pede permissão
+- [ ] Aceite → notificação aparece (Android: native notification; iOS: requer PWA instalada em iOS 16.4+)
+- [ ] Crie uma demanda nova — após chegada da 1ª proposta, modal pede permissão de push se ainda não foi pedida
+- [ ] Aceite → próximas propostas disparam push real
+
+### PNGs (apenas se owner rodou `npm run icons`)
+- [ ] `icons/icon-192.png`, `icon-512.png`, `icon-maskable-192.png` existem
+- [ ] `icons/apple-touch-icon.png` (180×180) com fundo sálvia sólido
+- [ ] `icons/og-image.png` 1200×630 com logo + tagline
+- [ ] `npm run icons` executa sem erro
+
 ## 6. Toques finais (2 min)
 
 ### Acessibilidade tátil
