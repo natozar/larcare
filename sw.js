@@ -50,6 +50,39 @@ self.addEventListener('message', (event) => {
   }
 });
 
+// Push notifications: listener para evento push (servidor externo)
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (_) {}
+  const title = data.title || 'LarCare';
+  const options = {
+    body: data.body || '',
+    icon: data.icon || 'icons/icon-192.png',
+    badge: data.badge || 'icons/icon-192.png',
+    tag: data.tag || 'larcare',
+    data: data.data || {},
+    vibrate: data.vibrate || [50, 30, 50]
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Clique numa notificação: foca aba existente OU abre nova com URL relevante
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || '/';
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      for (const c of list) {
+        if ('focus' in c) {
+          c.navigate(url).catch(() => {});
+          return c.focus();
+        }
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(url);
+    })
+  );
+});
+
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>

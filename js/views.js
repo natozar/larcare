@@ -1314,6 +1314,26 @@
                 <span><strong>Vibração</strong><div class="t-dim fs-13">Padrões distintos por evento</div></span>
                 <input type="checkbox" data-toggle="vibration" ${vibOn ? 'checked' : ''} />
               </label>
+              <div class="row row--between" style="padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span><strong>Notificações push</strong><div class="t-dim fs-13">${global.LarCareNotify && global.LarCareNotify.permissionState() === 'granted' ? 'Ativadas' : 'Toque para ativar'}</div></span>
+                <button class="btn btn--outline btn--sm" type="button" data-action="test-notification">Testar</button>
+              </div>
+              <div class="row row--between" style="padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span><strong>Tema</strong><div class="t-dim fs-13">Claro, escuro ou seguir o sistema</div></span>
+                <select data-action="theme-select" style="height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 14px;">
+                  <option value="system" ${(global.LarCareTheme && global.LarCareTheme.getPreference()) === 'system' ? 'selected' : ''}>Sistema</option>
+                  <option value="light" ${(global.LarCareTheme && global.LarCareTheme.getPreference()) === 'light' ? 'selected' : ''}>Claro</option>
+                  <option value="dark" ${(global.LarCareTheme && global.LarCareTheme.getPreference()) === 'dark' ? 'selected' : ''}>Escuro</option>
+                </select>
+              </div>
+              <div class="row row--between" style="padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span><strong>Idioma</strong><div class="t-dim fs-13">Português, English, Español</div></span>
+                <select data-action="locale-select" style="height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 14px;">
+                  <option value="pt-BR" ${(global.LarCareI18n && global.LarCareI18n.getLocale()) === 'pt-BR' ? 'selected' : ''}>Português (BR)</option>
+                  <option value="en-US" ${(global.LarCareI18n && global.LarCareI18n.getLocale()) === 'en-US' ? 'selected' : ''}>English (US)</option>
+                  <option value="es-ES" ${(global.LarCareI18n && global.LarCareI18n.getLocale()) === 'es-ES' ? 'selected' : ''}>Español (ES)</option>
+                </select>
+              </div>
               <a href="#/sobre" class="row row--between" style="padding: 12px 0;">
                 <span>Sobre o LarCare</span>${UI.icon('arrow_right', 16)}
               </a>

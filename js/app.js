@@ -415,6 +415,28 @@
       });
     });
 
+    // Tema (claro/escuro/sistema)
+    root.querySelectorAll('[data-action="theme-select"]').forEach((sel) => {
+      sel.addEventListener('change', () => {
+        if (global.LarCareTheme) global.LarCareTheme.setPreference(sel.value);
+        UI.toast('Tema atualizado', 'success');
+      });
+    });
+
+    // Idioma
+    root.querySelectorAll('[data-action="locale-select"]').forEach((sel) => {
+      sel.addEventListener('change', () => {
+        if (global.LarCareI18n) global.LarCareI18n.setLocale(sel.value);
+      });
+    });
+
+    // Testar notificação push
+    root.querySelectorAll('[data-action="test-notification"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareNotify) global.LarCareNotify.testNotification();
+      });
+    });
+
     // Troca de papel (Cliente ⇄ Prestador) via toggle em Perfil
     root.querySelectorAll('[data-action="switch-role"]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -832,6 +854,13 @@
 
     // Easter egg admin: 10-tap no logo
     if (global.LarCareAdmin) global.LarCareAdmin.registerEasterEgg();
+
+    // Theme (claro/escuro/sistema) — aplica antes do primeiro render
+    if (global.LarCareTheme) global.LarCareTheme.init();
+    // i18n — define <html lang>
+    if (global.LarCareI18n) global.LarCareI18n.init();
+    // Push notifications — wire simulator events + ask permission UX
+    if (global.LarCareNotify) global.LarCareNotify.start();
 
     // Banner Modo Demonstração — dismiss + esconde se já fechado nesta sessão
     setupDemoBanner();

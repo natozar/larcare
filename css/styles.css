@@ -28,6 +28,52 @@
   --warning-soft: #F6E7D2;
   --danger: #B8523A;
   --danger-soft: #F2DDD4;
+  --color-scheme: light;
+  color-scheme: light;
+  transition: background-color 200ms var(--ease, ease), color 200ms var(--ease, ease);
+}
+
+/* =========================================================================
+   DARK MODE — tokens repensados (não invertidos)
+   Ativado por <html data-theme="dark"> via LarCareTheme
+   ========================================================================= */
+:root[data-theme="dark"] {
+  --bg: #1A2E27;
+  --surface: #243530;
+  --surface-2: #2D403A;
+  --primary: #5A9B82;
+  --primary-dark: #7AB89E;
+  --primary-soft: #4A7E6A;
+  --primary-tint: #2D4F44;
+  --accent: #E0B689;
+  --accent-soft: #4A3D2E;
+  --text: #E8F0EC;
+  --text-dim: #A8B8B0;
+  --text-faint: #788880;
+  --border: #354842;
+  --border-strong: #4A5D55;
+  --success: #6EB590;
+  --success-soft: #2A4A38;
+  --warning: #E0B260;
+  --warning-soft: #4A3E22;
+  --danger: #D87875;
+  --danger-soft: #4A2E2C;
+  color-scheme: dark;
+}
+/* Auto via prefers-color-scheme — só se usuário não setou explicitamente light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme]) {
+    --bg: #1A2E27; --surface: #243530; --surface-2: #2D403A;
+    --primary: #5A9B82; --primary-dark: #7AB89E; --primary-soft: #4A7E6A; --primary-tint: #2D4F44;
+    --accent: #E0B689; --accent-soft: #4A3D2E;
+    --text: #E8F0EC; --text-dim: #A8B8B0; --text-faint: #788880;
+    --border: #354842; --border-strong: #4A5D55;
+    --success: #6EB590; --success-soft: #2A4A38;
+    --warning: #E0B260; --warning-soft: #4A3E22;
+    --danger: #D87875; --danger-soft: #4A2E2C;
+    color-scheme: dark;
+  }
+}
 
   /* radius */
   --radius-sm: 8px;
