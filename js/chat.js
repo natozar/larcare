@@ -189,12 +189,26 @@
     const time = formatTime(m.t);
     const tick = mine ? (m.read ? '✓✓' : '✓') : '';
     const tickClass = mine && m.read ? 'is-read' : '';
+    const reactionsHtml = renderReactions(m.reactions);
     return `
       <div class="chat-row ${mine ? 'chat-row--me' : 'chat-row--them'}">
-        <div class="chat-bubble ${mine ? 'chat-bubble--me' : 'chat-bubble--them'}">
+        <div class="chat-bubble ${mine ? 'chat-bubble--me' : 'chat-bubble--them'}" data-msg-id="${m.id || m.t}">
           <span class="chat-bubble__text">${escapeHtml(m.text)}</span>
           <span class="chat-bubble__time">${time}${mine ? ` <span class="chat-bubble__tick ${tickClass}">${tick}</span>` : ''}</span>
+          ${reactionsHtml}
         </div>
+      </div>
+    `;
+  }
+
+  function renderReactions(reactions) {
+    if (!reactions || Object.keys(reactions).length === 0) return '';
+    return `
+      <div class="chat-bubble__reactions">
+        ${Object.entries(reactions).map(([emoji, who]) => {
+          const count = Array.isArray(who) ? who.length : 1;
+          return `<span class="chat-bubble__reaction" data-reaction="${emoji}" aria-label="Reagido com ${emoji}">${emoji}${count > 1 ? `<span class="chat-bubble__reaction-count">${count}</span>` : ''}</span>`;
+        }).join('')}
       </div>
     `;
   }
@@ -356,6 +370,167 @@
         if (global.LarCareUI) global.LarCareUI.toast('Anexos em breve');
       });
     });
+
+    // ---------- REACTIONS: long-press em bolha ----------
+    const REACTIONS = ['👍', '❤️', '😂', '😮', '🙏'];
+    let pressTimer = null;
+    let pressBubble = null;
+    let openMenu = null;
+
+    function findMsgIndex(msgList, bubbleEl) {
+      const id = bubbleEl.dataset.msgId;
+      if (!id) return -1;
+      return msgList.findIndex((m) => String(m.id || m.t) === String(id));
+    }
+
+    function openReactionMenu(bubbleEl) {
+      closeReactionMenu();
+      const menu = document.createElement('div');
+      menu.className = 'chat-reactions-menu';
+      menu.innerHTML = REACTIONS.map((emoji) => `
+        <button class="chat-reaction-btn" type="button" data-emoji="${emoji}" aria-label="Reagir com ${emoji}">${emoji}</button>
+      `).join('') + `<button class="chat-reaction-btn" type="button" data-emoji="more" aria-label="Mais reações">⋯</button>`;
+      bubbleEl.appendChild(menu);
+      openMenu = menu;
+      // Vibração curta ao abrir
+      if (global.LarCareAudio) global.LarCareAudio.vibrate(40);
+      menu.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chat-reaction-btn');
+        if (!btn) return;
+        const emoji = btn.dataset.emoji;
+        if (emoji === 'more') {
+          if (global.LarCareUI) global.LarCareUI.toast('Mais reações em breve');
+          closeReactionMenu();
+          return;
+        }
+        toggleReaction(bubbleEl, emoji);
+        closeReactionMenu();
+      });
+    }
+    function closeReactionMenu() {
+      if (openMenu && openMenu.parentNode) openMenu.parentNode.removeChild(openMenu);
+      openMenu = null;
+      if (pressBubble) pressBubble.classList.remove('is-pressing');
+      pressBubble = null;
+    }
+
+    function toggleReaction(bubbleEl, emoji) {
+      const msgs = loadConvo(demandaId, interlocutorId);
+      const idx = findMsgIndex(msgs, bubbleEl);
+      if (idx < 0) return;
+      const msg = msgs[idx];
+      msg.reactions = msg.reactions || {};
+      const arr = msg.reactions[emoji] || [];
+      const meIdx = arr.findIndex((r) => r.by === 'me');
+      if (meIdx >= 0) {
+        arr.splice(meIdx, 1);
+        if (arr.length === 0) delete msg.reactions[emoji];
+        else msg.reactions[emoji] = arr;
+      } else {
+        arr.push({ by: 'me', t: Date.now() });
+        msg.reactions[emoji] = arr;
+      }
+      saveConvo(demandaId, interlocutorId, msgs);
+      // Re-render apenas a bolha em questão
+      const row = bubbleEl.closest('.chat-row');
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = renderMessage(msg, true);
+      row.replaceWith(wrapper.firstElementChild);
+      // Resposta contextual: se reagi com ❤️ em msg do interlocutor, ele reage 😊 de volta após 4-8s
+      if (emoji === '❤️' && msg.from === 'them') {
+        schedulePartnerReaction(msg, '😊');
+      }
+    }
+
+    function schedulePartnerReaction(msg, emoji) {
+      setTimeout(() => {
+        const msgs = loadConvo(demandaId, interlocutorId);
+        // Encontra última msg minha
+        const lastMineIdx = msgs.map((m, i) => m.from === 'me' ? i : -1).filter((i) => i >= 0).pop();
+        if (lastMineIdx == null) return;
+        const target = msgs[lastMineIdx];
+        target.reactions = target.reactions || {};
+        target.reactions[emoji] = target.reactions[emoji] || [];
+        target.reactions[emoji].push({ by: 'them', t: Date.now() });
+        saveConvo(demandaId, interlocutorId, msgs);
+        // Rerender body
+        rerenderBody();
+      }, 4000 + Math.random() * 4000);
+    }
+
+    function rerenderBody() {
+      const msgs = loadConvo(demandaId, interlocutorId);
+      const rows = body.querySelectorAll('.chat-row, .chat-system');
+      // Remove tudo exceto typing
+      rows.forEach((r) => r.remove());
+      msgs.forEach((m) => {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = renderMessage(m, true);
+        body.insertBefore(tmp.firstElementChild, typing);
+      });
+      body.scrollTop = body.scrollHeight;
+    }
+
+    body.addEventListener('touchstart', (e) => {
+      const bubble = e.target.closest('.chat-bubble:not(.chat-bubble--typing)');
+      if (!bubble) return;
+      pressBubble = bubble;
+      bubble.classList.add('is-pressing');
+      pressTimer = setTimeout(() => {
+        openReactionMenu(bubble);
+        pressBubble = null;
+      }, 500);
+    }, { passive: true });
+    body.addEventListener('touchend', () => {
+      if (pressTimer) clearTimeout(pressTimer);
+      pressTimer = null;
+      if (pressBubble) { pressBubble.classList.remove('is-pressing'); pressBubble = null; }
+    });
+    body.addEventListener('touchmove', () => {
+      if (pressTimer) clearTimeout(pressTimer);
+      pressTimer = null;
+      if (pressBubble) { pressBubble.classList.remove('is-pressing'); pressBubble = null; }
+    }, { passive: true });
+    // Desktop: dblclick também abre menu de reações
+    body.addEventListener('dblclick', (e) => {
+      const bubble = e.target.closest('.chat-bubble:not(.chat-bubble--typing)');
+      if (!bubble) return;
+      openReactionMenu(bubble);
+    });
+    // Tap em reaction existente: toggle
+    body.addEventListener('click', (e) => {
+      const reaction = e.target.closest('.chat-bubble__reaction');
+      if (reaction) {
+        const bubble = reaction.closest('.chat-bubble');
+        toggleReaction(bubble, reaction.dataset.reaction);
+        return;
+      }
+      // Click fora do menu fecha
+      if (openMenu && !e.target.closest('.chat-reactions-menu')) {
+        closeReactionMenu();
+      }
+    });
+
+    // Contextual: se usuário enviou palavra-chave de impacto positivo,
+    // interlocutor reage com 👍 ou 🙏 após 3-6s
+    const originalForm = form;
+    if (originalForm) {
+      originalForm.addEventListener('submit', () => {
+        setTimeout(() => {
+          const msgs = loadConvo(demandaId, interlocutorId);
+          const lastMine = msgs.filter((m) => m.from === 'me').pop();
+          if (!lastMine) return;
+          if (/(obrigad|ótim|otimo|perfeit|valeu|excelente|maravilh)/i.test(lastMine.text || '')) {
+            const emoji = Math.random() > 0.5 ? '👍' : '🙏';
+            lastMine.reactions = lastMine.reactions || {};
+            lastMine.reactions[emoji] = lastMine.reactions[emoji] || [];
+            lastMine.reactions[emoji].push({ by: 'them', t: Date.now() });
+            saveConvo(demandaId, interlocutorId, msgs);
+            rerenderBody();
+          }
+        }, 3000 + Math.random() * 3000);
+      });
+    }
   }
 
   global.LarCareChat = {
