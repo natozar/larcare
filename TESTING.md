@@ -127,6 +127,38 @@ Para resetar o estado entre testes: **Perfil → Modo demonstração → "Reseta
 - [ ] Tab dentro do sheet: foco fica preso (não escapa pra trás).
 - [ ] Tecla Esc fecha.
 
+## 5.6. Sprint de fechamento — v1.8.0 (5 min)
+
+Para versão v1.8.0+:
+
+### FAQ global
+- [ ] `#/faq` abre com tabs "Para clientes / Para prestadores / Pagamento / Segurança / Sobre o app" — clica em cada uma e vê perguntas diferentes
+- [ ] Search bar acima das tabs filtra em tempo real (digita "pagar" → mostra apenas perguntas com a palavra)
+- [ ] Search vazia mostra empty state amigável "Nada encontrado pra X"
+- [ ] Accordion abre e fecha com animação suave do `<details>`
+- [ ] CTA do fim "Não achou? Falar com suporte" leva pra #/contato
+
+### Termos + Privacidade
+- [ ] `#/termos` abre com layout documento, breadcrumb (Início › Sobre › Termos), versão e data no header
+- [ ] 15 cláusulas numeradas, h2 sublinhado, tipografia confortável (Inter 15px line-height 1.7)
+- [ ] Botão "Imprimir" abre dialog de impressão; preview do print esconde header/footer/bottom nav
+- [ ] `#/privacidade` tem mesma estrutura com 13 seções, e-mail do DPO clicável
+
+### Reactions no chat
+- [ ] Em qualquer conversa, faça long-press (500ms+) numa bolha — menu de 5 emojis flutua acima com animação bounce
+- [ ] Tap num emoji adiciona pill abaixo da bolha; tap novamente remove (toggle)
+- [ ] Envie mensagem "valeu, perfeito!" → após 3-6s, interlocutor reage com 👍 ou 🙏 na sua mensagem
+- [ ] Reaja com ❤️ numa mensagem do interlocutor → após 4-8s, ele reage 😊 na sua última mensagem
+- [ ] Recarregue a página — reactions persistem (salvas em localStorage)
+- [ ] Tap fora do menu de reações fecha
+- [ ] Desktop: double-click numa bolha abre o menu (fallback de long-press)
+
+### Polish
+- [ ] Toast com `LarCareUI.toast('msg', 'success')` aparece com border-left verde-sálvia + ✓
+- [ ] Toast com `'danger'` mostra border vermelho-terroso + ✕
+- [ ] Múltiplos toasts empilham vertical sem sobrepor
+- [ ] `LarCareConfig.VERSION` no Perfil mostra `1.8.0`
+
 ## 6. Toques finais (2 min)
 
 ### Acessibilidade tátil

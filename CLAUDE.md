@@ -1013,6 +1013,79 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO F — SPRINT DE FECHAMENTO: FAQ + LEGAL + REACTIONS + POLISH (2026-05-15, v1.8.0)
+
+Sexto e último bloco antes do pitch. Foco: eliminar débitos técnicos visuais e estruturais. Resultado: app em estado "produção real, com tração há 6 meses".
+
+### O que entrou
+
+1. **FAQ global** (`#/faq?tab=X&q=Y`) — 32 perguntas em PT-BR natural, 5 tabs (cliente / prestador / pagamento / segurança / app), search bar com filtragem instantânea (sem debounce, base pequena), empty state com emoji + microcopy + CTA para Contato. Componente `.faq-item` (details/summary) reusado de v1.7.
+2. **Termos de Uso completos** (`#/termos`) — 15 cláusulas numeradas estilo CDC, foro Ribeirão Preto-SP, layout documento (container 760px), breadcrumb, versão+data, botão Imprimir, `@media print` que esconde navegação e renderiza preto sobre branco.
+3. **Política de Privacidade LGPD** (`#/privacidade`) — 13 seções: apresentação, dados coletados (4 categorias), finalidades, bases legais (Art. 7º), compartilhamento, segurança, direitos (Art. 18), exercer, cookies, crianças, transferência internacional, alterações, contato (com referência à ANPD).
+4. **Reactions no chat** — long-press 500ms abre menu flutuante com 5 emojis, persistidas em `msg.reactions`, pill abaixo da bolha com contador, animação bounce `cubic-bezier(0.34,1.56,0.64,1)`. Reação contextual do interlocutor mock em ❤️ ou keywords positivas (obrigado/ótimo/perfeito/valeu).
+5. **Toast variants semânticos** — `.toast--success`/`info`/`warning`/`danger` com border-left colorido + ícone unicode. `LarCareUI.toast(msg, variant)` já suportava a flag, agora visualmente diferenciado.
+6. **CHANGELOG.md** novo na raiz do repo — registro cronológico desde v1.0 até v1.8.0 em formato Keep a Changelog.
+
+### O que NÃO entrou (deferido conscientemente)
+
+- **Refator de tokens nas 22 telas antigas**: alto risco de regressão por médio ganho visual. Tokens existem em `:root` e novas telas consomem. Db técnico aceitável.
+- **Pull-to-refresh** em listas: complexo de implementar bem em vanilla, baixo pitch impact.
+- **Scroll restoration** entre navegação: marginal.
+- **Modo escuro latente**: tokens prep ainda não foi feito.
+- **Onboarding contextual primeira visita** (tooltip discreto): defer.
+- **SVG illustrations dedicadas para empty states**: emojis 🔍/🤔/💬 cobrem com qualidade aceitável.
+- **Lighthouse re-medição**: pendente, sem chrome-launcher confiável no ambiente.
+
+### Estrutura final do projeto
+
+```
+larcare/
+├── CLAUDE.md         (anexos A → F)
+├── CHANGELOG.md      (novo, cronologia desde v1.0)
+├── TESTING.md        (checklist manual em vários blocos)
+├── README.md         (estado atual, como rodar local)
+├── app.html          (PWA shell com 12 script tags ordenados)
+├── index.html        (landing institucional)
+├── manifest.json     (PWA spec + shortcuts)
+├── sw.js             (v1.8.0, cache strategy + SKIP_WAITING)
+├── css/styles.css    (~2400 linhas, tokens + componentes + features)
+├── js/
+│   ├── config.js
+│   ├── audio.js
+│   ├── install_detector.js + install_prompt.js
+│   ├── mock_data.js
+│   ├── data_layer.js (Supabase hot-swap)
+│   ├── simulator.js (vida do app em tempo real)
+│   ├── components.js (UI primitives)
+│   ├── views.js (telas cliente)
+│   ├── views_provider.js (telas prestador + institucional FAQ/Termos/Privacidade)
+│   ├── views_search.js (busca + filtros)
+│   ├── chat.js (chat + reactions + conversas)
+│   ├── dashboard.js (dashboard prestador com SVG chart)
+│   ├── onboarding.js (wizard 8 passos)
+│   ├── demo_tour.js
+│   └── app.js (router + handlers)
+├── icons/ (favicon.svg novo, PNGs legados)
+└── supabase/
+    ├── config.toml
+    ├── migrations/
+    │   ├── 20260514100001_initial_schema.sql
+    │   ├── 20260514100002_rls_policies.sql
+    │   └── 20260514150003_catalogo_expandido.sql
+    └── seed.sql
+```
+
+### Contagem final
+
+- **6 anexos no CLAUDE.md** (protocolo + spec + A: Supabase, B: demo, C: catálogo, D: install, E: busca/chat/dashboard, F: fechamento)
+- **8 versões registradas no CHANGELOG.md** (v1.0 → v1.8.0)
+- **22+ telas implementadas**, 5 novas neste sprint (FAQ, Termos, Privacidade reformulados + reactions + toast variants)
+- **18 categorias em 4 grupos**
+- **15 prestadores em Ribeirão Preto**
+- **3 migrations Supabase prontas para aplicar**
+
+---
+
 ## ANEXO E — SPRINT TOTAL: BUSCA + CHAT + DASHBOARD + ONBOARDING + INSTITUCIONAL (2026-05-14, v1.7.0)
 
 Quinto bloco. 4 features novas inteiras + landings dedicadas pra captação. Stack ainda vanilla, sem build.
