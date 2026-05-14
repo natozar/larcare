@@ -52,6 +52,7 @@
     if (len === 1 && s[0] === 'para-clientes')    return { view: 'forClients',   variant: 'public' };
     if (len === 1 && s[0] === 'onboarding-prestador') return { view: 'onboardingProvider', variant: 'public', params };
     if (len === 1 && s[0] === 'dashboard-prestador')  return { view: 'dashboardProvider',  variant: 'provider' };
+    if (len === 1 && s[0] === 'admin')                return { view: 'admin', variant: 'admin' };
 
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'cliente')   return { view: 'howItWorksClient', variant: 'public' };
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'prestador') return { view: 'howItWorksProvider', variant: 'public' };
@@ -212,7 +213,8 @@
       forProviders: 'Para prestadores',
       forClients: 'Para clientes',
       onboardingProvider: 'Cadastro de prestador',
-      dashboardProvider: 'Dashboard'
+      dashboardProvider: 'Dashboard',
+      admin: 'Admin'
     };
     return map[view] || 'LarCare';
   }
@@ -544,6 +546,9 @@
     // ---------- ONBOARDING: bind handlers de cada step ----------
     if (global.LarCareOnboarding) global.LarCareOnboarding.bindOnboarding(root);
 
+    // ---------- ADMIN: bind handlers ----------
+    if (global.LarCareAdmin) global.LarCareAdmin.bindAdmin(root);
+
     // Reset de estado de instalação (modo dev em Perfil)
     root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -813,6 +818,9 @@
 
     // Inicia o simulador de vida (timers, persistência, debug tap)
     if (global.LarCareSim) global.LarCareSim.start();
+
+    // Easter egg admin: 10-tap no logo
+    if (global.LarCareAdmin) global.LarCareAdmin.registerEasterEgg();
 
     // Banner Modo Demonstração — dismiss + esconde se já fechado nesta sessão
     setupDemoBanner();
