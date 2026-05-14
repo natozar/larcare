@@ -27,9 +27,10 @@
   // Helpers reaproveitados (puramente utilitários, sem estado de dados)
   // ------------------------------------------------------------------
   const NEIGHBORHOOD_DISTANCE = {
-    'Pinheiros': 0.4, 'Vila Madalena': 1.6, 'Perdizes': 3.2,
-    'Butantã': 4.1, 'Lapa': 5.8, 'Vila Mariana': 6.4,
-    'Tatuapé': 12.2, 'Santana': 9.7, 'Aclimação': 7.3, 'Ipiranga': 8.9
+    'Jardim Califórnia': 0.4, 'Nova Aliança': 2.1, 'Jardim Botânico': 1.7,
+    'Iguatemi': 3.4, 'Castelo': 3.8, 'Centro': 4.6, 'Jardim Paulista': 3.2,
+    'Ipiranga': 3.0, 'Vila Tibério': 5.1, 'Sumarezinho': 7.4,
+    'Alto da Boa Vista': 8.2, 'Ribeirânia': 5.9
   };
 
   function buildNamespace(d) {

@@ -50,7 +50,8 @@
     money:        '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M3 10h2M19 14h2"/>',
     calendar:     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
     info:         '<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/>',
-    car:          '<path d="M3 12l2-5h14l2 5v5H3v-5z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>'
+    car:          '<path d="M3 12l2-5h14l2 5v5H3v-5z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+    flame:        '<path d="M12 3c1 4 4 5 4 9a4 4 0 0 1-8 0c0-3 2-5 2-7 1 1 2 1 2-2z"/><path d="M10 16c0 1 1 2 2 2s2-1 2-2"/>'
   };
 
   function icon(name, size = 20, attrs = '') {

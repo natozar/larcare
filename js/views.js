@@ -44,9 +44,9 @@
     `).join('');
 
     const testimonials = [
-      { name: 'Beatriz M.', city: 'Pinheiros, SP', text: 'Resolvi em uma manhã o que estava arrastando há semanas. O eletricista chegou no horário, levou o material certo e ainda revisou outros pontos da casa.', initials: 'BM' },
-      { name: 'Patrícia D.', city: 'Vila Mariana, SP', text: 'Cheguei em casa com banheiro alagado. Em duas horas tinha um profissional verificado dentro de casa. Salvou meu fim de semana.', initials: 'PD' },
-      { name: 'Cristina A.', city: 'Lapa, SP', text: 'Saí de uma reforma que parecia não terminar e a Marcia entregou casa pronta para morar. Cada azulejo, cada vidro.', initials: 'CA' }
+      { name: 'Beatriz M.', city: 'Jardim Califórnia, Ribeirão Preto', text: 'Resolvi em uma manhã o que estava arrastando há semanas. O eletricista chegou no horário, levou o material certo e ainda revisou outros pontos da casa.', initials: 'BM' },
+      { name: 'Patrícia D.', city: 'Sumarezinho, Ribeirão Preto', text: 'Cheguei em casa com banheiro alagado. Em duas horas tinha um profissional verificado dentro de casa. Salvou meu fim de semana.', initials: 'PD' },
+      { name: 'Cristina A.', city: 'Vila Tibério, Ribeirão Preto', text: 'Esqueci a chave dentro de casa às 23h. A chaveira veio em 30 minutos, abriu sem arrombar e cobrou exatamente o que combinou no telefone.', initials: 'CA' }
     ];
 
     return `

@@ -307,10 +307,13 @@
 
   function providerDemandTile(d, pro) {
     const cat = D.findCategory(d.cat);
+    // Distância da demanda até o prestador demo pro-001 (Centro de Ribeirão Preto)
     const dist = ({
-      'Pinheiros': 1.6, 'Vila Mariana': 8.1, 'Tatuapé': 14.2, 'Santana': 11.7,
-      'Butantã': 5.8, 'Lapa': 4.1, 'Aclimação': 9.3, 'Ipiranga': 10.5, 'Vila Madalena': 0.4
-    })[d.neighborhood] || 7.0;
+      'Centro': 0.5, 'Jardim Califórnia': 4.6, 'Jardim Botânico': 5.0,
+      'Iguatemi': 6.8, 'Ribeirânia': 1.8, 'Castelo': 4.2, 'Sumarezinho': 3.6,
+      'Vila Tibério': 1.9, 'Alto da Boa Vista': 4.7, 'Nova Aliança': 7.4,
+      'Ipiranga': 2.4, 'Jardim Paulista': 1.6
+    })[d.neighborhood] || 5.0;
     return `
       <article class="demand" data-link="#/prestador/demanda/${d.id}">
         <div class="demand__head">
