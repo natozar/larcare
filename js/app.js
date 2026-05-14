@@ -53,6 +53,10 @@
     if (len === 1 && s[0] === 'onboarding-prestador') return { view: 'onboardingProvider', variant: 'public', params };
     if (len === 1 && s[0] === 'dashboard-prestador')  return { view: 'dashboardProvider',  variant: 'provider' };
     if (len === 1 && s[0] === 'admin')                return { view: 'admin', variant: 'admin' };
+    if (len === 1 && s[0] === 'pagamento')            return { view: 'pagamento', variant: 'client', params };
+    if (len === 1 && s[0] === 'recibo')               return { view: 'recibo', variant: 'client', params };
+    if (len === 1 && s[0] === 'financeiro-prestador') return { view: 'financeiroPrestador', variant: 'provider' };
+    if (len === 1 && s[0] === 'dashboard-cliente')    return { view: 'dashboardCliente', variant: 'client' };
 
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'cliente')   return { view: 'howItWorksClient', variant: 'public' };
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'prestador') return { view: 'howItWorksProvider', variant: 'public' };
@@ -214,7 +218,11 @@
       forClients: 'Para clientes',
       onboardingProvider: 'Cadastro de prestador',
       dashboardProvider: 'Dashboard',
-      admin: 'Admin'
+      admin: 'Admin',
+      pagamento: 'Pagamento',
+      recibo: 'Comprovante',
+      financeiroPrestador: 'Financeiro',
+      dashboardCliente: 'Meu painel'
     };
     return map[view] || 'LarCare';
   }
@@ -548,6 +556,9 @@
 
     // ---------- ADMIN: bind handlers ----------
     if (global.LarCareAdmin) global.LarCareAdmin.bindAdmin(root);
+
+    // ---------- PAYMENT: bind PIX/cartão/recibo ----------
+    if (global.LarCarePayment) global.LarCarePayment.bindPayment(root);
 
     // Reset de estado de instalação (modo dev em Perfil)
     root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
