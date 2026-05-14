@@ -1,5 +1,5 @@
 /* LarCare service worker — cache-first for static assets, network-first for HTML. */
-const CACHE_VERSION = 'larcare-v1.4.3';
+const CACHE_VERSION = 'larcare-v1.5.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -19,6 +19,7 @@ const PRECACHE = [
   './js/data_layer.js',
   './js/config.js',
   './js/simulator.js',
+  './js/audio.js',
   './js/demo_tour.js',
   './icons/icon-192.png',
   './icons/icon-512.png',

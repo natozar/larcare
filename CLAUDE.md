@@ -1013,6 +1013,53 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO C — SPRINT NOTURNO: CATÁLOGO EXPANDIDO + BRAND (2026-05-14)
+
+Terceira camada de polish após Fase 2 (Supabase) e Modo App Demo. Foco: aumentar a aparência de produto real do LarCare. Versão `1.5.0`.
+
+### O que mudou
+
+- **Catálogo dobrado**: 8 → 18 categorias organizadas em 4 grupos (Reparos, Limpeza, Cuidado da casa, Família e pet). Inclui agora diarista, faxina pesada, estofados, pós-obra, jardinagem, dedetização, caixa d'água, pet sitter, cuidador de idoso, babá. `LarCareData.GROUPS` novo; `findGroup`, `categoriesByGroup` expostos.
+- **Migration 0003 (`20260514150003_catalogo_expandido.sql`)**: tabela `grupos_categoria` + FK `grupo_id` + coluna `emoji` em categorias. RLS pública leitura, admin write.
+- **3 prestadores novos** (pro-013 Diana, pro-014 Helena, pro-015 Lúcia) cobrindo limpeza, jardinagem/dedetização e cuidado pessoal.
+- **5 demandas novas** (dem-011..015) nas categorias novas.
+- **Grid de categorias agrupado** em `clientNewDemand` step 1: cards emoji-first 3-col mobile / 4-col tablet / 6-col desktop com seção por grupo.
+- **Logo redesenhado** em `components.js → brandMark()`: casa de cantos arredondados sage primary com coração-folha dourado integrado. Novo `icons/favicon.svg` referenciado em ambas as páginas.
+- **Áudio via Web Audio API** em `js/audio.js`: três tons compostos (proposalReceived, proposalAccepted, reviewSubmitted), toggles independentes para sons e vibração (`larcare_sounds`, `larcare_vibration` em localStorage). Hookado em `simulator.js` e em `app.js` no submit de review.
+- **Perfil cliente refatorado**: avatar + nome editável (prompt browser), toggle Cliente/Prestador, stats reativos do simulator, card de Preferências com toggles de sons e vibração, card "Modo demonstração" com Avançar timers e Resetar visíveis, link para Sobre.
+- **Sobre o LarCare expandido**: nova seção "Onde estamos hoje" com SVG estilizado de Ribeirão Preto + pins de bairros, contato com WhatsApp + e-mail, footer institucional.
+- **SEO**: meta tags geo migradas para Ribeirão Preto (geo.position, ICBM), JSON-LD `areaServed` atualizada com `containedInPlace=São Paulo` + `Brasil`. Sitemap.xml regenerado com 6 URLs canônicas.
+
+### Supabase (Etapa 6 pulada)
+
+As 4 envs (URL, ANON, SERVICE_ROLE, ACCESS_TOKEN) não estavam exportadas no shell deste sprint. **Para ativar o backend real**:
+
+```bash
+export SUPABASE_URL="https://<ref>.supabase.co"
+export SUPABASE_ANON_KEY="eyJhbGciOi…"
+export SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOi…"
+export SUPABASE_ACCESS_TOKEN="sbp_…"
+
+supabase link --project-ref <ref>
+supabase db push                                    # aplica migrations 0001, 0002, 0003
+supabase db execute --linked --file supabase/seed.sql  # popular dados
+
+# editar js/config.js:
+#   USE_SUPABASE=true
+#   SUPABASE_URL, SUPABASE_ANON_KEY com valores reais
+```
+
+A migration 0003 e seed correspondente já cobrem a taxonomia expandida.
+
+### Limitações conscientes
+
+- **PNG raster generation deferida**: novo logo existe só como SVG + favicon.svg. Os PNGs 192/512/maskable/apple-touch ainda são da versão anterior. Aceito porque modernos browsers preferem SVG; raster por device pode ser gerado quando houver `canvas`/`sharp` disponível.
+- **Splash screens iOS dedicadas** (1290×2796 etc.) não geradas pelo mesmo motivo.
+- **Lighthouse não re-medido neste sprint**: comando documentado no TESTING.md, owner deve rodar no Chrome DevTools antes do pitch.
+- **Sobre — mapa**: SVG estilizado, não interativo (não usa Mapbox/Google). Suficiente pro pitch; em produção, considerar mapa real com pins clicáveis por bairro.
+
+---
+
 ## ANEXO B — MODO APP DEMO COMPLETO (2026-05-14)
 
 Esta sessão pegou o protótipo navegável e o transformou em **demo funcional impecável para celular**. Resumo do estado atual:

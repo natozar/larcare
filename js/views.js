@@ -216,10 +216,64 @@
             <p class="mt-3 t-dim">Os dados que circulam aqui são tratados com critério. Nada é vendido em formato pessoal. Tudo é protegido segundo a LGPD. Saiba mais em <a href="#/seguranca">Segurança e dataset</a>.</p>
           </div>
 
+          <!-- Onde estamos -->
+          <article class="mt-8">
+            <h2>Onde estamos hoje</h2>
+            <p class="t-dim mt-3">Operamos em <strong>Ribeirão Preto, SP</strong>. Cobrimos os bairros principais — Centro, Jardim Botânico, Iguatemi, Ribeirânia, Castelo, Sumarezinho, Vila Tibério, Jardim Califórnia, Alto da Boa Vista, Nova Aliança, Ipiranga, Jardim Paulista. A próxima cidade no plano é Araraquara.</p>
+            <div class="card mt-4" style="padding: 0; overflow: hidden;">
+              <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa estilizado de Ribeirão Preto-SP" style="width:100%; display:block;">
+                <rect width="360" height="200" fill="#E9F0EC"/>
+                <path d="M0 140 Q80 110 160 130 T360 120 L360 200 L0 200 Z" fill="#7AA294" opacity="0.35"/>
+                <path d="M0 160 Q90 140 180 155 T360 145 L360 200 L0 200 Z" fill="#3E6B5C" opacity="0.45"/>
+                <!-- pin central -->
+                <g transform="translate(180 90)">
+                  <circle r="22" fill="#3E6B5C" opacity="0.18"/>
+                  <circle r="10" fill="#3E6B5C"/>
+                  <circle r="3.5" cx="0" cy="-1" fill="#FAF8F4"/>
+                </g>
+                <!-- mini pins de bairros -->
+                <circle cx="120" cy="70" r="4" fill="#D4A574"/>
+                <circle cx="240" cy="60" r="4" fill="#D4A574"/>
+                <circle cx="90" cy="115" r="4" fill="#D4A574"/>
+                <circle cx="280" cy="125" r="4" fill="#D4A574"/>
+                <circle cx="200" cy="135" r="4" fill="#D4A574"/>
+                <text x="180" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#1F2A28">Ribeirão Preto · SP</text>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Contato -->
+          <article class="mt-8">
+            <h2>Fale com a gente</h2>
+            <p class="t-dim mt-3">Suporte humano por WhatsApp e e-mail. Atendemos pedidos, dúvidas e problemas em até 48h úteis.</p>
+            <div class="stack mt-4">
+              <div class="card">
+                <div class="row" style="gap:12px;">
+                  ${UI.icon('whatsapp', 22, 'style="color: var(--success);"')}
+                  <div>
+                    <div style="font-weight:600;">WhatsApp</div>
+                    <div class="t-dim fs-14">(16) 9 0000-0000 — atualizar antes do lançamento</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="row" style="gap:12px;">
+                  ${UI.icon('chat', 22, 'style="color: var(--primary);"')}
+                  <div>
+                    <div style="font-weight:600;">E-mail</div>
+                    <div class="t-dim fs-14">contato@larcare.com.br</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
           <div class="row mt-7" style="gap: 12px;">
             <a class="btn btn--primary" href="#/cadastro/cliente">Sou cliente</a>
             <a class="btn btn--outline" href="#/cadastro/prestador">Sou prestador</a>
           </div>
+
+          <p class="t-center t-dim fs-13 mt-7">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'} — operando em Ribeirão Preto-SP</p>
         </div>
       </section>
     `;
