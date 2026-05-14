@@ -65,6 +65,22 @@
 
   <nav id="app-bottom-nav" class="app-bottom-nav" aria-label="Navegação inferior" hidden></nav>
 
+  <div id="update-banner" class="update-banner" hidden role="status" aria-live="polite">
+    <div class="update-banner__inner">
+      <span class="update-banner__icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v12M6 10l6-6 6 6"/>
+          <path d="M4 20h16"/>
+        </svg>
+      </span>
+      <span class="update-banner__label">
+        <strong>Nova versão disponível</strong>
+        <span class="update-banner__hint">Atualize para receber as melhorias mais recentes.</span>
+      </span>
+      <button type="button" class="update-banner__cta" data-action="apply-update">Atualizar agora</button>
+    </div>
+  </div>
+
   <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
   <div id="modal-root" class="modal-root" aria-hidden="true"></div>
 

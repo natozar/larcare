@@ -1229,13 +1229,24 @@
             </div>
           </div>
 
+          <div class="card mt-5">
+            <h3>Versão do aplicativo</h3>
+            <div class="row row--between mt-2" style="align-items:center;">
+              <div>
+                <div style="font-weight:600;">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div>
+                <div class="t-dim fs-13 mt-1">Se algo parecer estranho, busque atualizações.</div>
+              </div>
+              <button class="btn btn--outline btn--sm" type="button" data-action="check-update">Buscar atualização</button>
+            </div>
+          </div>
+
           <div class="card mt-5" style="background: var(--warning-soft); border-color: var(--warning);">
             <h3 style="color: #6f4f24;">Esta é uma demonstração</h3>
             <p class="t-dim mt-2">Os dados aqui são simulados para o pitch. Toque em "Resetar demo" para zerar o estado e começar de novo.</p>
             <button class="btn btn--outline mt-3" type="button" data-action="reset-demo">Resetar demo</button>
           </div>
 
-          <p class="t-center t-dim fs-13 mt-7">LarCare v0.1 demo — feito em Ribeirão Preto-SP</p>
+          <p class="t-center t-dim fs-13 mt-7">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'} — feito em Ribeirão Preto-SP</p>
         </div>
       </section>
     `;

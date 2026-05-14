@@ -26,6 +26,9 @@
     SUPABASE_ANON_KEY: '',
     // CDN do SDK supabase-js v2 via ESM. Carregado por dynamic import só
     // quando USE_SUPABASE=true.
-    SUPABASE_SDK_URL: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    SUPABASE_SDK_URL: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm',
+    // Versão visível ao usuário (perfil → "Versão do aplicativo").
+    // Manter sincronizada com CACHE_VERSION do sw.js a cada deploy.
+    VERSION: '1.4.2'
   };
 })(window);

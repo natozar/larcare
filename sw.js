@@ -1,5 +1,5 @@
 /* LarCare service worker — cache-first for static assets, network-first for HTML. */
-const CACHE_VERSION = 'larcare-v1.4.1';
+const CACHE_VERSION = 'larcare-v1.4.2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -33,6 +33,14 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
   );
+});
+
+// Permite que a página force ativação imediata do SW novo
+// (botão "Atualizar agora" + auto-detect mandam { type: 'SKIP_WAITING' })
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', (event) => {

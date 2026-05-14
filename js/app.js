@@ -423,6 +423,11 @@
       });
     });
 
+    // Buscar atualização manual
+    root.querySelectorAll('[data-action="check-update"]').forEach((btn) => {
+      btn.addEventListener('click', () => checkForUpdates());
+    });
+
     // chips that toggle (e.g., specialties in provider signup step 4)
     root.querySelectorAll('label.chip').forEach((label) => {
       const input = label.querySelector('input[type="checkbox"], input[type="radio"]');
@@ -566,10 +571,96 @@
   // ------------------------------------------------------------------
   // Service worker
   // ------------------------------------------------------------------
+  // ------------------------------------------------------------------
+  // PWA: registro do SW + detecção de nova versão + botão "Atualizar"
+  // ------------------------------------------------------------------
+  let swRegistration = null;
+  let waitingWorker = null;
+  let isApplyingUpdate = false;
+
   function registerSW() {
     if (!('serviceWorker' in navigator)) return;
     if (location.protocol === 'file:') return;
-    navigator.serviceWorker.register('sw.js').catch(() => { /* offline-first is best-effort */ });
+    // updateViaCache:'none' garante que o próprio sw.js nunca é servido
+    // do cache HTTP do browser. Importante para detectar versão nova.
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+      swRegistration = reg;
+      // Se já há um SW em waiting na hora do registro, é update pendente
+      if (reg.waiting && navigator.serviceWorker.controller) {
+        waitingWorker = reg.waiting;
+        showUpdateBanner();
+      }
+      reg.addEventListener('updatefound', () => {
+        const installing = reg.installing;
+        if (!installing) return;
+        installing.addEventListener('statechange', () => {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            // Há controller anterior → este é um UPDATE real, não primeiro install
+            waitingWorker = installing;
+            showUpdateBanner();
+          }
+        });
+      });
+      // Verifica atualizações a cada visibilitychange (volta da background)
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update().catch(() => {});
+      });
+      // E uma vez a cada 30 min em foreground
+      setInterval(() => { reg.update().catch(() => {}); }, 30 * 60 * 1000);
+    }).catch(() => { /* offline-first is best-effort */ });
+  }
+
+  function showUpdateBanner() {
+    const banner = document.getElementById('update-banner');
+    if (banner) banner.hidden = false;
+  }
+  function hideUpdateBanner() {
+    const banner = document.getElementById('update-banner');
+    if (banner) banner.hidden = true;
+  }
+
+  function applyUpdate() {
+    if (isApplyingUpdate) return;
+    isApplyingUpdate = true;
+    const banner = document.getElementById('update-banner');
+    if (banner) {
+      const cta = banner.querySelector('.update-banner__cta');
+      if (cta) { cta.disabled = true; cta.textContent = 'Atualizando…'; }
+    }
+    // Manda o SW em waiting pular a fila
+    if (waitingWorker) waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+    // Reload com pequeno delay para o SW reivindicar o controller
+    setTimeout(() => window.location.reload(), 600);
+  }
+
+  function checkForUpdates() {
+    if (!('serviceWorker' in navigator)) {
+      UI.toast('Atualizações automáticas não disponíveis neste navegador');
+      return;
+    }
+    UI.toast('Verificando…');
+    navigator.serviceWorker.getRegistration().then((reg) => {
+      if (!reg) {
+        UI.toast('Service Worker não registrado. Recarregue a página.');
+        return;
+      }
+      // Snapshot do estado antes do update()
+      const hadWaiting = !!reg.waiting;
+      reg.update().then(() => {
+        // Espera ~1.6s para o updatefound listener disparar caso haja versão nova
+        setTimeout(() => {
+          const newWaiting = !!reg.waiting && reg.waiting !== (hadWaiting ? reg.waiting : null);
+          if (waitingWorker || newWaiting) {
+            // banner já foi mostrado pelo updatefound listener
+            UI.toast('Nova versão pronta — toque em "Atualizar agora".', 'success');
+          } else {
+            UI.toast('Você já está na versão mais recente.', 'success');
+          }
+        }, 1600);
+      }).catch(() => {
+        UI.toast('Não foi possível verificar atualizações agora.');
+      });
+    });
   }
 
   // ------------------------------------------------------------------
@@ -592,6 +683,11 @@
 
     // Banner Modo Demonstração — dismiss + esconde se já fechado nesta sessão
     setupDemoBanner();
+
+    // Wire global do botão "Atualizar agora" no banner de update
+    document.getElementById('update-banner').addEventListener('click', (e) => {
+      if (e.target.closest('[data-action="apply-update"]')) applyUpdate();
+    });
 
     // Re-render quando o simulador muta os dados (proposta nova, status muda etc.)
     const liveEvents = ['larcare:proposal-received', 'larcare:demand-status', 'larcare:proposal-accepted', 'larcare:demand-created'];
