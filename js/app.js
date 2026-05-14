@@ -552,10 +552,14 @@
       return;
     }
     banner.addEventListener('click', (e) => {
-      if (e.target.closest('[data-action="dismiss-demo-banner"]')) {
-        sessionStorage.setItem('larcare_demo_banner_dismissed', '1');
-        banner.style.display = 'none';
-      }
+      if (!e.target.closest('[data-action="dismiss-demo-banner"]')) return;
+      sessionStorage.setItem('larcare_demo_banner_dismissed', '1');
+      banner.classList.add('is-dismissing');
+      // Anima saída por 240ms (definido em CSS) antes de remover do fluxo
+      const after = () => { banner.style.display = 'none'; };
+      banner.addEventListener('animationend', after, { once: true });
+      // Fallback caso animation não dispare (prefers-reduced-motion etc)
+      setTimeout(after, 320);
     });
   }
 
