@@ -63,11 +63,13 @@
   // Brand mark (SVG)
   // ------------------------------------------------------------------
   function brandMark(size = 28) {
+    // Casa estilizada com coração-folha dourado integrado.
+    // Sálvia preenche a silhueta; accent dourado é o "coração" da casa.
     return `
-      <svg class="brand__mark" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M9 17 L9 23 L23 23 L23 17 L16 11 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
-        <path d="M14.5 19.5 c-1.6-1.2 -1.4-3.2 0-3.6 c0.7-0.2 1.2 0.1 1.5 0.5 c0.3-0.4 0.8-0.7 1.5-0.5 c1.4 0.4 1.6 2.4 0 3.6 c-0.6 0.5 -1.2 0.9 -1.5 1.1 c-0.3-0.2 -0.9-0.6 -1.5-1.1 z" fill="#D4A574"/>
+      <svg class="brand__mark" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32" aria-hidden="true" role="img">
+        <title>LarCare</title>
+        <path d="M16 4.2 L27.6 14.4 Q28.5 15.2 28.5 16.4 L28.5 26.2 Q28.5 27.8 26.9 27.8 L5.1 27.8 Q3.5 27.8 3.5 26.2 L3.5 16.4 Q3.5 15.2 4.4 14.4 Z" fill="currentColor"/>
+        <path d="M16 13.2 C 17.5 11.6, 20.1 12.0, 20.3 14.4 C 20.5 16.9, 18.8 18.6, 16 20.6 C 13.2 18.6, 11.5 16.9, 11.7 14.4 C 11.9 12.0, 14.5 11.6, 16 13.2 Z" fill="#D4A574"/>
       </svg>
     `;
   }

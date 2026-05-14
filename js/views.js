@@ -1196,68 +1196,95 @@
   // ====================================================================
   function clientProfile() {
     const c = D.DEMO_CLIENT;
+    const displayName = localStorage.getItem('larcare_display_name') || c.first_name;
     const completedSim = (global.LarCareSim && global.LarCareSim.state().completedThisMonth) || 0;
     const completedTotal = c.completed_services + completedSim;
+    const myDemands = D.DEMANDS.filter((d) => d.client_id === c.id);
+    const soundsOn = global.LarCareAudio ? global.LarCareAudio.enabled() : true;
+    const vibOn = global.LarCareAudio ? global.LarCareAudio.vibEnabled() : true;
+
     return `
       <section class="page page--app">
         <div class="container container--narrow">
           <span class="eyebrow">Meu perfil</span>
-          <h1 class="mt-2">${c.first_name} ${c.last_name}</h1>
+          <h1 class="mt-2">Olá, ${displayName}</h1>
 
+          <!-- Avatar + identidade -->
           <div class="card mt-5">
             <div class="row" style="gap: 16px; align-items: center;">
               <span class="avatar avatar--xl avatar--accent">${c.initials}</span>
-              <div>
-                <div style="font-weight:600;">${c.first_name} ${c.last_name}</div>
-                <div class="t-dim fs-14">${c.neighborhood}, ${c.city}-${c.state}</div>
-                <div class="t-dim fs-13">${c.email} · ${c.phone}</div>
+              <div style="flex:1; min-width: 0;">
+                <div class="row" style="gap:8px; align-items:center;">
+                  <strong style="font-size:17px;">${displayName}</strong>
+                  <button class="btn btn--ghost btn--sm" type="button" data-action="edit-name" aria-label="Editar nome">${UI.icon('edit', 14)}</button>
+                </div>
+                <div class="t-dim fs-14 mt-1">${c.neighborhood}, ${c.city}-${c.state}</div>
+                <div class="t-dim fs-13">${c.phone}</div>
               </div>
             </div>
           </div>
 
+          <!-- Troca de papel -->
+          <div class="card mt-5">
+            <h3>Modo de uso</h3>
+            <p class="t-dim mt-2">Você está navegando como <strong>cliente</strong>. Pode trocar para o lado do prestador a qualquer momento.</p>
+            <div class="row mt-4" style="gap: 8px;">
+              <button class="btn btn--primary" type="button" data-action="switch-role" data-role="client" disabled aria-pressed="true">Sou cliente</button>
+              <button class="btn btn--outline" type="button" data-action="switch-role" data-role="provider">Entrar como prestador</button>
+            </div>
+          </div>
+
+          <!-- Estatísticas -->
           <div class="grid grid-2 mt-5">
             <div class="card">
-              <span class="t-dim fs-13">Serviços concluídos</span>
-              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--primary); margin-top:4px;">${completedTotal}</div>
-              <span class="t-dim fs-13">desde ${new Date(c.member_since).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}</span>
+              <span class="t-dim fs-13">Suas demandas</span>
+              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--primary); margin-top:4px;">${myDemands.length}</div>
+              <span class="t-dim fs-13">${myDemands.filter(d => d.status === 'proposals').length} em análise · ${myDemands.filter(d => d.status === 'completed' || d.status === 'aguardando_avaliacao').length} concluídas</span>
             </div>
             <div class="card">
-              <span class="t-dim fs-13">Avaliação média que dei</span>
-              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--accent); margin-top:4px;">4.8</div>
-              <span class="t-dim fs-13">aos prestadores que contratei</span>
+              <span class="t-dim fs-13">Serviços concluídos</span>
+              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--accent); margin-top:4px;">${completedTotal}</div>
+              <span class="t-dim fs-13">desde ${new Date(c.member_since).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}</span>
             </div>
           </div>
 
+          <!-- Preferências -->
           <div class="card mt-5">
-            <h3>Configurações</h3>
+            <h3>Preferências</h3>
             <div class="stack mt-3">
-              <a href="#/cliente/historico" class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
-                <span>Histórico de serviços</span>${UI.icon('arrow_right', 16)}
-              </a>
-              <a href="#/seguranca" class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
-                <span>Privacidade e segurança</span>${UI.icon('arrow_right', 16)}
-              </a>
-              <a href="#/contato" class="row row--between" style="padding: 12px 0;">
-                <span>Falar com suporte</span>${UI.icon('arrow_right', 16)}
+              <label class="row row--between" style="padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer;">
+                <span><strong>Sons de notificação</strong><div class="t-dim fs-13">Chime ao receber proposta, aceitar, avaliar</div></span>
+                <input type="checkbox" data-toggle="sounds" ${soundsOn ? 'checked' : ''} />
+              </label>
+              <label class="row row--between" style="padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer;">
+                <span><strong>Vibração</strong><div class="t-dim fs-13">Padrões distintos por evento</div></span>
+                <input type="checkbox" data-toggle="vibration" ${vibOn ? 'checked' : ''} />
+              </label>
+              <a href="#/sobre" class="row row--between" style="padding: 12px 0;">
+                <span>Sobre o LarCare</span>${UI.icon('arrow_right', 16)}
               </a>
             </div>
           </div>
 
+          <!-- Atalhos demo -->
           <div class="card mt-5">
-            <h3>Versão do aplicativo</h3>
-            <div class="row row--between mt-2" style="align-items:center;">
+            <h3>Modo demonstração</h3>
+            <p class="t-dim mt-2">Atalhos rápidos para usar durante a apresentação.</p>
+            <div class="stack mt-3">
+              <button class="btn btn--outline" type="button" data-action="fast-forward">${UI.icon('play', 14)} Avançar timers (acelera propostas pendentes)</button>
+              <button class="btn btn--ghost" type="button" data-action="reset-demo" style="color: var(--danger);">Resetar demo</button>
+            </div>
+          </div>
+
+          <!-- Versão -->
+          <div class="card mt-5">
+            <div class="row row--between" style="align-items:center;">
               <div>
                 <div style="font-weight:600;">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div>
                 <div class="t-dim fs-13 mt-1">Se algo parecer estranho, busque atualizações.</div>
               </div>
               <button class="btn btn--outline btn--sm" type="button" data-action="check-update">Buscar atualização</button>
             </div>
-          </div>
-
-          <div class="card mt-5" style="background: var(--warning-soft); border-color: var(--warning);">
-            <h3 style="color: #6f4f24;">Esta é uma demonstração</h3>
-            <p class="t-dim mt-2">Os dados aqui são simulados para o pitch. Toque em "Resetar demo" para zerar o estado e começar de novo.</p>
-            <button class="btn btn--outline mt-3" type="button" data-action="reset-demo">Resetar demo</button>
           </div>
 
           <p class="t-center t-dim fs-13 mt-7">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'} — feito em Ribeirão Preto-SP</p>

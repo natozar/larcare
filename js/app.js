@@ -373,8 +373,50 @@
           const s = global.LarCareSim.state();
           if (s.activeDemand) global.LarCareSim.markCompleted(s.activeDemand, 5);
         }
+        if (global.LarCareAudio) global.LarCareAudio.reviewSubmitted();
         UI.toast('Obrigado pela avaliação', 'success');
         window.location.hash = form.dataset.form === 'client-review' ? '#/cliente' : '#/prestador';
+      });
+    });
+
+    // Preferências (toggles em Perfil): sons, vibração
+    root.querySelectorAll('[data-toggle]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const key = input.dataset.toggle;
+        const on = input.checked;
+        if (key === 'sounds' && global.LarCareAudio) global.LarCareAudio.setEnabled(on);
+        if (key === 'vibration' && global.LarCareAudio) global.LarCareAudio.setVibEnabled(on);
+        UI.toast(on ? 'Ativado' : 'Desativado');
+      });
+    });
+
+    // Troca de papel (Cliente ⇄ Prestador) via toggle em Perfil
+    root.querySelectorAll('[data-action="switch-role"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.role; // 'client' | 'provider'
+        if (global.LarCareSim) global.LarCareSim.setRole(target);
+        window.location.hash = target === 'provider' ? '#/prestador' : '#/cliente';
+      });
+    });
+
+    // Fast-forward visível em Perfil > Demo controls
+    root.querySelectorAll('[data-action="fast-forward"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareSim) global.LarCareSim.fastForward();
+        UI.toast('Tempo avançado — propostas pendentes entregues');
+      });
+    });
+
+    // Editar nome (cliente perfil)
+    root.querySelectorAll('[data-action="edit-name"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const current = localStorage.getItem('larcare_display_name') || global.LarCareData.DEMO_CLIENT.first_name;
+        const name = prompt('Como você quer ser chamada?', current);
+        if (name && name.trim()) {
+          localStorage.setItem('larcare_display_name', name.trim());
+          UI.toast('Nome atualizado');
+          render();
+        }
       });
     });
 

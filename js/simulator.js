@@ -254,7 +254,9 @@
     if (dem.status === 'open') dem.status = 'proposals';
     persist();
     emit('larcare:proposal-received', { proposal: prop, demand: dem, provider: pro, isFirst: dem.proposal_count === 1 });
-    vibrate(dem.proposal_count === 1 ? [40, 60, 40] : [30]);
+    // Som + vibração delegados ao módulo de áudio (toggle por usuário)
+    if (global.LarCareAudio) global.LarCareAudio.proposalReceived();
+    else vibrate(dem.proposal_count === 1 ? [40, 60, 40] : [30]);
   }
 
   // ----------------------------------------------------------------
@@ -273,7 +275,8 @@
     dem.status = 'hired';
     persist();
     emit('larcare:proposal-accepted', { proposal: prop, demand: dem });
-    vibrate([60, 40, 80]);
+    if (global.LarCareAudio) global.LarCareAudio.proposalAccepted();
+    else vibrate([60, 40, 80]);
 
     schedule(() => {
       dem.status = 'em_atendimento';
