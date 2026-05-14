@@ -45,6 +45,13 @@
     if (len === 1 && s[0] === 'termos')     return { view: 'terms', variant: 'public' };
     if (len === 1 && s[0] === 'faq')        return { view: 'faq', variant: 'public' };
     if (len === 1 && s[0] === 'contato')    return { view: 'contact', variant: 'public' };
+    if (len === 1 && s[0] === 'buscar')     return { view: 'buscar', variant: 'client', params };
+    if (len === 1 && s[0] === 'conversas')  return { view: 'conversas', variant: 'client' };
+    if (len === 1 && s[0] === 'chat')       return { view: 'chat', variant: 'client', params };
+    if (len === 1 && s[0] === 'para-prestadores') return { view: 'forProviders', variant: 'public' };
+    if (len === 1 && s[0] === 'para-clientes')    return { view: 'forClients',   variant: 'public' };
+    if (len === 1 && s[0] === 'onboarding-prestador') return { view: 'onboardingProvider', variant: 'public', params };
+    if (len === 1 && s[0] === 'dashboard-prestador')  return { view: 'dashboardProvider',  variant: 'provider' };
 
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'cliente')   return { view: 'howItWorksClient', variant: 'public' };
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'prestador') return { view: 'howItWorksProvider', variant: 'public' };
@@ -135,16 +142,17 @@
     const current = '#' + window.location.hash.replace(/^#/, '');
     const isActive = (path) => current.startsWith(path);
 
+    const unread = (global.LarCareChat && global.LarCareChat.totalUnread()) || 0;
     const items = variant === 'client' ? [
       { href: '#/cliente',                 icon: 'home',  label: 'Início' },
-      { href: '#/cliente/nova-demanda',    icon: 'plus',  label: 'Solicitar' },
-      { href: '#/cliente/historico',       icon: 'list',  label: 'Histórico' },
+      { href: '#/buscar',                  icon: 'search', label: 'Buscar' },
+      { href: '#/conversas',               icon: 'chat',  label: 'Conversas', badge: unread > 0 ? String(unread) : '' },
       { href: '#/cliente/perfil',          icon: 'user',  label: 'Perfil' }
     ] : [
-      { href: '#/prestador',               icon: 'home',  label: 'Demandas' },
-      { href: '#/prestador/propostas',     icon: 'list',  label: 'Propostas', badge: pendingProposalsBadge() },
-      { href: '#/prestador/perfil',        icon: 'user',  label: 'Perfil' },
-      { href: '#/',                        icon: 'arrow_left', label: 'Sair' }
+      { href: '#/dashboard-prestador',     icon: 'home',  label: 'Dashboard' },
+      { href: '#/prestador',               icon: 'list',  label: 'Demandas' },
+      { href: '#/conversas',               icon: 'chat',  label: 'Conversas', badge: unread > 0 ? String(unread) : '' },
+      { href: '#/prestador/perfil',        icon: 'user',  label: 'Perfil' }
     ];
 
     // 3-column layout when only 3 items
@@ -197,7 +205,14 @@
       privacy: 'Privacidade',
       terms: 'Termos',
       faq: 'Perguntas frequentes',
-      contact: 'Contato'
+      contact: 'Contato',
+      buscar: 'Buscar',
+      conversas: 'Conversas',
+      chat: 'Conversa',
+      forProviders: 'Para prestadores',
+      forClients: 'Para clientes',
+      onboardingProvider: 'Cadastro de prestador',
+      dashboardProvider: 'Dashboard'
     };
     return map[view] || 'LarCare';
   }
@@ -479,6 +494,53 @@
       });
     });
 
+    // ---------- BUSCA: input debounce + ações ----------
+    const searchInput = root.querySelector('#search-input');
+    if (searchInput && global.LarCareSearch) {
+      let dbTimer = null;
+      searchInput.addEventListener('input', () => {
+        clearTimeout(dbTimer);
+        dbTimer = setTimeout(() => {
+          const v = searchInput.value;
+          if (v && v.trim().length) global.LarCareSearch.pushHistory(v.trim());
+          const url = '#/buscar?q=' + encodeURIComponent(v);
+          window.history.replaceState(null, '', url);
+          render();
+        }, 220);
+      });
+      searchInput.focus();
+    }
+    root.querySelectorAll('[data-action="clear-search"]').forEach((btn) => {
+      btn.addEventListener('click', () => { window.location.hash = '#/buscar'; });
+    });
+    root.querySelectorAll('[data-action="use-history"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.query;
+        window.location.hash = '#/buscar?q=' + encodeURIComponent(q);
+      });
+    });
+    root.querySelectorAll('[data-action="clear-history"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareSearch) global.LarCareSearch.clearHistory();
+        render();
+      });
+    });
+    root.querySelectorAll('[data-action="open-filters"]').forEach((btn) => {
+      btn.addEventListener('click', () => { if (global.LarCareSearch) global.LarCareSearch.openFilters(); });
+    });
+    root.querySelectorAll('[data-action="open-sort"]').forEach((btn) => {
+      btn.addEventListener('click', () => { if (global.LarCareSearch) global.LarCareSearch.openSort(); });
+    });
+    root.querySelectorAll('[data-action="reset-filters"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareSearch) global.LarCareSearch.setFilters(global.LarCareSearch.DEFAULT_FILTERS);
+        render();
+      });
+    });
+
+    // ---------- CHAT: bind composer + back ----------
+    if (global.LarCareChat) global.LarCareChat.bindChat(root);
+
     // Reset de estado de instalação (modo dev em Perfil)
     root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -727,8 +789,15 @@
   // ------------------------------------------------------------------
   // Boot
   // ------------------------------------------------------------------
+  // Expõe API global pra módulos externos (search/chat usam para rerender)
+  function exposeAppApi() {
+    global.LarCareApp = global.LarCareApp || {};
+    global.LarCareApp.state = state;
+    global.LarCareApp.rerender = render;
+  }
+
   async function boot() {
-    global.LarCareApp = { state };
+    exposeAppApi();
     // Hot-swap: se USE_SUPABASE=true em js/config.js, bootstrap troca
     // window.LarCareData por dados reais do Supabase. Senão, no-op imediato.
     try {
