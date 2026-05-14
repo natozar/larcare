@@ -3,6 +3,20 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Variáveis sensíveis (NUNCA commitar service_role/access_token)
 .env
 .env.local
+.env.*.local
+
+# Node tooling (Supabase CLI pode rodar via npx ou global; node_modules é local)
+node_modules/
+package-lock.json
+
+# Artefatos de QA / Playwright
 .playwright-mcp/
+qa-reports/
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
