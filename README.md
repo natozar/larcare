@@ -83,6 +83,103 @@ A tela 10 (lista de propostas em `#/cliente/demanda/dem-001/propostas`) é o cor
 
 ---
 
+## Fase 2 — Backend Supabase (opt-in, default desligado)
+
+A camada Supabase está plumbada mas desligada por padrão. Com `js/config.js → USE_SUPABASE=false` o app roda 100% sobre `js/mock_data.js`, idêntico ao protótipo no ar.
+
+### Quando ligar
+
+Quando houver projeto Supabase provisionado e dataset semeado.
+
+### Como ligar (sequência de uma vez só)
+
+```bash
+# 1) provisione um projeto Supabase no painel ou via CLI
+supabase projects create larcare --org <org-id> --region sa-east-1
+
+# 2) link, apply migrations
+supabase link --project-ref <ref>
+supabase db push                                # roda supabase/migrations/
+
+# 3) seed (idempotente — pode re-rodar)
+supabase db execute --linked --file supabase/seed.sql
+
+# 4) edite js/config.js
+#    USE_SUPABASE      = true
+#    SUPABASE_URL      = 'https://<ref>.supabase.co'
+#    SUPABASE_ANON_KEY = '<anon key — pública por design>'
+
+# 5) keep-alive contra o pause do free tier
+#    GitHub Settings → Secrets → SUPABASE_URL, SUPABASE_ANON_KEY
+#    Workflow .github/workflows/keepalive.yml pinga a cada 6h
+```
+
+### Arquitetura do hot-swap
+
+```
+js/config.js          flag USE_SUPABASE + URL + anon key
+js/mock_data.js       dataset embutido (default seguro)
+js/data_layer.js      bootstrap() async, troca window.LarCareData se USE_SUPABASE
+js/app.js             await bootstrap antes do primeiro render
+```
+
+As 22 views **não foram refatoradas** — continuam consumindo `LarCareData.PROVIDERS/DEMANDS/PROPOSALS` síncrono. O custo é uma round-trip Supabase na primeira carga; o ganho é zero risco de regressão no pitch.
+
+### Schema
+
+7 tabelas + 1 admins:
+
+```
+profiles              identidade base (cliente | prestador | admin)
+prestadores 1:1       extensão técnica (bio, rating, raio, disponibilidade)
+prestador_categorias  m:n especialidades × anos
+categorias            lookup público
+demandas              pedido cliente, status open→proposals→hired→completed
+propostas             leilão (cascata ao cancelar demanda)
+avaliacoes            cruzada cliente↔prestador, imutável, recalcula rating via trigger
+admins                privilégio administrativo
+```
+
+Decisões registradas:
+
+- **Lat/lng + função `distance_km()` haversine.** PostGIS deferido até virar gargalo real.
+- **CHECK constraints, não ENUM types.** Evita ALTER TYPE doloroso.
+- **Soft delete** em `profiles`, `prestadores`, `demandas` (preserva dataset, o ativo de longo prazo). **Hard delete** em propostas.
+- **IDs textuais** em entidades que viram URL (`dem-001`, `pro-001`, `eletrica`). Profiles UUID via `user_id` quando há sign-up auth.
+
+### RLS
+
+Habilitada em **todas** as tabelas, incluindo lookups. Função `is_admin()` SECURITY DEFINER encapsula a checagem de `admins`. Política em uma frase por tabela:
+
+- **categorias**: leitura pública; write só admin.
+- **profiles**: ver próprio + perfis de prestador ativos públicos; update só dono.
+- **prestadores**: leitura pública dos `active=true`; write pelo dono via `profiles.user_id = auth.uid()`.
+- **prestador_categorias**: leitura pública; write pelo prestador dono.
+- **demandas**: ver as suas (cliente) OU as abertas em sua categoria (prestador); insert só cliente com `client_id` correspondente; update só dono enquanto status in (open, proposals).
+- **propostas**: cliente vê tudo da sua demanda; prestador vê o que ele mandou; insert só prestador em categoria compatível; client_id de quem decide aceitar/rejeitar.
+- **avaliacoes**: leitura pública; insert só envolvidos na demanda concluída, sem auto-avaliação (CHECK constraint).
+- **admins**: opaca a não-admins.
+
+### Como adicionar nova tabela
+
+```bash
+supabase migration new <nome_curto>
+# edite supabase/migrations/<timestamp>_<nome_curto>.sql:
+#   create table, comments, indices, trigger updated_at
+# em seguida nova migration:
+supabase migration new rls_<nome_curto>
+#   alter table enable row level security
+#   policies
+supabase db push
+# atualize js/data_layer.js (fetchAll + transform) se a tabela for consumida no front
+```
+
+### Anti-pause guard
+
+`.github/workflows/keepalive.yml` faz `GET /rest/v1/categorias` a cada 6h. Free tier do Supabase pausa após ~7 dias de inatividade; com cron de 6h, distância confortável. Requer secrets `SUPABASE_URL` e `SUPABASE_ANON_KEY` no GitHub.
+
+---
+
 ## Deploy
 
 Funciona em qualquer host estático. Para GitHub Pages:

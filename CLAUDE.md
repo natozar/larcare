@@ -1010,3 +1010,47 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 ---
 
 **Fim do CLAUDE.md.**
+
+---
+
+## ANEXO A — FASE 2: BACKEND SUPABASE PLUMBADO (2026-05-14)
+
+A camada Supabase foi plugada em modo **opt-in default desligado**. O PWA continua rodando 100% sobre `js/mock_data.js` enquanto `js/config.js → USE_SUPABASE = false`. Detalhes de ativação, schema, RLS e operação ficam no `README.md` (seção "Fase 2 — Backend Supabase"); este anexo registra apenas o que importa para futuros agentes operando sob o protocolo de operação autônoma.
+
+### Arquitetura do hot-swap
+
+- `js/config.js` — flag `USE_SUPABASE` + URL + anon key (pública por design quando RLS está correta).
+- `js/data_layer.js` — `LarCareData.bootstrap()` async. Em mock mode é no-op; em supabase mode busca tudo em paralelo, transforma para o shape do mock e **substitui** `window.LarCareData`.
+- `js/app.js` — `boot()` virou async e dá `await bootstrap()` + `Object.assign(D, global.LarCareData)` antes do primeiro render. Views permaneceram síncronas.
+
+### Schema
+
+`supabase/migrations/20260514100001_initial_schema.sql` — 7 tabelas + admins, comments em todas, índices em FKs e colunas quentes, trigger `updated_at`, trigger `recalc_prestador_rating()` (denormaliza `rating_avg`/`rating_count` no insert de avaliações).
+
+Decisões assumidas (registrar antes de questionar):
+
+- Lat/lng `double precision` + função `distance_km()` haversine. PostGIS NÃO. Migra para PostGIS só quando busca por raio for hot path.
+- `CHECK constraint` em vez de `ENUM type` em todos os campos categóricos. Evolução flexível sem `ALTER TYPE`.
+- Soft delete em `profiles`, `prestadores`, `demandas`. Hard delete em `propostas` (churn alta, sem valor histórico). Avaliações são imutáveis.
+- IDs textuais (`dem-001`, `pro-001`, `eletrica`) em entidades que viram URL — mantém compatibilidade de rota com o mock. `profiles.user_id uuid` linka com `auth.users` quando há sign-up real; nulo em seeds de demo.
+- Admin via tabela `admins` (não JWT claim). `is_admin()` SECURITY DEFINER evita recursão de RLS.
+
+### RLS
+
+`supabase/migrations/20260514100002_rls_policies.sql` — RLS habilitada em todas as tabelas, inclusive lookups. Vetores cobertos: prestador falsificando `prestador_id` em proposta; cliente lendo propostas alheias; auto-avaliação; prestador vendo demanda fora da sua categoria; anônimo enumerando demandas. Detalhe por tabela está no README.
+
+### Seed
+
+`supabase/seed.sql` — equivalente 1:1 ao `js/mock_data.js`: 10 categorias, 12 prestadores, 13 demandas (10 abertas + 3 históricas), 43 propostas, 3 avaliações. Idempotente (`ON CONFLICT DO NOTHING`). Desabilita o trigger de recalc durante o insert para preservar rating_avg agregado.
+
+### Anti-pause guard
+
+`.github/workflows/keepalive.yml` — cron de 6h hitting `/rest/v1/categorias`. Free tier do Supabase pausa em ~7 dias de inatividade. Free, in-repo, zero infra externa. Requer secrets `SUPABASE_URL` e `SUPABASE_ANON_KEY` (não a service_role) no GitHub. Alternativas consideradas e descartadas: edge function self-ping (o projeto pausa antes), UptimeRobot (dependência externa), VPS cron (infra paga).
+
+### O que NÃO foi feito nesta entrega e por quê
+
+- **Não foi criado projeto Supabase**: env vars `SUPABASE_URL`/`SUPABASE_ANON_KEY` ausentes no shell quando esta sessão rodou, e criar projeto na conta do owner cai no item "compra/contratação de serviço" do protocolo. As migrations e o seed estão prontas; aplicar é um `supabase link` + `supabase db push` + `supabase db execute --file supabase/seed.sql` após o owner prover credenciais.
+- **Views não foram refatoradas para async**: o bootstrap pattern elimina a necessidade. Quando paginação/realtime/cache offline virarem requisitos, refatorar com cabeça arquitetural; hoje, não.
+- **Não há auth UI ainda**: o protótipo só lê dados. Quando entrar sign-up real, integrar Supabase Auth + popular `profiles.user_id` no callback de signup; as policies já estão preparadas para isso.
+
+---
