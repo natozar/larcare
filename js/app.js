@@ -57,6 +57,11 @@
     if (len === 1 && s[0] === 'recibo')               return { view: 'recibo', variant: 'client', params };
     if (len === 1 && s[0] === 'financeiro-prestador') return { view: 'financeiroPrestador', variant: 'provider' };
     if (len === 1 && s[0] === 'dashboard-cliente')    return { view: 'dashboardCliente', variant: 'client' };
+    if (len === 1 && s[0] === 'favoritos')             return { view: 'favoritos', variant: 'client' };
+    if (len === 1 && s[0] === 'historico')             return { view: 'historicoTimeline', variant: 'client' };
+    if (len === 1 && s[0] === 'emergencia')            return { view: 'emergencia', variant: 'client' };
+    if (len === 1 && s[0] === 'emergencia-aguardando') return { view: 'emergenciaAguardando', variant: 'client', params };
+    if (len === 1 && s[0] === 'prestador-detalhe')     return { view: 'prestadorDetalhe', variant: 'client', params };
 
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'cliente')   return { view: 'howItWorksClient', variant: 'public' };
     if (len === 2 && s[0] === 'como-funciona' && s[1] === 'prestador') return { view: 'howItWorksProvider', variant: 'public' };
@@ -222,7 +227,12 @@
       pagamento: 'Pagamento',
       recibo: 'Comprovante',
       financeiroPrestador: 'Financeiro',
-      dashboardCliente: 'Meu painel'
+      dashboardCliente: 'Meu painel',
+      favoritos: 'Favoritos',
+      historicoTimeline: 'Histórico',
+      emergencia: 'Emergência',
+      emergenciaAguardando: 'Buscando ajuda',
+      prestadorDetalhe: 'Prestador'
     };
     return map[view] || 'LarCare';
   }
@@ -582,6 +592,52 @@
     // ---------- PAYMENT: bind PIX/cartão/recibo ----------
     if (global.LarCarePayment) global.LarCarePayment.bindPayment(root);
 
+    // ---------- FEATURES v2.0: favorites toggle, notifs bell, emergency, prestador detalhe ----------
+    root.querySelectorAll('[data-toggle-fav]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!global.LarCareFeatures) return;
+        const id = btn.dataset.toggleFav;
+        const isFav = global.LarCareFeatures.toggleFavorite(id);
+        btn.classList.toggle('is-active', isFav);
+        btn.textContent = isFav ? '⭐' : '☆';
+        UI.toast(isFav ? 'Adicionado aos favoritos' : 'Removido dos favoritos', 'success');
+      });
+    });
+    root.querySelectorAll('[data-notif-bell]').forEach((bell) => {
+      bell.addEventListener('click', () => { if (global.LarCareFeatures) global.LarCareFeatures.openNotifsSheet(); });
+    });
+    root.querySelectorAll('[data-emergency-cat]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.emergencyCat;
+        window.location.hash = '#/emergencia-aguardando?cat=' + encodeURIComponent(cat);
+      });
+    });
+    // Tick do SLA na tela de aguardando emergência
+    if (root.querySelector('.emergency-waiting-page')) {
+      const slaEl = root.querySelector('#emer-sla');
+      const respEl = root.querySelector('#emer-responding');
+      if (slaEl) {
+        let s = 120;
+        const t = setInterval(() => {
+          s--;
+          if (s < 0) { clearInterval(t); return; }
+          const min = Math.floor(s / 60);
+          const sec = s % 60;
+          slaEl.textContent = `${min}:${String(sec).padStart(2,'0')}`;
+          if (respEl && s % 8 === 0) respEl.textContent = String(3 + Math.floor((120 - s) / 12));
+          if (s === 105) {
+            UI.toast('Carlos H. aceitou! Está vindo até você.', 'success');
+            setTimeout(() => { window.location.hash = '#/cliente/contratado/prop-001-a'; }, 1500);
+            clearInterval(t);
+          }
+        }, 1000);
+      }
+    }
+    // Atualiza badge do sino
+    if (global.LarCareFeatures) global.LarCareFeatures.updateBellBadge();
+
     // Reset de estado de instalação (modo dev em Perfil)
     root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -861,6 +917,9 @@
     if (global.LarCareI18n) global.LarCareI18n.init();
     // Push notifications — wire simulator events + ask permission UX
     if (global.LarCareNotify) global.LarCareNotify.start();
+
+    // Features v2.0 — notificações in-app, etc
+    if (global.LarCareFeatures) global.LarCareFeatures.wireSimulatorToInapp();
 
     // Banner Modo Demonstração — dismiss + esconde se já fechado nesta sessão
     setupDemoBanner();

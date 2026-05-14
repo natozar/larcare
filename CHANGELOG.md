@@ -2,6 +2,58 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.0.0 — 15 de maio de 2026 — Profundidade pré-lançamento
+
+**Foco**: adicionar 7 sistemas estruturais que faltavam para LarCare ter densidade de produto pré-Série A.
+
+### Added
+
+#### PNGs do logo (23 arquivos)
+`tools/generate-icons.js` foi executado com sucesso após instalar `sharp ^0.33.0`. Geradas: 10 ícones standard (16, 32, 72, 96, 128, 144, 152, 192, 384, 512), 2 maskable (192, 512 com 80% safe zone + fundo sálvia), 3 apple-touch (152, 167, 180 com sálvia sólido), 6 splash iOS por device (1290×2796 a 750×1334), og-image.png (1200×630), twitter-card.png (1200×600).
+
+Referenciados em `app.html` (5 apple-touch-startup-image com media queries), `manifest.json` (10 icons + 3 shortcuts), `sw.js` precache (todos os 23). OG/Twitter meta tags atualizadas.
+
+#### Mapa Leaflet real (`js/map.js`)
+Wrapper com API `create / addProviderPin / addDemandPin / drawRadius / fitToPins`. Leaflet 1.9.4 carregado via CDN (CSS no `<head>`, JS com `defer`). Pins customizados via `divIcon`: prestador com avatar circular sálvia, demanda com emoji da categoria + pulse, cliente com pin azul-acinzentado. Suporte a modo escuro via filter CSS (invert + hue-rotate). Centro default: Ribeirão Preto.
+
+#### Favoritos do cliente (`#/favoritos`)
+Botão estrela toggleable em qualquer card de prestador (busca, detalhe, propostas). Persistido em `localStorage:larcare:client_favorites`. Lista em `#/favoritos` com empty state amigável + CTA Buscar. Indicador "Você já contratou X vezes" para favoritos.
+
+#### Histórico de serviços com timeline (`#/historico` reformulado)
+Substitui versão minimal por timeline visual agrupada por mês. Stats: total de serviços, total investido, avaliação média. Card por serviço com avatar + categoria + valor + estrelas + link pro recibo. Botão "Baixar PDF" via `window.print`. Empty state com CTA.
+
+#### Central de notificações in-app
+`LarCareFeatures.openNotifsSheet` abre bottom sheet com lista cronológica. Item lido/não lido com ponto azul + fundo `primary-tint`. Botão "Marcar todas como lidas". Filtros por categoria preparados (propostas/pagamentos/agenda/avaliações/sistema). Persistência em `larcare:notifications_inapp` com FIFO 200 itens. Hooks em eventos do simulator: cada `larcare:proposal-received` e `larcare:payment-confirmed` grava notificação in-app além da push externa.
+
+#### Toggle prestador "disponível agora"
+3 estados: 🟢 Disponível / 🟡 Ocupado / 🔴 Fora de horário. Persistido por prestador em `larcare:provider_status_{id}`. Visível no card da busca como badge. Filtro "Apenas disponíveis agora" no bottom sheet.
+
+#### Modo emergência (`#/emergencia` + `#/emergencia-aguardando`)
+Hero com ícone "🚨" animado (shake), grid de 5 categorias emergenciais (Vazamento, Luz, Chaveiro, Gás, Outro) com pricing 1.5x já calculado. Toggle "Aceitar automaticamente". Após seleção: tela de pulse ring expandindo com SLA contador regressivo 2:00, stats "Push enviado X · Respondendo Y", auto-redirect para contato-liberado em 15s simulando aceite.
+
+#### Detalhe do prestador refinado (`#/prestador-detalhe?id=X`)
+Hero com avatar 120px + selo verificado + 3 tags status + nota + distância + 3 CTAs (Pedir orçamento / Conversar / Favoritar). 5 tabs: Sobre (4 cards stats), Trabalhos (grid portfólio mock 6 cores SVG), Avaliações (distribuição visual por nota + cards), Categorias e preços, Verificação (checklist com selos).
+
+### Changed
+- `CACHE_VERSION` → `larcare-v2.0.0`
+- `LarCareConfig.VERSION` → `2.0.0`
+- `sw.js` precache estendido com map.js + features.js
+
+### Deferred (documentado)
+- **Refator das 22 telas antigas para tokens**: alto risco/médio ganho, mantido.
+- **Chat com áudio (MediaRecorder + waveform)**: técnica complexa, runtime-risky sem browser pra testar.
+- **Chat com fotos (lightbox + before/after)**: bounded mas similar ao acima.
+- **Agenda do prestador (3 views + lembretes)**: scope substancial.
+- **Geo via watchPosition para prestadores disponíveis**: prematuro sem opt-in real.
+- **Sino integrado no header global**: API exposta (`updateBellBadge`, `openNotifsSheet`) mas integração visual no header requer touch em todos os render*Header em components.js — deferido para evitar regressão.
+
+### Notas técnicas
+- `tools/generate-icons.js` agora é o padrão para regenerar PNGs: `npm install && npm run icons`.
+- Leaflet via CDN evita peso no bundle local — tiles cacheados pelo SW.
+- Modo escuro do mapa via `filter: invert(0.9) hue-rotate(180deg)` no container Leaflet em `data-theme="dark"`.
+
+---
+
 ## v1.9.1 — 15 de maio de 2026 — Auditoria pré-pitch
 
 ### Fixed

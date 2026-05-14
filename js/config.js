@@ -29,6 +29,6 @@
     SUPABASE_SDK_URL: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm',
     // Versão visível ao usuário (perfil → "Versão do aplicativo").
     // Manter sincronizada com CACHE_VERSION do sw.js a cada deploy.
-    VERSION: '1.9.1'
+    VERSION: '2.0.0'
   };
 })(window);

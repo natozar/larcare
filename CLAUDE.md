@@ -1013,6 +1013,54 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO H — PROFUNDIDADE PRÉ-LANÇAMENTO v2.0.0 (2026-05-15)
+
+Oitavo e último sprint antes da v2.0. 7 sistemas adicionados, PNGs gerados, ~3 frentes deferidas conscientemente. Stack ainda vanilla, sem build.
+
+### Entregues
+
+1. **PNGs do logo** — 23 arquivos via `sharp` + `tools/generate-icons.js`. Standard, maskable, apple-touch, splash iOS, OG, Twitter. Todos commitados e referenciados em manifest + head + sw.
+2. **Mapa Leaflet** — `js/map.js` wrapper. Leaflet via CDN (CSS + JS defer). Pins customizados, modo dark com filter CSS. API: create, addProviderPin, addDemandPin, drawRadius, fitToPins.
+3. **Favoritos cliente** — `LarCareFeatures.toggleFavorite/isFavorite/getFavorites`. Rota `#/favoritos`. Botão `[data-toggle-fav]` toggleable em qualquer card.
+4. **Histórico timeline** — `#/historico` reformulado. Stats no topo, agrupamento por mês, cards com avatar + valor + estrelas. Botão "Baixar PDF" via window.print.
+5. **Central de notificações in-app** — `LarCareFeatures.openNotifsSheet`. Bottom sheet com lista persistida. Hooks em eventos do simulator (proposta/pagamento). FIFO 200 itens em `localStorage:larcare:notifications_inapp`.
+6. **Toggle "Disponível agora"** — 3 estados (🟢/🟡/🔴) persistidos por prestador.
+7. **Modo emergência** — `#/emergencia` (5 categorias com pricing 1.5x) + `#/emergencia-aguardando` (pulse ring + SLA contador + auto-aceite em 15s).
+8. **Detalhe prestador refinado** — `#/prestador-detalhe?id=X&tab=Y` com 5 tabs: Sobre, Trabalhos, Avaliações, Categorias e preços, Verificação.
+
+### Deferidos (documentado)
+
+- Refator 22 telas antigas para tokens (alto risco).
+- Chat com áudio (MediaRecorder + waveform real) — complexo, requer teste runtime.
+- Chat com fotos (lightbox + before/after).
+- Agenda do prestador (3 views + lembretes).
+- Sino integrado no header global (API exposta mas integração visual evitada para não regredir headers).
+- Geo via watchPosition (prematuro sem opt-in real).
+
+### Storage adicionado em v2.0.0
+
+| Chave | Conteúdo |
+| --- | --- |
+| `larcare:client_favorites` | array `[{prestador_id, marcado_em, vezes_contratado}]` |
+| `larcare:notifications_inapp` | FIFO 200 notificações |
+| `larcare:provider_status_{id}` | available/busy/offline |
+
+### Arquivos novos
+
+- `tools/generate-icons.js` — gerador de PNGs via sharp
+- `js/map.js` — wrapper Leaflet
+- `js/features.js` — favoritos + histórico timeline + notifs in-app + emergência + detalhe prestador
+
+### Rotas novas (v2.0.0)
+
+- `#/favoritos` — lista de favoritos
+- `#/historico` — timeline (substitui clientHistory minimal)
+- `#/emergencia` — entrada do fluxo emergencial
+- `#/emergencia-aguardando?cat=X` — waiting room com SLA
+- `#/prestador-detalhe?id=X&tab=Y` — detalhe com 5 tabs
+
+---
+
 ## ANEXO G — SPRINT CONSOLIDADO FINAL: ADMIN + PAGAMENTO + DARK + PUSH + i18n + PNGs (2026-05-15, v1.9.0)
 
 Sétimo bloco. 5 sistemas estruturais novos que faltavam pra parecer "Série A": painel admin, pagamento, modo escuro, push notifications, internacionalização. PNGs do logo via script Node + sharp.
