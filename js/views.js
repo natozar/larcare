@@ -37,16 +37,16 @@
   function landing() {
     const cats = D.CATEGORIES.slice(0, 8);
     const categoryGrid = cats.map((c) => `
-      <a class="cat-tile" href="#/cadastro/cliente">
+      <a class="cat-tile" href="#/cliente/nova-demanda">
         <span class="cat-tile__icon">${UI.icon(c.icon, 22)}</span>
         <span class="cat-tile__name">${c.name}</span>
       </a>
     `).join('');
 
     const testimonials = [
-      { name: 'Beatriz M.', city: 'Jardim Califórnia, Ribeirão Preto', text: 'Resolvi em uma manhã o que estava arrastando há semanas. O eletricista chegou no horário, levou o material certo e ainda revisou outros pontos da casa.', initials: 'BM' },
-      { name: 'Patrícia D.', city: 'Sumarezinho, Ribeirão Preto', text: 'Cheguei em casa com banheiro alagado. Em duas horas tinha um profissional verificado dentro de casa. Salvou meu fim de semana.', initials: 'PD' },
-      { name: 'Cristina A.', city: 'Vila Tibério, Ribeirão Preto', text: 'Esqueci a chave dentro de casa às 23h. A chaveira veio em 30 minutos, abriu sem arrombar e cobrou exatamente o que combinou no telefone.', initials: 'CA' }
+      { name: 'Maria Cristina', city: 'Jardim Califórnia, Ribeirão Preto', text: 'Tinha uma torneira pingando há semanas. Em meia hora tinha quatro propostas. À tarde tava resolvido. Sem pedir favor pra ninguém.', initials: 'MC' },
+      { name: 'Ricardo M.', city: 'Iguatemi, Ribeirão Preto', text: 'Trabalho fora o dia todo. Combinei pelo app, deixei a chave na portaria, cheguei e tava pronto. Pagamento pelo Pix, recibo no chat.', initials: 'RM' },
+      { name: 'Helena R.', city: 'Ribeirânia, Ribeirão Preto', text: 'Moro sozinha. Prestador que vem em casa sempre me deixou desconfortável. Aqui vejo a nota, o nome verificado, sei que a empresa tem registro. Outro nível.', initials: 'HR' }
     ];
 
     return `
@@ -54,12 +54,12 @@
         <div class="container">
           <div class="hero__grid">
             <div>
-              <span class="eyebrow">Cuidado verificado para seu lar</span>
-              <h1 class="hero__title mt-4">Pequenos reparos,<br/>sem depender de <em>ninguém</em>.</h1>
-              <p class="hero__subtitle">Encontre quem resolve o que precisa em casa. Prestadores verificados, propostas transparentes, contato direto. Sem caçar profissional em rede social, sem aceitar quem você não conhece.</p>
+              <span class="eyebrow">Atendemos Ribeirão Preto · Verificação 100%</span>
+              <h1 class="hero__title mt-4">Casa em dia,<br/>sem <em>dor de cabeça</em>.</h1>
+              <p class="hero__subtitle">Eletricista, encanador, diarista, faz-tudo — verificados, perto de você em Ribeirão Preto. Você descreve, recebe propostas em minutos, escolhe quem topa.</p>
               <div class="hero__cta">
-                <a class="btn btn--primary btn--lg" href="#/cadastro/cliente">Quero contratar um serviço</a>
-                <a class="btn btn--outline btn--lg" href="#/cadastro/prestador">Quero oferecer meus serviços</a>
+                <a class="btn btn--primary btn--lg" href="#/cliente/nova-demanda">Pedir um reparo</a>
+                <a class="btn btn--outline btn--lg" href="#/onboarding-prestador">Sou prestador</a>
               </div>
               <div class="row mt-6" style="gap: 18px; color: var(--text-dim); font-size: 13px;">
                 <span class="row" style="gap: 6px;">${UI.icon('shield_check', 16, 'style="color: var(--success);"')} Antecedente verificado</span>
@@ -88,9 +88,9 @@
       <section class="section--tight">
         <div class="container">
           <div class="metric-bar">
-            <div class="metric"><div class="metric__value">+50</div><div class="metric__label">categorias de serviço cobertas</div></div>
+            <div class="metric"><div class="metric__value">18</div><div class="metric__label">tipos de serviço cobertos</div></div>
+            <div class="metric"><div class="metric__value">30min</div><div class="metric__label">média até a primeira proposta</div></div>
             <div class="metric"><div class="metric__value">100%</div><div class="metric__label">prestadores com antecedente verificado</div></div>
-            <div class="metric"><div class="metric__value">2 lados</div><div class="metric__label">avaliação cruzada após cada serviço</div></div>
           </div>
         </div>
       </section>
@@ -103,10 +103,10 @@
             <p class="lead mt-3">Você não precisa entender de obra, conhecer prestador na rua ou explicar a mesma coisa cinco vezes.</p>
           </div>
           <div class="steps-card">
-            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Você descreve o que precisa</h3><p class="t-dim mt-2">Categoria, descrição, fotos opcionais e prazo. Em três minutos.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Prestadores verificados respondem</h3><p class="t-dim mt-2">Você recebe propostas com valor, prazo e mensagem. Pode comparar.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Você escolhe e fala direto</h3><p class="t-dim mt-2">Liberamos o contato. Vocês combinam e o serviço acontece.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Avaliação cruzada</h3><p class="t-dim mt-2">Cliente avalia prestador, prestador avalia cliente. Reputação real.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Você descreve o que precisa</h3><p class="t-dim mt-2">Categoria, descrição, foto opcional, prazo. Em três minutos seu pedido tá publicado.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Prestadores verificados respondem</h3><p class="t-dim mt-2">Você recebe propostas com valor, prazo e mensagem. Pode comparar com calma.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Você escolhe e fala direto</h3><p class="t-dim mt-2">Liberamos o contato. Vocês combinam pelo chat ou WhatsApp e o serviço acontece.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Avaliação dos dois lados</h3><p class="t-dim mt-2">Você avalia o prestador, ele te avalia. Reputação real, que fica no perfil.</p></div>
           </div>
         </div>
       </section>
@@ -114,8 +114,8 @@
       <section class="section section--alt">
         <div class="container">
           <div class="t-center mb-5">
-            <span class="eyebrow">Categorias mais pedidas</span>
-            <h2 class="mt-3">O que costumamos resolver</h2>
+            <span class="eyebrow">O que a gente resolve</span>
+            <h2 class="mt-3">Pequenos e médios. Sem obra.</h2>
           </div>
           <div class="grid grid-4">${categoryGrid}</div>
         </div>
@@ -131,12 +131,12 @@
             <div class="card">
               <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--primary-tint); color: var(--primary); display: inline-flex; align-items: center; justify-content: center;">${UI.icon('shield_check', 22)}</div>
               <h3 class="mt-3">Verificação rigorosa</h3>
-              <p class="t-dim mt-2">Identidade, antecedente criminal e endereço conferidos antes de cada prestador entrar na plataforma.</p>
+              <p class="t-dim mt-2">Identidade, antecedente criminal e endereço conferidos antes de cada prestador aparecer no app.</p>
             </div>
             <div class="card">
               <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-soft); color: #6f4f24; display: inline-flex; align-items: center; justify-content: center;">${UI.icon('star', 22)}</div>
               <h3 class="mt-3">Avaliação cruzada</h3>
-              <p class="t-dim mt-2">Os dois lados avaliam após cada serviço. Reputação se acumula, não some entre apps.</p>
+              <p class="t-dim mt-2">Os dois lados avaliam após cada serviço. Reputação acumula, não some entre apps.</p>
             </div>
             <div class="card">
               <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: inline-flex; align-items: center; justify-content: center;">${UI.icon('chat', 22)}</div>
@@ -150,8 +150,8 @@
       <section class="section section--alt">
         <div class="container">
           <div class="t-center mb-5">
-            <span class="eyebrow">O que dizem</span>
-            <h2 class="mt-3">Quem já usou</h2>
+            <span class="eyebrow">Quem já usou</span>
+            <h2 class="mt-3">Resolvido em horas, não em semanas.</h2>
           </div>
           <div class="grid grid-3">
             ${testimonials.map((t) => `
@@ -174,11 +174,11 @@
       <section class="section">
         <div class="container">
           <div class="card card--feature t-center">
-            <h2 style="color:#fff;">Comece agora</h2>
-            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 520px;">Cadastre-se em três minutos. Sem cartão de crédito.</p>
+            <h2 style="color:#fff;">Casa em dia, sem dor de cabeça.</h2>
+            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 520px;">Pedir um serviço leva três minutos. Em Ribeirão Preto, propostas chegam em minutos.</p>
             <div class="btn-group" style="justify-content:center;">
-              <a class="btn btn--accent btn--lg" href="#/cadastro/cliente">Sou cliente</a>
-              <a class="btn btn--outline btn--lg" href="#/cadastro/prestador" style="color:#fff; border-color: rgba(255,255,255,0.6);">Sou prestador</a>
+              <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir um reparo</a>
+              <a class="btn btn--outline btn--lg" href="#/onboarding-prestador" style="color:#fff; border-color: rgba(255,255,255,0.6);">Sou prestador</a>
             </div>
           </div>
         </div>
@@ -194,27 +194,46 @@
       <section class="page">
         <div class="container container--narrow">
           <span class="eyebrow">Sobre o LarCare</span>
-          <h1 class="mt-3">O lar como prioridade</h1>
-          <p class="lead mt-4">O LarCare existe para um problema simples e nada simples de resolver: o que se faz quando algo precisa ser consertado em casa, e pedir favor não é mais opção?</p>
+          <h1 class="mt-3">Casa em dia, sem dor de cabeça.</h1>
+          <p class="lead mt-4">O LarCare existe pra um problema simples e nada simples de resolver: o que você faz quando algo precisa ser consertado em casa, e pedir favor não é mais opção?</p>
+
           <div class="stack-lg mt-7">
             <article>
               <h2>Por que existimos</h2>
-              <p class="t-dim mt-3">Em mais de 35 milhões de domicílios brasileiros, o cuidado cotidiano da casa hoje recai sobre quem mora lá — frequentemente uma mulher, frequentemente sem alguém para chamar. O LarCare nasce da observação de que essa pessoa merece um caminho direto, sem favor, sem caçada na rede social, sem prestador que cobra a mais ao chegar.</p>
+              <p class="t-dim mt-3">Em mais de 35 milhões de domicílios brasileiros, o cuidado cotidiano da casa recai sobre quem mora lá — muitas vezes uma mulher sem alguém pra chamar, ou um profissional ocupado sem tempo de caçar prestador. Em qualquer dos dois cenários, a saída costuma ser favor, sorte ou indicação de indicação.</p>
+              <p class="t-dim mt-3">O LarCare nasce da observação de que essa pessoa merece um caminho direto. Em Ribeirão Preto, começando agora.</p>
             </article>
             <article>
-              <h2>Para quem trabalhamos</h2>
-              <p class="t-dim mt-3">Trabalhamos para dois lados ao mesmo tempo: a pessoa que tem casa para cuidar, e o profissional autônomo que tem técnica para entregar. Acreditamos que conectar essas duas pontas com seriedade — verificação, transparência, avaliação cruzada — eleva a qualidade do serviço para todo mundo.</p>
+              <h2>Pra quem a gente trabalha</h2>
+              <p class="t-dim mt-3">Pra dois lados ao mesmo tempo. De um lado, quem tem casa pra cuidar — seja quem cuida de tudo, seja quem prefere terceirizar a manutenção. De outro, o prestador autônomo que tem técnica pra entregar e merece um fluxo de clientes que respeita o trabalho dele.</p>
+              <p class="t-dim mt-3">Conectar essas duas pontas com seriedade — verificação, transparência, avaliação dos dois lados — eleva a qualidade do serviço pra todo mundo.</p>
             </article>
             <article>
-              <h2>O que defendemos</h2>
-              <p class="t-dim mt-3">Verificação rigorosa de quem entra na plataforma. Transparência total nas propostas. Respeito mútuo entre cliente e prestador. Proteção integral dos dados pessoais. Sem fórmulas mágicas, sem promessas além do que entregamos.</p>
+              <h2>O que a gente defende</h2>
+              <p class="t-dim mt-3">Verificação rigorosa de quem entra. Transparência total nas propostas. Respeito mútuo entre cliente e prestador. Proteção integral dos dados pessoais. Sem fórmulas mágicas, sem promessas além do que entregamos.</p>
             </article>
           </div>
 
+          <!-- Como o LarCare se sustenta (tese do dataset em linguagem acessível) -->
+          <article class="mt-8" id="como-funciona-financeiro">
+            <h2>Como o LarCare se sustenta</h2>
+            <p class="t-dim mt-3">A gente cobra <strong>5% sobre cada serviço resolvido</strong>, pago pelo prestador. Isso paga a operação no curto prazo. Cliente não paga nada pra usar.</p>
+            <p class="t-dim mt-3">No longo prazo, o LarCare está construindo algo que ninguém em Ribeirão Preto tem: um <strong>mapa completo dos prestadores autônomos confiáveis</strong> da cidade, e <strong>dos lares que precisam de manutenção regular</strong>. Esse mapa, com o tempo, vira o ativo mais valioso da plataforma.</p>
+            <p class="t-dim mt-3">Com massa crítica, vamos abrir parcerias com construtoras, seguradoras, varejistas de material de construção, financeiras populares — sempre <strong>opcionais</strong> pro usuário e sempre com consentimento explícito. A monetização desse ativo é o que viabiliza manter a comissão baixa pra cliente e prestador.</p>
+            <p class="t-dim mt-3">Você usar o LarCare não custa nada além do serviço. Você está ajudando a construir um cuidado de casa mais organizado em Ribeirão Preto.</p>
+          </article>
+
           <div class="card card--soft mt-8">
-            <h3>Compromisso com integridade</h3>
-            <p class="mt-3 t-dim">Os dados que circulam aqui são tratados com critério. Nada é vendido em formato pessoal. Tudo é protegido segundo a LGPD. Saiba mais em <a href="#/seguranca">Segurança e dataset</a>.</p>
+            <h3>Compromisso com seus dados</h3>
+            <p class="mt-3 t-dim">A gente nunca vende dados pessoais identificados. Tudo é tratado segundo a LGPD. Saiba mais em <a href="#/seguranca">Segurança</a> ou na <a href="#/privacidade">Política de Privacidade</a>.</p>
           </div>
+
+          <!-- Quem está construindo -->
+          <article class="mt-8">
+            <h2>Quem está construindo</h2>
+            <p class="t-dim mt-3"><strong>Renato Cesar Rodrigues</strong> mantém o LarCare em operação solo, baseado em Ribeirão Preto. Trajetória de execução: PapoTV (mídia descentralizada), Empório Família Rodrigues (comércio local), orquestração técnica de produto. Reila é a base de tudo.</p>
+            <p class="t-dim mt-3">Não somos uma startup com escritório, nem uma empresa de fundo de investimento. Somos uma equipe pequena fazendo o trabalho de campo em Ribeirão Preto antes de qualquer narrativa de escala.</p>
+          </article>
 
           <!-- Onde estamos -->
           <article class="mt-8">
