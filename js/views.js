@@ -796,15 +796,17 @@
     const id = params.id;
     const dem = D.findDemand(id) || D.findDemand('dem-001');
     const cat = D.findCategory(dem.cat);
+    const received = D.proposalsForDemand(dem.id).filter((p) => p.status !== 'rejected').length;
+    const hasAny = received > 0;
     return `
       <section class="page">
         <div class="container container--narrow">
           <div class="t-center mt-5 mb-7">
-            <div style="width:80px; height:80px; margin:0 auto var(--space-4); border-radius:50%; background: var(--success-soft); color: var(--success); display:flex; align-items:center; justify-content:center;">
+            <div class="check-burst" style="width:80px; height:80px; margin:0 auto var(--space-4); border-radius:50%; background: var(--success-soft); color: var(--success); display:flex; align-items:center; justify-content:center;">
               ${UI.icon('check', 38)}
             </div>
             <h1>Demanda publicada</h1>
-            <p class="lead mt-2">Já está visível para prestadores qualificados na sua região.</p>
+            <p class="lead mt-2">Já está visível para prestadores qualificados em Ribeirão Preto.</p>
           </div>
 
           <div class="card mb-5">
@@ -819,23 +821,23 @@
 
           <div class="card card--soft">
             <div class="row" style="gap: 12px;">
-              <span style="width:40px; height:40px; border-radius:50%; background:#fff; color: var(--primary); display:inline-flex; align-items:center; justify-content:center;">${UI.icon('bell', 20)}</span>
+              <span class="pulse-dot" style="width:40px; height:40px; border-radius:50%; background:#fff; color: var(--primary); display:inline-flex; align-items:center; justify-content:center;">${UI.icon('bell', 20)}</span>
               <div>
-                <strong>27 prestadores qualificados na sua região foram notificados</strong>
-                <div class="t-dim fs-14 mt-1">Você costuma receber a primeira proposta em até 2 horas.</div>
+                <strong>${hasAny ? `Você já recebeu ${received} ${received === 1 ? 'proposta' : 'propostas'}` : '27 prestadores qualificados foram notificados'}</strong>
+                <div class="t-dim fs-14 mt-1">${hasAny ? 'Toque em "Ver propostas" para escolher.' : 'A primeira proposta costuma chegar em poucos minutos.'}</div>
               </div>
             </div>
           </div>
 
           <div class="timeline mt-6">
-            <div class="timeline__item is-done">Demanda publicada · ${D.formatRelativeMinutes(0)}</div>
-            <div class="timeline__item is-active">Aguardando primeira proposta · estimado em até 2 horas</div>
-            <div class="timeline__item">Comparar e escolher</div>
-            <div class="timeline__item">Combinar com prestador</div>
+            <div class="timeline__item is-done">Demanda publicada · ${D.formatRelativeMinutes(dem.published_minutes_ago)}</div>
+            <div class="timeline__item ${hasAny ? 'is-done' : 'is-active'}">${hasAny ? `${received} ${received === 1 ? 'proposta' : 'propostas'} recebida${received === 1 ? '' : 's'}` : 'Aguardando primeira proposta…'}</div>
+            <div class="timeline__item ${hasAny ? 'is-active' : ''}">Comparar e escolher</div>
+            <div class="timeline__item">Combinar direto com o prestador</div>
           </div>
 
           <div class="row mt-7" style="gap:10px; justify-content:center;">
-            <a class="btn btn--primary" href="#/cliente/demanda/${dem.id}/propostas">Ver propostas (simular)</a>
+            <a class="btn btn--primary" href="#/cliente/demanda/${dem.id}/propostas">${hasAny ? `Ver propostas (${received})` : 'Ver propostas (aguardando)'}</a>
             <a class="btn btn--ghost" href="#/cliente">Voltar para o início</a>
           </div>
         </div>
@@ -851,6 +853,22 @@
     const dem = D.findDemand(id) || D.findDemand('dem-001');
     const cat = D.findCategory(dem.cat);
     const proposals = D.proposalsForDemand(dem.id).filter((p) => p.status !== 'rejected' || dem.status === 'hired');
+    const empty = proposals.length === 0;
+
+    const emptyState = `
+      <div class="card t-center" style="padding: 40px 20px;">
+        <div class="pulse-dot" style="width:64px; height:64px; margin:0 auto var(--space-4); border-radius:50%; background: var(--primary-tint); color: var(--primary); display:inline-flex; align-items:center; justify-content:center;">
+          ${UI.icon('bell', 28)}
+        </div>
+        <h3>Aguardando primeira proposta</h3>
+        <p class="t-dim mt-2">Sua demanda foi enviada para prestadores qualificados em Ribeirão Preto. Costuma chegar em poucos minutos.</p>
+        <div class="row mt-5" style="justify-content:center; gap: 6px;">
+          <span class="skeleton skeleton--prop"></span>
+          <span class="skeleton skeleton--prop"></span>
+          <span class="skeleton skeleton--prop"></span>
+        </div>
+      </div>
+    `;
 
     return `
       <section class="page">
@@ -860,13 +878,14 @@
           </div>
           <div class="row row--between mb-5" style="align-items:flex-start; gap:16px;">
             <div>
-              <span class="eyebrow">Propostas recebidas</span>
+              <span class="eyebrow">${empty ? 'Aguardando propostas' : 'Propostas recebidas'}</span>
               <h1 class="mt-2">${dem.title}</h1>
               <div class="t-dim fs-14 mt-2">${cat.name} · ${dem.neighborhood} · publicada ${D.formatRelativeMinutes(dem.published_minutes_ago)}</div>
             </div>
-            <div class="badge badge--solid">${proposals.length} propostas</div>
+            <div class="badge ${empty ? '' : 'badge--solid'} ${proposals.length > 0 ? 'pulse-badge' : ''}">${proposals.length} ${proposals.length === 1 ? 'proposta' : 'propostas'}</div>
           </div>
 
+          ${empty ? '' : `
           <div class="row mb-5" style="gap:8px; flex-wrap:wrap;">
             <span class="t-dim fs-14" style="margin-right:8px;">Ordenar por</span>
             <button class="segmented" id="sort-bar">
@@ -876,9 +895,10 @@
               <span class="segmented__item" data-sort="closest">Mais perto</span>
             </button>
           </div>
+          `}
 
           <div class="stack-lg" id="proposal-list">
-            ${proposals.map((p) => proposalCard(p, dem)).join('')}
+            ${empty ? emptyState : proposals.map((p) => proposalCard(p, dem)).join('')}
           </div>
 
           <p class="t-dim fs-13 mt-7 t-center">Você não é cobrado pelo LarCare por aceitar uma proposta. O pagamento acontece direto entre você e o prestador.</p>
@@ -1160,6 +1180,67 @@
   // ====================================================================
   // VIEW 14 — Histórico de serviços
   // ====================================================================
+  function clientProfile() {
+    const c = D.DEMO_CLIENT;
+    const completedSim = (global.LarCareSim && global.LarCareSim.state().completedThisMonth) || 0;
+    const completedTotal = c.completed_services + completedSim;
+    return `
+      <section class="page page--app">
+        <div class="container container--narrow">
+          <span class="eyebrow">Meu perfil</span>
+          <h1 class="mt-2">${c.first_name} ${c.last_name}</h1>
+
+          <div class="card mt-5">
+            <div class="row" style="gap: 16px; align-items: center;">
+              <span class="avatar avatar--xl avatar--accent">${c.initials}</span>
+              <div>
+                <div style="font-weight:600;">${c.first_name} ${c.last_name}</div>
+                <div class="t-dim fs-14">${c.neighborhood}, ${c.city}-${c.state}</div>
+                <div class="t-dim fs-13">${c.email} · ${c.phone}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2 mt-5">
+            <div class="card">
+              <span class="t-dim fs-13">Serviços concluídos</span>
+              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--primary); margin-top:4px;">${completedTotal}</div>
+              <span class="t-dim fs-13">desde ${new Date(c.member_since).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}</span>
+            </div>
+            <div class="card">
+              <span class="t-dim fs-13">Avaliação média que dei</span>
+              <div style="font-family: var(--font-serif); font-size: 32px; color: var(--accent); margin-top:4px;">4.8</div>
+              <span class="t-dim fs-13">aos prestadores que contratei</span>
+            </div>
+          </div>
+
+          <div class="card mt-5">
+            <h3>Configurações</h3>
+            <div class="stack mt-3">
+              <a href="#/cliente/historico" class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+                <span>Histórico de serviços</span>${UI.icon('arrow_right', 16)}
+              </a>
+              <a href="#/seguranca" class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+                <span>Privacidade e segurança</span>${UI.icon('arrow_right', 16)}
+              </a>
+              <a href="#/contato" class="row row--between" style="padding: 12px 0;">
+                <span>Falar com suporte</span>${UI.icon('arrow_right', 16)}
+              </a>
+            </div>
+          </div>
+
+          <div class="card mt-5" style="background: var(--warning-soft); border-color: var(--warning);">
+            <h3 style="color: #6f4f24;">Esta é uma demonstração</h3>
+            <p class="t-dim mt-2">Os dados aqui são simulados para o pitch. Toque em "Resetar demo" para zerar o estado e começar de novo.</p>
+            <button class="btn btn--outline mt-3" type="button" data-action="reset-demo">Resetar demo</button>
+          </div>
+
+          <p class="t-center t-dim fs-13 mt-7">LarCare v0.1 demo — feito em Ribeirão Preto-SP</p>
+        </div>
+      </section>
+    `;
+  }
+
   function clientHistory() {
     const list = D.CLIENT_HISTORY;
     return `
@@ -1228,7 +1309,7 @@
     landing, about, howItWorksClient, howItWorksProvider, security,
     clientSignup, clientDashboard, clientNewDemand,
     demandPublished, proposalsList, proposalDetail,
-    contactUnlocked, clientReview, clientHistory,
+    contactUnlocked, clientReview, clientHistory, clientProfile,
     notFound,
     // helpers exposed for other view files
     _helpers: { greeting, formatDate, escapeHtml, urgencyChip, categoryChip, ratingDistribution }

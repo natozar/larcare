@@ -21,9 +21,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="LarCare" />
   <meta name="format-detection" content="telephone=no" />
+  <meta name="theme-color" content="#3E6B5C" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2A4D43" media="(prefers-color-scheme: dark)" />
   <link rel="manifest" href="manifest.json" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,11 +37,18 @@
 <body>
   <a class="skip-link" href="#app">Pular para conteúdo principal</a>
 
+  <div id="demo-banner" class="demo-banner" role="status">
+    Modo demonstração — dados simulados
+    <button type="button" class="demo-banner__close" aria-label="Fechar aviso" data-action="dismiss-demo-banner">×</button>
+  </div>
+
   <header id="site-header" class="site-header" data-variant="public"></header>
 
   <main id="app" class="app" tabindex="-1"></main>
 
   <footer id="site-footer" class="site-footer"></footer>
+
+  <nav id="app-bottom-nav" class="app-bottom-nav" aria-label="Navegação inferior" hidden></nav>
 
   <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
   <div id="modal-root" class="modal-root" aria-hidden="true"></div>
@@ -65,6 +74,7 @@
   <script src="js/config.js"></script>
   <script src="js/mock_data.js"></script>
   <script src="js/data_layer.js"></script>
+  <script src="js/simulator.js"></script>
   <script src="js/components.js"></script>
   <script src="js/views.js"></script>
   <script src="js/views_provider.js"></script>

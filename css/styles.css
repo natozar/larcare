@@ -842,3 +842,165 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+
+/* =========================================================================
+   Demo mode: live-feel polish, iOS hardening, bottom nav, demo banner
+   ========================================================================= */
+
+/* Skeleton loading boxes (used em empty state da lista de propostas) */
+.skeleton {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--primary-tint) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  animation: skeleton-shimmer 1.4s linear infinite;
+}
+.skeleton--prop { width: 18px; height: 10px; border-radius: var(--radius-pill); }
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Pulse dot (icon contínuo "respirando") */
+.pulse-dot { position: relative; animation: pulse-soft 2.4s var(--ease) infinite; }
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(62, 107, 92, 0.35); }
+  50%      { box-shadow: 0 0 0 12px rgba(62, 107, 92, 0); }
+}
+
+/* Pulse badge (contador de propostas — chama atenção quando muda) */
+.pulse-badge { animation: pulse-badge 600ms var(--ease-out); }
+@keyframes pulse-badge {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Check burst (animação curta no checkmark de demanda publicada) */
+.check-burst { animation: check-burst 600ms var(--ease-out); }
+@keyframes check-burst {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Status pills extras para os novos estados do simulator */
+.status--proposals { background: var(--accent-soft); color: #6f4f24; }
+.status--hired     { background: var(--success-soft); color: var(--success); }
+.status--done      { background: var(--primary-tint); color: var(--primary); }
+
+/* ----------------------------------------------------------------
+   Banner Modo Demonstração — faixa fina top, accent dourado
+   ---------------------------------------------------------------- */
+.demo-banner {
+  position: sticky;
+  top: 0;
+  z-index: 110;
+  background: var(--accent);
+  color: #1F2A28;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  padding: 4px env(safe-area-inset-right, 12px) 4px env(safe-area-inset-left, 12px);
+  padding-top: max(4px, env(safe-area-inset-top));
+}
+.demo-banner__close {
+  background: none; border: 0; color: inherit; cursor: pointer;
+  margin-left: 8px; font-weight: 700; opacity: 0.7; font-size: 14px;
+}
+.demo-banner__close:hover { opacity: 1; }
+/* Quando instalado como PWA standalone, o banner fica mais discreto */
+@media (display-mode: standalone) {
+  .demo-banner { padding-top: max(4px, env(safe-area-inset-top)); }
+}
+
+/* ----------------------------------------------------------------
+   Bottom nav fixa (mobile only)
+   ---------------------------------------------------------------- */
+.app-bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  display: none;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 6px env(safe-area-inset-right) calc(env(safe-area-inset-bottom, 0px) + 6px) env(safe-area-inset-left);
+  box-shadow: 0 -4px 16px rgba(31, 42, 40, 0.04);
+}
+.app-bottom-nav__inner {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  max-width: 480px; margin: 0 auto;
+}
+.app-bottom-nav__item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 4px;
+  color: var(--text-dim);
+  font-size: 11px; font-weight: 500;
+  text-decoration: none;
+  min-height: 44px;
+  touch-action: manipulation;
+  position: relative;
+  transition: color var(--t-fast) var(--ease);
+}
+.app-bottom-nav__item.is-active { color: var(--primary); }
+.app-bottom-nav__item.is-active::before {
+  content: ''; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 3px; background: var(--primary); border-radius: 999px;
+}
+.app-bottom-nav__item svg { display: block; }
+.app-bottom-nav__badge {
+  position: absolute; top: 0px; right: calc(50% - 18px);
+  background: var(--accent); color: #1F2A28;
+  border-radius: 999px; font-size: 10px; font-weight: 700;
+  min-width: 16px; height: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+body.has-bottom-nav .app-content,
+body.has-bottom-nav .app { padding-bottom: 80px; }
+body.has-bottom-nav .install-banner { bottom: 64px; }
+@media (max-width: 720px) {
+  .app-bottom-nav { display: block; }
+}
+
+/* ----------------------------------------------------------------
+   iOS Safari hardening
+   ---------------------------------------------------------------- */
+html, body {
+  -webkit-tap-highlight-color: transparent;
+}
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+.btn, .cat-tile, .chip, .nav__link, .segmented__item, [data-link],
+.app-bottom-nav__item, .demo-fab, .install-banner button {
+  touch-action: manipulation;
+}
+/* Inputs ≥16px previnem zoom-on-focus no iOS */
+.input, .textarea, input, textarea, select {
+  font-size: 16px;
+}
+/* Scroll suave em listas internas em iOS */
+.scroll-inner { -webkit-overflow-scrolling: touch; }
+/* Safe area no header e footer */
+.site-header { padding-top: env(safe-area-inset-top); }
+.site-footer { padding-bottom: env(safe-area-inset-bottom); }
+.demo-fab {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+body.has-bottom-nav .demo-fab {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 88px);
+}
+
+/* Toast notifications stacking — empilha múltiplos toasts */
+.toast-root {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex; flex-direction: column-reverse; gap: 8px;
+  pointer-events: none;
+}
+body.has-bottom-nav .toast-root { bottom: calc(env(safe-area-inset-bottom, 0px) + 88px); }
+.toast { pointer-events: auto; }

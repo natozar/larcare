@@ -679,6 +679,14 @@
               <li class="checklist__item"><span class="checklist__check">${UI.icon('check', 14)}</span><span>Endereço comprovado</span></li>
             </ul>
           </div>
+
+          <div class="card mt-5" style="background: var(--warning-soft); border-color: var(--warning);">
+            <h3 style="color: #6f4f24;">Esta é uma demonstração</h3>
+            <p class="t-dim mt-2">Dados simulados para o pitch. Toque em "Resetar demo" para zerar e começar de novo.</p>
+            <button class="btn btn--outline mt-3" type="button" data-action="reset-demo">Resetar demo</button>
+          </div>
+
+          <p class="t-center t-dim fs-13 mt-7">LarCare v0.1 demo — feito em Ribeirão Preto-SP</p>
         </div>
       </section>
     `;

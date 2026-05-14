@@ -1,5 +1,5 @@
 /* LarCare service worker — cache-first for static assets, network-first for HTML. */
-const CACHE_VERSION = 'larcare-v1.3.2';
+const CACHE_VERSION = 'larcare-v1.4.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -16,9 +16,13 @@ const PRECACHE = [
   './js/views.js',
   './js/views_provider.js',
   './js/mock_data.js',
+  './js/data_layer.js',
+  './js/config.js',
+  './js/simulator.js',
   './js/demo_tour.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png',
   './icons/favicon-32.png',
   './icons/favicon.ico',

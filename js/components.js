@@ -238,12 +238,15 @@
 
   function statusPill(status) {
     const map = {
-      open:      { cls: 'status--waiting',   label: 'Aguardando propostas' },
-      proposals: { cls: 'status--proposals', label: 'Propostas recebidas' },
-      hired:     { cls: 'status--hired',     label: 'Contratado' },
-      done:      { cls: 'status--done',      label: 'Concluído' },
-      analysis:  { cls: 'status--analysis',  label: 'Em análise' },
-      approved:  { cls: 'status--approved',  label: 'Aprovado' }
+      open:                  { cls: 'status--waiting',   label: 'Aguardando propostas' },
+      proposals:             { cls: 'status--proposals', label: 'Propostas recebidas' },
+      hired:                 { cls: 'status--hired',     label: 'Contratado' },
+      em_atendimento:        { cls: 'status--hired',     label: 'Em atendimento' },
+      aguardando_avaliacao:  { cls: 'status--proposals', label: 'Aguardando avaliação' },
+      completed:             { cls: 'status--done',      label: 'Concluído' },
+      done:                  { cls: 'status--done',      label: 'Concluído' },
+      analysis:              { cls: 'status--analysis',  label: 'Em análise' },
+      approved:              { cls: 'status--approved',  label: 'Aprovado' }
     };
     const s = map[status] || { cls: '', label: status };
     return `<span class="status ${s.cls}">${s.label}</span>`;

@@ -57,6 +57,7 @@
       if (len === 1) return { view: 'clientDashboard', variant: 'client' };
       if (len === 2 && s[1] === 'nova-demanda') return { view: 'clientNewDemand', variant: 'client', params };
       if (len === 2 && s[1] === 'historico')    return { view: 'clientHistory',   variant: 'client' };
+      if (len === 2 && s[1] === 'perfil')       return { view: 'clientProfile',   variant: 'client' };
       if (len === 4 && s[1] === 'demanda' && s[3] === 'aguardando') return { view: 'demandPublished', variant: 'client', params: { id: s[2] } };
       if (len === 4 && s[1] === 'demanda' && s[3] === 'propostas')  return { view: 'proposalsList',   variant: 'client', params: { id: s[2] } };
       if (len === 3 && s[1] === 'proposta')   return { view: 'proposalDetail',   variant: 'client', params: { id: s[2] } };
@@ -107,13 +108,65 @@
     // Toggle FAB visibility — visible only on public routes
     const fab = document.getElementById('demo-fab');
     fab.hidden = !(route.variant === 'public');
-    document.body.classList.toggle('has-bottom-nav', false);
+
+    // Bottom nav fixa em client/provider (mobile)
+    renderBottomNav(route);
 
     // close mobile drawer on navigation
     document.querySelectorAll('.mobile-drawer.is-open').forEach((d) => d.classList.remove('is-open'));
 
     // header scroll effect
     onScroll();
+  }
+
+  function renderBottomNav(route) {
+    const navEl = document.getElementById('app-bottom-nav');
+    if (!navEl) return;
+    const variant = route.variant;
+    if (variant !== 'client' && variant !== 'provider') {
+      navEl.hidden = true;
+      navEl.innerHTML = '';
+      document.body.classList.remove('has-bottom-nav');
+      return;
+    }
+    document.body.classList.add('has-bottom-nav');
+    navEl.hidden = false;
+
+    const current = '#' + window.location.hash.replace(/^#/, '');
+    const isActive = (path) => current.startsWith(path);
+
+    const items = variant === 'client' ? [
+      { href: '#/cliente',                 icon: 'home',  label: 'Início' },
+      { href: '#/cliente/nova-demanda',    icon: 'plus',  label: 'Solicitar' },
+      { href: '#/cliente/historico',       icon: 'list',  label: 'Histórico' },
+      { href: '#/cliente/perfil',          icon: 'user',  label: 'Perfil' }
+    ] : [
+      { href: '#/prestador',               icon: 'home',  label: 'Demandas' },
+      { href: '#/prestador/propostas',     icon: 'list',  label: 'Propostas', badge: pendingProposalsBadge() },
+      { href: '#/prestador/perfil',        icon: 'user',  label: 'Perfil' },
+      { href: '#/',                        icon: 'arrow_left', label: 'Sair' }
+    ];
+
+    // 3-column layout when only 3 items
+    navEl.innerHTML = `
+      <div class="app-bottom-nav__inner" style="grid-template-columns: repeat(${items.length}, 1fr);">
+        ${items.map((it) => `
+          <a class="app-bottom-nav__item${isActive(it.href) ? ' is-active' : ''}" href="${it.href}">
+            ${UI.icon(it.icon, 22)}
+            <span>${it.label}</span>
+            ${it.badge ? `<span class="app-bottom-nav__badge">${it.badge}</span>` : ''}
+          </a>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function pendingProposalsBadge() {
+    // Conta propostas aceitas para o prestador demo pro-001 (ele recebeu propostas aceitas)
+    const D = global.LarCareData;
+    if (!D) return '';
+    const accepted = D.proposalsByProvider('pro-001').filter((p) => p.status === 'accepted').length;
+    return accepted > 0 ? String(accepted) : '';
   }
 
   function titleFor(view) {
@@ -132,6 +185,7 @@
       contactUnlocked: 'Contato liberado',
       clientReview: 'Avaliação',
       clientHistory: 'Histórico',
+      clientProfile: 'Meu perfil',
       providerSignup: 'Cadastro de prestador',
       providerStatus: 'Cadastro em análise',
       providerDashboard: 'Demandas próximas',
@@ -231,11 +285,33 @@
     if (finishForm) {
       finishForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const nd = state.newDemand;
+        // Mapeia "period" textual ("Manhã"/"Tarde"/"Noite"/"Qualquer") para slug
+        const periodMap = { 'Manhã': 'manha', 'Tarde': 'tarde', 'Noite': 'noite', 'Qualquer': 'qualquer' };
+        const time_pref = periodMap[nd.period] || 'qualquer';
+        const created = global.LarCareSim
+          ? global.LarCareSim.createDemand({
+              cat: nd.cat || 'faz_tudo',
+              description: nd.description || '',
+              urgency: nd.urgency || 'ate_3_dias',
+              time_pref,
+              budget_min: nd.budget_min || 100,
+              budget_max: nd.budget_max || 280
+            })
+          : null;
         UI.toast('Demanda publicada', 'success');
-        // Redirect to the demo featured demand to showcase the proposals UX
-        window.location.hash = '#/cliente/demanda/dem-001/aguardando';
+        const targetId = created ? created.id : 'dem-001';
+        window.location.hash = `#/cliente/demanda/${targetId}/aguardando`;
       });
     }
+
+    // Interceptar aceitar proposta: avisa o simulator antes de seguir o link
+    root.querySelectorAll('a[href^="#/cliente/contratado/"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        const id = a.getAttribute('href').replace('#/cliente/contratado/', '');
+        if (global.LarCareSim) global.LarCareSim.acceptProposal(id);
+      });
+    });
 
     // radius slider on provider signup step 4
     const radius = root.querySelector('#radius-slider');
@@ -292,6 +368,11 @@
     root.querySelectorAll('[data-form="client-review"], [data-form="provider-review"]').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        // marca como concluída no simulator (se demanda ativa)
+        if (global.LarCareSim) {
+          const s = global.LarCareSim.state();
+          if (s.activeDemand) global.LarCareSim.markCompleted(s.activeDemand, 5);
+        }
         UI.toast('Obrigado pela avaliação', 'success');
         window.location.hash = form.dataset.form === 'client-review' ? '#/cliente' : '#/prestador';
       });
@@ -302,6 +383,11 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         UI.toast('Proposta enviada à cliente', 'success');
+        // Simula resposta do cliente após 12-18s
+        setTimeout(() => {
+          if (global.LarCareUI) global.LarCareUI.toast('Sua proposta foi aceita!', 'success');
+          try { navigator.vibrate && navigator.vibrate([60, 40, 80]); } catch (_) {}
+        }, 12000 + Math.random() * 6000);
         window.location.hash = '#/prestador/propostas';
       });
     });
@@ -324,6 +410,16 @@
       btn.addEventListener('click', () => {
         const drawer = headerEl.querySelector('#mobile-drawer');
         if (drawer) drawer.classList.toggle('is-open');
+      });
+    });
+
+    // Reset demo (botão visível em clientProfile/providerProfile)
+    root.querySelectorAll('[data-action="reset-demo"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (confirm('Resetar a demo? Toda demanda criada e propostas recebidas serão apagadas.')) {
+          if (global.LarCareSim) global.LarCareSim.reset();
+          else window.location.reload();
+        }
       });
     });
 
@@ -445,6 +541,24 @@
     });
   }
 
+  function setupDemoBanner() {
+    const banner = document.getElementById('demo-banner');
+    if (!banner) return;
+    // standalone? esconde (já tá instalado, banner polui)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const dismissed = sessionStorage.getItem('larcare_demo_banner_dismissed');
+    if (isStandalone || dismissed) {
+      banner.style.display = 'none';
+      return;
+    }
+    banner.addEventListener('click', (e) => {
+      if (e.target.closest('[data-action="dismiss-demo-banner"]')) {
+        sessionStorage.setItem('larcare_demo_banner_dismissed', '1');
+        banner.style.display = 'none';
+      }
+    });
+  }
+
   // ------------------------------------------------------------------
   // Service worker
   // ------------------------------------------------------------------
@@ -468,6 +582,38 @@
     } catch (_) { /* fallback já tratado dentro do data_layer */ }
     // Re-bind D após possível swap do namespace
     Object.assign(D, global.LarCareData);
+
+    // Inicia o simulador de vida (timers, persistência, debug tap)
+    if (global.LarCareSim) global.LarCareSim.start();
+
+    // Banner Modo Demonstração — dismiss + esconde se já fechado nesta sessão
+    setupDemoBanner();
+
+    // Re-render quando o simulador muta os dados (proposta nova, status muda etc.)
+    const liveEvents = ['larcare:proposal-received', 'larcare:demand-status', 'larcare:proposal-accepted', 'larcare:demand-created'];
+    liveEvents.forEach((evt) => document.addEventListener(evt, (e) => {
+      // Toast e re-render só se relevante para a rota atual
+      const route = resolveRoute();
+      const liveRoutes = ['proposalsList', 'demandPublished', 'clientDashboard', 'providerDashboard', 'demandDetail'];
+      if (evt === 'larcare:proposal-received' && e.detail) {
+        const pro = e.detail.provider;
+        const dem = e.detail.demand;
+        const msg = e.detail.isFirst
+          ? `Primeira proposta de ${pro.first_name} chegou!`
+          : `Nova proposta de ${pro.first_name} para "${dem.title.slice(0, 40)}"`;
+        UI.toast(msg, 'success');
+      }
+      if (evt === 'larcare:demand-status' && e.detail) {
+        const labels = {
+          em_atendimento: 'O prestador está a caminho',
+          aguardando_avaliacao: 'Serviço concluído — sua avaliação importa',
+          completed: 'Serviço marcado como concluído'
+        };
+        const t = labels[e.detail.status];
+        if (t) UI.toast(t);
+      }
+      if (liveRoutes.indexOf(route.view) !== -1) render();
+    }));
 
     if (!window.location.hash) window.location.hash = '#/';
     window.addEventListener('hashchange', render);
