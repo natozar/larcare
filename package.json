@@ -1,0 +1,23 @@
+{
+  "name": "larcare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LarCare — PWA estática + camada Supabase opt-in. Frontend é vanilla HTML/CSS/JS; npm é apenas para tooling (Supabase CLI).",
+  "homepage": "https://natozar.github.io/larcare/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natozar/larcare.git"
+  },
+  "bugs": {
+    "url": "https://github.com/natozar/larcare/issues"
+  },
+  "license": "ISC",
+  "scripts": {
+    "serve": "python -m http.server 8000",
+    "db:push": "supabase db push",
+    "db:seed": "supabase db execute --linked --file supabase/seed.sql"
+  },
+  "devDependencies": {
+    "supabase": "^2.78.0"
+  }
+}
