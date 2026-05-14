@@ -704,6 +704,174 @@
   }
 
   // ====================================================================
+  // forProviders — landing dedicada à captação de prestadores
+  // ====================================================================
+  function forProviders() {
+    return `
+      <section class="page">
+        <div class="container container--narrow">
+          <span class="eyebrow">Para prestadores</span>
+          <h1 class="mt-3">Trabalhe por conta, com segurança e fluxo de clientes em Ribeirão</h1>
+          <p class="lead mt-4">Você é eletricista, encanador, pintor, diarista, jardineiro, marido de aluguel, técnico de ar, chaveiro? O LarCare conecta seu trabalho a quem precisa, sem você ter que caçar cliente no Facebook ou no boca a boca.</p>
+
+          <div class="grid grid-2 mt-7">
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">📲</span>
+                <strong>Demandas vêm até você</strong>
+              </div>
+              <p class="t-dim fs-14">Cliente publica, prestadores compatíveis recebem notificação. Você só envia proposta no que faz sentido.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">⭐</span>
+                <strong>Reputação que fica</strong>
+              </div>
+              <p class="t-dim fs-14">Cada serviço bem feito vira avaliação. Cliente novo vê histórico antes de te contratar.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">💰</span>
+                <strong>Pagamento direto</strong>
+              </div>
+              <p class="t-dim fs-14">Você combina o valor e recebe direto do cliente. LarCare não tira percentual nessa fase.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">🛡️</span>
+                <strong>Selo de verificado</strong>
+              </div>
+              <p class="t-dim fs-14">Quem completa verificação ganha destaque na busca. Cliente confia mais e aceita mais propostas.</p>
+            </div>
+          </div>
+
+          <h2 class="mt-8">Como começar</h2>
+          <div class="steps-card mt-4">
+            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Faça seu cadastro</h3><p class="t-dim mt-2">5 minutos no celular: dados, foto, o que você faz, onde atende.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Veja as demandas</h3><p class="t-dim mt-2">Lista filtrada pela sua categoria e raio de atendimento. Atualiza em tempo real.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Envie sua proposta</h3><p class="t-dim mt-2">Valor, prazo e mensagem. Cliente recebe e escolhe entre os prestadores.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Faça o serviço, receba</h3><p class="t-dim mt-2">Combinou e fez. Cliente paga direto. Os dois se avaliam ao final.</p></div>
+          </div>
+
+          <h2 class="mt-8">Perguntas frequentes</h2>
+          <div class="stack mt-4">
+            <details class="faq-item">
+              <summary>Quanto custa pra usar?</summary>
+              <p class="t-dim mt-2">Nada na fase inicial. Não cobramos mensalidade nem comissão por serviço. No futuro pode entrar uma comissão pequena, sempre transparente.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Como funciona a verificação?</summary>
+              <p class="t-dim mt-2">Pedimos foto de RG ou CNH + comprovante de residência. Conferimos em até 48h e seu perfil ganha o selo "Verificado".</p>
+            </details>
+            <details class="faq-item">
+              <summary>E se o cliente não pagar?</summary>
+              <p class="t-dim mt-2">O pagamento acontece direto entre vocês. Sempre combine antes (à vista, Pix, transferência) e nunca comece sem confirmar. Em caso de problema, o LarCare ajuda na mediação.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Quantas categorias posso cadastrar?</summary>
+              <p class="t-dim mt-2">Até 5 no cadastro inicial. Mas escolha as que você faz bem, não tudo. Cliente percebe quando o prestador é especialista.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Posso atender só algumas regiões?</summary>
+              <p class="t-dim mt-2">Sim. Você define o bairro de partida e o raio máximo de atendimento (1 a 30 km). Demandas fora do raio não aparecem pra você.</p>
+            </details>
+          </div>
+
+          <div class="card card--feature mt-8 t-center">
+            <h2 style="color:#fff;">Pronto pra começar?</h2>
+            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Cadastro em 5 minutos. Atende Ribeirão Preto e região.</p>
+            <a class="btn btn--accent btn--lg" href="#/onboarding-prestador">Quero ser prestador</a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  // ====================================================================
+  // forClients — landing dedicada à captação de clientes
+  // ====================================================================
+  function forClients() {
+    return `
+      <section class="page">
+        <div class="container container--narrow">
+          <span class="eyebrow">Para clientes</span>
+          <h1 class="mt-3">Cuidado para sua casa, sem dor de cabeça</h1>
+          <p class="lead mt-4">Torneira pingando, lâmpada queimada, móvel pra montar, mancha no sofá, dedetização, jardim pra cuidar. Em Ribeirão Preto você descreve, recebe propostas em minutos e escolhe.</p>
+
+          <div class="grid grid-2 mt-7">
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">🛡️</span>
+                <strong>Prestadores verificados</strong>
+              </div>
+              <p class="t-dim fs-14">Identidade, antecedente criminal e endereço conferidos antes de cada prestador entrar.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">⚡</span>
+                <strong>Propostas em minutos</strong>
+              </div>
+              <p class="t-dim fs-14">Em média você recebe 4 propostas em até 2 horas. Compara valor, prazo, avaliações.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">💬</span>
+                <strong>Contato direto</strong>
+              </div>
+              <p class="t-dim fs-14">Aceitou a proposta? Conversa no chat do app ou WhatsApp. Combina detalhes direto, sem intermediário.</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
+                <span style="font-size:24px;">⭐</span>
+                <strong>Avaliação cruzada</strong>
+              </div>
+              <p class="t-dim fs-14">Você avalia o prestador, ele te avalia. Reputação real, dos dois lados, todo serviço.</p>
+            </div>
+          </div>
+
+          <h2 class="mt-8">Como pedir um serviço</h2>
+          <div class="steps-card mt-4">
+            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Escolha a categoria</h3><p class="t-dim mt-2">18 tipos de serviço em 4 grupos: reparos, limpeza, cuidado da casa, família e pet.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Descreva o problema</h3><p class="t-dim mt-2">Quanto mais detalhes (foto ajuda muito), melhores as propostas.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Receba propostas</h3><p class="t-dim mt-2">Compare valor, prazo, distância, avaliações. Sem pressa.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Aceite e combine</h3><p class="t-dim mt-2">Contato liberado. Vocês combinam no app, WhatsApp ou no telefone.</p></div>
+          </div>
+
+          <h2 class="mt-8">Perguntas frequentes</h2>
+          <div class="stack mt-4">
+            <details class="faq-item">
+              <summary>Quanto custa pra usar o LarCare?</summary>
+              <p class="t-dim mt-2">Nada. Você não paga por usar a plataforma nem por aceitar propostas. O valor é só do serviço, combinado diretamente com o prestador.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Como sei que o prestador é confiável?</summary>
+              <p class="t-dim mt-2">Todo prestador passa por verificação (identidade, antecedente, endereço). Os que completam ganham o selo "Verificado". Cada serviço gera avaliação pública, e a média fica no perfil.</p>
+            </details>
+            <details class="faq-item">
+              <summary>E se algo der errado durante o serviço?</summary>
+              <p class="t-dim mt-2">Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Para urgências, há canal direto pelo WhatsApp do suporte.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Como pago o prestador?</summary>
+              <p class="t-dim mt-2">Diretamente com ele, da forma que combinarem (Pix, dinheiro, transferência). O LarCare não intermedia o pagamento nesta fase.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Atende quais bairros de Ribeirão Preto?</summary>
+              <p class="t-dim mt-2">Centro, Jardim Botânico, Iguatemi, Ribeirânia, Castelo, Sumarezinho, Vila Tibério, Jardim Califórnia, Alto da Boa Vista, Nova Aliança, Ipiranga, Jardim Paulista, e crescendo.</p>
+            </details>
+          </div>
+
+          <div class="card card--feature mt-8 t-center">
+            <h2 style="color:#fff;">Pronto pra resolver?</h2>
+            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Descreva o que precisa em 3 minutos. Sem cadastro pesado.</p>
+            <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir serviço agora</a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  // ====================================================================
   // VIEWS 23-26 — Institucional
   // ====================================================================
   function privacy() {
@@ -784,6 +952,11 @@
   // ====================================================================
   // Export
   // ====================================================================
+  // Expor as duas landings novas
+  global.LarCareViews = global.LarCareViews || {};
+  global.LarCareViews.forProviders = forProviders;
+  global.LarCareViews.forClients = forClients;
+
   Object.assign(global.LarCareViews, {
     providerSignup, providerStatus, providerDashboard,
     demandDetail, myProposals, proposalAccepted, providerReview, providerProfile,

@@ -1950,3 +1950,33 @@ body.no-scroll { overflow: hidden; }
 .ob-price-input input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(62,107,92,0.12); }
 .ob-review { list-style: none; padding: 0; margin: 12px 0 0; }
 .ob-review li { padding: 6px 0; font-size: 14px; color: var(--text); }
+
+/* FAQ accordion */
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.faq-item[open] { background: var(--surface-2); }
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  color: var(--primary);
+  font-size: 22px;
+  line-height: 1;
+  transition: transform var(--t-fast) var(--ease);
+}
+.faq-item[open] summary::after { content: '−'; transform: rotate(180deg); }
+.faq-item p { line-height: 1.55; }

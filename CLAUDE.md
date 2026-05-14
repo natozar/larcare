@@ -1013,6 +1013,84 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO E — SPRINT TOTAL: BUSCA + CHAT + DASHBOARD + ONBOARDING + INSTITUCIONAL (2026-05-14, v1.7.0)
+
+Quinto bloco. 4 features novas inteiras + landings dedicadas pra captação. Stack ainda vanilla, sem build.
+
+### Features novas
+
+1. **Busca + filtros** (`js/views_search.js`, rota `#/buscar`)
+   * Search bar sticky 48px com debounce 220ms, ícone search + clear
+   * Match textual com pontuação (nome 100/50, bairro 30, categoria 40, bio 10)
+   * Filtros em bottom sheet: categoria multi-select, distância 1-30km, nota mínima estrelas, verificado, online. Persiste em `localStorage:larcare:search_filters`
+   * 5 ordenações: relevância, mais próximo, melhor avaliado, menor preço médio, mais recente
+   * Histórico de 5 últimas buscas
+   * Empty state com ilustração emoji + CTA "Limpar filtros"
+
+2. **Chat WhatsApp-style** (`js/chat.js`, rotas `#/chat?demanda=X&com=Y` e `#/conversas`)
+   * Header sage com avatar + nome + status + back
+   * Bolhas próprias (direita, primary) vs interlocutor (esquerda, surface) com ticks ✓/✓✓ azul quando lida
+   * Composer com input auto-resize 40-120px, anexar (toast "em breve"), send
+   * Typing indicator 1.5s após envio, resposta em 3-8s
+   * Pool de 40+ respostas contextuais por heurística keyword (saudação, preço com substituição {VALOR}, horário, obrigado, confirmação, sobre serviço, endereço, default)
+   * Vibração + som via `LarCareAudio.proposalReceived()` em msg recebida
+   * Persistência por conversa em `localStorage:larcare:chat:{demanda}:{interlocutor}`
+   * Meta global em `localStorage:larcare:chats_meta` para lista de conversas + contagem não lidas
+
+3. **Dashboard prestador** (`js/dashboard.js`, rota `#/dashboard-prestador`)
+   * Header personalizado (Bom dia/tarde/noite por hora) com avatar XL + rating + selo Verificado
+   * Card "Esta semana" em primary: 3 métricas (propostas, aceitas %, faturamento) + delta vs semana passada com ↑/↓
+   * Gráfico SVG inline 4 semanas: barras horizontais enviadas (sage) vs aceitas (dourado), zero dependência externa
+   * Card "Hoje": demandas compatíveis, propostas aguardando, conversas ativas
+   * Ranking na categoria principal: #N de M, top 3 com destaque pro próprio
+   * Dicas dinâmicas: bio vazia, não verificado, resposta lenta, nota baixa, perfil completo
+   * Histórico das últimas 5 propostas com status pill
+
+4. **Onboarding prestador wizard 8 passos** (`js/onboarding.js`, rota `#/onboarding-prestador?step=N`)
+   * Persistência completa em `localStorage:larcare:onboarding_provider` — reload retoma do passo certo
+   * Passos: boas-vindas → dados básicos → foto (FileReader+base64) → categorias multi até 5 → bairro+raio → faixa de preço → docs verificação → bio+revisão+aceite termos
+   * Barra de progresso com gradiente sage→dourado animada
+   * Ao finalizar: push de prestador novo em `LarCareData.PROVIDERS` com flag `criado_via_onboarding=true`, redireciona pro dashboard
+
+5. **Landings de captação** (`views_provider.js`):
+   * `#/para-prestadores`: hero + 4 benefícios + "como começar" 4 passos + FAQ 5 perguntas + CTA "Quero ser prestador" → onboarding
+   * `#/para-clientes`: hero + 4 benefícios + "como pedir" 4 passos + FAQ 5 perguntas + CTA "Pedir serviço agora"
+   * Componente `.faq-item` reusável (details/summary com ícone +/− e expansão suave)
+
+### Bottom nav atualizada
+
+* **Cliente**: Início | Buscar | Conversas (badge de não lidas) | Perfil
+* **Prestador**: Dashboard | Demandas | Conversas (badge) | Perfil
+
+### API exposta global
+
+* `LarCareApp.rerender()` — chamado por filtros/sort bottom sheets após apply
+* `LarCareSearch.{buscar, openFilters, openSort, getFilters, setFilters, pushHistory, clearHistory}`
+* `LarCareChat.{chat, conversas, bindChat, getChatsMeta, totalUnread, markAllRead}`
+* `LarCareDashboard.{dashboardProvider}`
+* `LarCareOnboarding.{onboardingProvider, bindOnboarding, loadState, clearState}`
+
+### Storage usado (todas em localStorage)
+
+| Chave | Conteúdo |
+| --- | --- |
+| `larcare:search_history` | últimas 5 buscas |
+| `larcare:search_filters` | filtros persistidos |
+| `larcare:search_sort` | modo de ordenação atual |
+| `larcare:chat:{dem}:{int}` | histórico completo da conversa |
+| `larcare:chats_meta` | lista global de conversas com metadata + unread |
+| `larcare:onboarding_provider` | estado do wizard, com retomada |
+
+### Limitações conscientes
+
+- **Refatoração das 22 telas existentes pra tokens NÃO foi feita** (risco/ganho desfavorável). Novas telas (busca, chat, dashboard, onboarding, landings) já usam os tokens.
+- **Lighthouse não foi re-medido**. Owner deve rodar antes do pitch.
+- **Acessibilidade audit completo não foi feito**. Princípios aplicados em novas telas (focus visible, aria-label em ícones, contraste AA).
+- **Reações com long-press no chat** ficaram fora — escopo cortado para shipar 6 features sólidas em vez de 7 frágeis.
+- **Termos/Privacidade não foram expandidos** — placeholders existentes ficam (FAQ inline em forProviders/forClients cobre dúvidas frequentes).
+
+---
+
 ## ANEXO D — SISTEMA DE INSTALAÇÃO PWA (2026-05-14, v1.6.0)
 
 Quarto bloco do projeto. Substitui o banner genérico por sistema dedicado com bottom sheet customizado, detector de plataforma, heurística de engajamento e integração no Perfil.
