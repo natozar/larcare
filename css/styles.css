@@ -890,26 +890,26 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 .status--done      { background: var(--primary-tint); color: var(--primary); }
 
 /* ----------------------------------------------------------------
-   Banner Modo Demonstração
-   Pílula institucional sage, sticky no topo, gradiente sutil,
-   ícone sparkle accent, tipografia Inter peso 500/600.
+   Banner Modo Demonstração — "Identity strip"
+   Sage gradiente + avatar accent + microcopy bilingue (kicker + identidade)
+   + live-dot estilo broadcast indicator. Comunica contexto editorial,
+   não warning. Sticky no topo, ≤64px, mobile-first.
    ---------------------------------------------------------------- */
 .demo-banner {
   position: sticky;
   top: 0;
   z-index: 110;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background:
+    radial-gradient(120% 220% at 0% 0%, rgba(212, 165, 116, 0.16) 0%, rgba(212, 165, 116, 0) 55%),
+    linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: #fff;
   font-family: var(--font-sans);
-  /* Respeita o notch sem inflar a altura visual */
   padding-top: env(safe-area-inset-top, 0px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 1px 0 rgba(31, 42, 40, 0.04), 0 2px 12px rgba(31, 42, 40, 0.06);
-  animation: demo-banner-in 380ms var(--ease-out) both;
+  box-shadow: 0 1px 0 rgba(31, 42, 40, 0.04), 0 2px 12px rgba(31, 42, 40, 0.08);
+  animation: demo-banner-in 420ms var(--ease-out) both;
   isolation: isolate;
 }
-/* .demo-banner__inner é o container relativo onde o close se ancora absoluto */
-.demo-banner__inner { position: relative; }
 @keyframes demo-banner-in {
   0%   { transform: translateY(-100%); opacity: 0; }
   60%  { opacity: 1; }
@@ -924,72 +924,118 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 }
 
 .demo-banner__inner {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 10px;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 7px 12px 7px 12px;
+  padding: 8px 12px;
   padding-left: max(12px, env(safe-area-inset-left));
-  padding-right: max(12px, env(safe-area-inset-right));
-  font-size: 13px;
-  line-height: 1.3;
-  letter-spacing: 0.005em;
+  /* Reserva 40px à direita pro botão × absoluto */
+  padding-right: max(44px, calc(env(safe-area-inset-right) + 40px));
+  line-height: 1.2;
 }
 
-/* Ícone sparkle accent — pulso sutil para chamar atenção sem distrair */
-.demo-banner__icon {
+/* Avatar das iniciais — borda accent fina para destacar do gradiente sage */
+.demo-banner__avatar {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 0 0 1.5px rgba(212, 165, 116, 0.55), 0 1px 3px rgba(31, 42, 40, 0.18);
+}
+
+/* Bloco de texto — empilha eyebrow (modo demo + dot) sobre identidade */
+.demo-banner__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* Eyebrow: kicker em caixa-alta espaçada + dot pulsante "ao vivo" */
+.demo-banner__eyebrow {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+.demo-banner__kicker { white-space: nowrap; }
+
+/* Live dot accent — peça que vira o banner em "broadcast indicator", não warning */
+.demo-banner__dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(212, 165, 116, 0.18);
-  color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.65);
+  animation: demo-banner-pulse 2s var(--ease) infinite;
   flex: 0 0 auto;
 }
-.demo-banner__icon svg {
-  animation: demo-banner-sparkle 3.2s var(--ease) infinite;
-}
-@keyframes demo-banner-sparkle {
-  0%, 60%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
-  10%           { transform: scale(1.18) rotate(8deg); opacity: 1; }
-  20%           { transform: scale(1) rotate(0deg); }
+@keyframes demo-banner-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(212, 165, 116, 0.55); transform: scale(1); }
+  70%  { box-shadow: 0 0 0 7px rgba(212, 165, 116, 0);     transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0   rgba(212, 165, 116, 0);     transform: scale(1); }
 }
 
-.demo-banner__label {
+/* Identidade: nome em Fraunces (peso editorial) + lugar em Inter (peso info) */
+.demo-banner__identity {
   display: inline-flex;
   align-items: baseline;
-  gap: 6px;
-  flex: 0 1 auto;
+  gap: 8px;
   min-width: 0;
-}
-.demo-banner__label strong {
-  font-weight: 600;
-  letter-spacing: 0;
-}
-.demo-banner__sep {
-  color: rgba(255, 255, 255, 0.4);
-  font-weight: 400;
-}
-.demo-banner__hint {
-  color: rgba(255, 255, 255, 0.78);
-  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.demo-banner__name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.005em;
+  color: #fff;
+  flex: 0 0 auto;
+}
+.demo-banner__name::before {
+  content: "como ";
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 2px;
+  letter-spacing: 0;
+}
+.demo-banner__place {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.72);
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  padding-left: 9px;
+}
+.demo-banner__place::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.32);
+  transform: translateY(-50%);
 }
 
-/* Em telas estreitas (≤420px) o hint some pra preservar a respiração */
-@media (max-width: 420px) {
-  .demo-banner__hint, .demo-banner__sep { display: none; }
-  .demo-banner__inner { padding: 6px 12px; }
-}
-
-/* Botão de fechar — ícone × redondo, área de toque 32px */
+/* Botão de fechar — × redondo, área de toque 32px, ancorado absoluto */
 .demo-banner__close {
   position: absolute;
   top: 50%;
@@ -1002,7 +1048,7 @@ body.has-bottom-nav main { padding-bottom: 88px; }
   height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.72);
   cursor: pointer;
   transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
@@ -1014,16 +1060,29 @@ body.has-bottom-nav main { padding-bottom: 88px; }
 }
 .demo-banner__close:active { transform: translateY(-50%) scale(0.92); }
 
-/* PWA standalone: respeita safe-area-top com mais folga */
-@media (display-mode: standalone) {
-  .demo-banner__inner { padding-top: 8px; padding-bottom: 8px; }
+/* ≤420px: comprime sem quebrar. Esconde "como" e o bullet do lugar;
+   o lugar quebra pra próxima linha embaixo do nome. Altura ainda ≤64px. */
+@media (max-width: 420px) {
+  .demo-banner__inner { gap: 9px; padding: 7px 12px; padding-right: max(42px, calc(env(safe-area-inset-right) + 40px)); }
+  .demo-banner__avatar { width: 34px; height: 34px; font-size: 12.5px; }
+  .demo-banner__identity { gap: 0; flex-direction: column; align-items: flex-start; white-space: normal; }
+  .demo-banner__name { font-size: 14.5px; }
+  .demo-banner__name::before { display: none; }
+  .demo-banner__place { padding-left: 0; font-size: 11.5px; line-height: 1.25; }
+  .demo-banner__place::before { display: none; }
+  .demo-banner__eyebrow { font-size: 9px; }
 }
 
-/* Reduced motion: sem entrada deslizante, sem pulse do sparkle */
+/* PWA standalone: instância instalada não precisa do aviso */
+@media (display-mode: standalone) {
+  .demo-banner { display: none !important; }
+}
+
+/* Reduced motion: zero animação de entrada/saída/pulse */
 @media (prefers-reduced-motion: reduce) {
   .demo-banner,
   .demo-banner.is-dismissing,
-  .demo-banner__icon svg { animation: none !important; }
+  .demo-banner__dot { animation: none !important; }
   .demo-banner.is-dismissing { opacity: 0; transform: translateY(-100%); }
 }
 
