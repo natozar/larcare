@@ -174,9 +174,31 @@
 
         <form class="chat-composer" id="chat-composer">
           <button class="chat-composer__attach" type="button" data-action="chat-attach" aria-label="Anexar">${UI.icon('plus', 18)}</button>
+          <input type="file" accept="image/*" id="chat-photo-input" hidden />
           <textarea class="chat-composer__input" id="chat-input" placeholder="Mensagem" rows="1" autocomplete="off"></textarea>
-          <button class="chat-composer__send" type="submit" id="chat-send" disabled aria-label="Enviar">${UI.icon('arrow_right', 18)}</button>
+          <button class="chat-composer__mic" type="button" id="chat-mic" aria-label="Gravar áudio">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
+          </button>
+          <button class="chat-composer__send" type="submit" id="chat-send" disabled aria-label="Enviar" hidden>${UI.icon('arrow_right', 18)}</button>
         </form>
+
+        <div class="chat-recorder" id="chat-recorder" hidden>
+          <button class="chat-recorder__cancel" type="button" data-action="cancel-audio" aria-label="Cancelar">✕</button>
+          <span class="chat-recorder__dot" aria-hidden="true"></span>
+          <span class="chat-recorder__timer" id="chat-recorder-timer">0:00</span>
+          <span class="chat-recorder__hint">Solte para enviar · arraste pra fora pra cancelar</span>
+        </div>
+
+        <div class="chat-photo-preview" id="chat-photo-preview" hidden>
+          <img id="chat-photo-img" alt="Pré-visualização" />
+          <input type="text" id="chat-photo-caption" class="input" placeholder="Adicionar legenda (opcional)" />
+          <div class="row" style="gap: 8px; margin-top: 12px;">
+            <button class="btn btn--ghost btn--sm" type="button" data-action="cancel-photo">Cancelar</button>
+            <button class="btn btn--outline btn--sm" type="button" data-photo-tag="antes">📋 Antes</button>
+            <button class="btn btn--outline btn--sm" type="button" data-photo-tag="depois">✨ Depois</button>
+            <button class="btn btn--primary btn--sm" type="button" data-action="send-photo" style="margin-left: auto;">Enviar</button>
+          </div>
+        </div>
       </section>
     `;
   }
@@ -190,15 +212,39 @@
     const tick = mine ? (m.read ? '✓✓' : '✓') : '';
     const tickClass = mine && m.read ? 'is-read' : '';
     const reactionsHtml = renderReactions(m.reactions);
+    const id = m.id || m.t;
+    let content = '';
+    if (m.type === 'audio') {
+      const wave = m.waveform || (global.LarCareRecorder ? global.LarCareRecorder.fakeWaveform(id) : []);
+      content = `
+        <button class="audio-bubble__play" type="button" data-audio-play="${id}" aria-label="Tocar áudio">▶</button>
+        <span class="audio-bubble__wave">${global.LarCareRecorder ? global.LarCareRecorder.renderWaveformSVG(wave, { width: 130, height: 24, color: mine ? 'rgba(255,255,255,0.85)' : 'var(--primary)' }) : ''}</span>
+        <span class="audio-bubble__dur">${formatDuration(m.duration || 0)}</span>
+      `;
+    } else if (m.type === 'photo') {
+      content = `
+        <div class="photo-bubble">
+          ${m.tag ? `<span class="photo-bubble__tag photo-bubble__tag--${m.tag}">${m.tag === 'antes' ? '📋 Antes' : '✨ Depois'}</span>` : ''}
+          <img src="${m.dataUrl}" alt="${escapeHtml(m.caption || 'Foto')}" data-photo-lightbox loading="lazy" />
+        </div>
+        ${m.caption ? `<span class="chat-bubble__text">${escapeHtml(m.caption)}</span>` : ''}
+      `;
+    } else {
+      content = `<span class="chat-bubble__text">${escapeHtml(m.text)}</span>`;
+    }
     return `
       <div class="chat-row ${mine ? 'chat-row--me' : 'chat-row--them'}">
-        <div class="chat-bubble ${mine ? 'chat-bubble--me' : 'chat-bubble--them'}" data-msg-id="${m.id || m.t}">
-          <span class="chat-bubble__text">${escapeHtml(m.text)}</span>
+        <div class="chat-bubble chat-bubble--${m.type || 'text'} ${mine ? 'chat-bubble--me' : 'chat-bubble--them'}" data-msg-id="${id}">
+          ${content}
           <span class="chat-bubble__time">${time}${mine ? ` <span class="chat-bubble__tick ${tickClass}">${tick}</span>` : ''}</span>
           ${reactionsHtml}
         </div>
       </div>
     `;
+  }
+  function formatDuration(s) {
+    const m = Math.floor(s / 60), r = s % 60;
+    return `${m}:${String(r).padStart(2, '0')}`;
   }
 
   function renderReactions(reactions) {
@@ -365,9 +411,180 @@
     root.querySelectorAll('[data-action="chat-back"]').forEach((b) => {
       b.addEventListener('click', () => { window.history.back(); });
     });
+    // ----- Anexo de foto -----
+    const photoInput = root.querySelector('#chat-photo-input');
+    const photoPreview = root.querySelector('#chat-photo-preview');
+    const photoImg = root.querySelector('#chat-photo-img');
+    const photoCaption = root.querySelector('#chat-photo-caption');
+    let pendingPhotoTag = null;
     root.querySelectorAll('[data-action="chat-attach"]').forEach((b) => {
+      b.addEventListener('click', () => { if (photoInput) photoInput.click(); });
+    });
+    if (photoInput) {
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          // Comprime via canvas (max 800px, quality 0.7) pra caber em localStorage
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxDim = 800;
+            const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            photoImg.src = dataUrl;
+            photoImg.dataset.dataUrl = dataUrl;
+            photoPreview.hidden = false;
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+        photoInput.value = '';
+      });
+    }
+    root.querySelectorAll('[data-photo-tag]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        pendingPhotoTag = btn.dataset.photoTag;
+        root.querySelectorAll('[data-photo-tag]').forEach((b) => b.classList.toggle('is-active', b === btn));
+      });
+    });
+    root.querySelectorAll('[data-action="cancel-photo"]').forEach((b) => {
+      b.addEventListener('click', () => { photoPreview.hidden = true; pendingPhotoTag = null; photoCaption.value = ''; });
+    });
+    root.querySelectorAll('[data-action="send-photo"]').forEach((b) => {
       b.addEventListener('click', () => {
-        if (global.LarCareUI) global.LarCareUI.toast('Anexos em breve');
+        const dataUrl = photoImg.dataset.dataUrl;
+        if (!dataUrl) return;
+        const msgs = loadConvo(demandaId, interlocutorId);
+        msgs.push({
+          from: 'me', type: 'photo', dataUrl, caption: photoCaption.value.trim() || '',
+          tag: pendingPhotoTag, t: Date.now(), read: false
+        });
+        saveConvo(demandaId, interlocutorId, msgs);
+        rerenderBody();
+        photoPreview.hidden = true; pendingPhotoTag = null; photoCaption.value = '';
+      });
+    });
+
+    // ----- Gravação de áudio -----
+    const micBtn = root.querySelector('#chat-mic');
+    const recorderEl = root.querySelector('#chat-recorder');
+    const recorderTimer = root.querySelector('#chat-recorder-timer');
+    let recordTimerId = null;
+    let recordCancelled = false;
+
+    function showRecorderUI() {
+      if (recorderEl) recorderEl.hidden = false;
+      if (recorderTimer) recorderTimer.textContent = '0:00';
+      recordCancelled = false;
+      recordTimerId = setInterval(() => {
+        if (!global.LarCareRecorder) return;
+        const s = global.LarCareRecorder.elapsed();
+        const m = Math.floor(s / 60); const r = s % 60;
+        if (recorderTimer) recorderTimer.textContent = `${m}:${String(r).padStart(2, '0')}`;
+        if (s >= 60) finishRecording();
+      }, 250);
+    }
+    function hideRecorderUI() {
+      if (recorderEl) recorderEl.hidden = true;
+      clearInterval(recordTimerId);
+    }
+    async function startRecording() {
+      if (!global.LarCareRecorder) { UI.toast('Áudio não disponível neste navegador', 'warning'); return; }
+      if (!global.LarCareRecorder.supported()) { UI.toast('Áudio não disponível neste navegador', 'warning'); return; }
+      try {
+        await global.LarCareRecorder.start();
+        showRecorderUI();
+        if (global.LarCareAudio) global.LarCareAudio.vibrate(40);
+      } catch (e) {
+        UI.toast('Permita acesso ao microfone', 'danger');
+      }
+    }
+    async function finishRecording() {
+      if (!global.LarCareRecorder || !global.LarCareRecorder.isRecording()) { hideRecorderUI(); return; }
+      const result = await global.LarCareRecorder.stop();
+      hideRecorderUI();
+      if (recordCancelled) return;
+      if (!result || result.duration < 1) { UI.toast('Áudio muito curto', 'warning'); return; }
+      // Persiste em base64 (tamanho razoável para até 60s)
+      const msgs = loadConvo(demandaId, interlocutorId);
+      msgs.push({
+        from: 'me', type: 'audio',
+        dataUrl: result.dataUrl, duration: result.duration, waveform: result.waveform,
+        t: Date.now(), read: false
+      });
+      saveConvo(demandaId, interlocutorId, msgs);
+      rerenderBody();
+      if (global.LarCareAudio) global.LarCareAudio.vibrate(40);
+    }
+    function cancelRecording() {
+      if (global.LarCareRecorder) global.LarCareRecorder.cancel();
+      recordCancelled = true;
+      hideRecorderUI();
+    }
+    if (micBtn) {
+      // press-and-hold pattern
+      let pressTimer = null;
+      const onDown = (e) => {
+        e.preventDefault();
+        pressTimer = setTimeout(startRecording, 200); // confirmação curta antes de gravar
+      };
+      const onUp = () => {
+        clearTimeout(pressTimer);
+        if (global.LarCareRecorder && global.LarCareRecorder.isRecording()) finishRecording();
+      };
+      micBtn.addEventListener('touchstart', onDown, { passive: false });
+      micBtn.addEventListener('touchend', onUp);
+      micBtn.addEventListener('mousedown', onDown);
+      micBtn.addEventListener('mouseup', onUp);
+      micBtn.addEventListener('mouseleave', onUp);
+    }
+    root.querySelectorAll('[data-action="cancel-audio"]').forEach((b) => b.addEventListener('click', cancelRecording));
+
+    // ----- Toggle mic <-> send button -----
+    if (input && micBtn && send) {
+      const update = () => {
+        const hasText = !!input.value.trim();
+        send.hidden = !hasText;
+        send.disabled = !hasText;
+        micBtn.hidden = hasText;
+      };
+      input.addEventListener('input', update);
+      update();
+    }
+
+    // ----- Play de áudio -----
+    body.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-audio-play]');
+      if (!btn) return;
+      const id = btn.dataset.audioPlay;
+      const all = loadConvo(demandaId, interlocutorId);
+      const m = all.find((x) => String(x.id || x.t) === id);
+      if (!m || !m.dataUrl) {
+        UI.toast('Mock de áudio do prestador', 'info');
+        return;
+      }
+      const audio = new Audio(m.dataUrl);
+      audio.play().catch(() => UI.toast('Não foi possível tocar', 'danger'));
+      btn.textContent = '❚❚';
+      audio.addEventListener('ended', () => { btn.textContent = '▶'; });
+    });
+
+    // ----- Lightbox de foto -----
+    body.addEventListener('click', (e) => {
+      const img = e.target.closest('[data-photo-lightbox]');
+      if (!img) return;
+      const overlay = document.createElement('div');
+      overlay.className = 'photo-lightbox';
+      overlay.innerHTML = `<img src="${img.src}" alt="" /><button class="photo-lightbox__close" aria-label="Fechar">✕</button>`;
+      document.body.appendChild(overlay);
+      const close = () => overlay.remove();
+      overlay.addEventListener('click', (ev) => {
+        if (ev.target === overlay || ev.target.classList.contains('photo-lightbox__close')) close();
       });
     });
 

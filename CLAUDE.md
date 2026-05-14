@@ -1013,6 +1013,44 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO I — SPRINT TERMINAL PRÉ-DEPLOY v2.1.0 (2026-05-15)
+
+Nono e provavelmente último sprint antes do go-live em domínio próprio. 5 entregas concretas + 3 deferrals conscientes.
+
+### Entregues
+
+1. **Chat com áudio** — `js/audio_recorder.js` (MediaRecorder + AnalyserNode para waveform real). Press-and-hold no botão microfone, UI de gravação com ponto vermelho pulsante + cronômetro. Bolha de áudio com play + waveform SVG + duração. Persistência base64 em conversa. Limite 60s por gravação.
+2. **Chat com fotos** — anexo via input file + compressão canvas (max 800px, JPEG 0.7). Preview com legenda + tags 📋 Antes / ✨ Depois. Bolha com tag pill. Lightbox fullscreen ao tocar.
+3. **Sino global no header** — integrado em `renderClientHeader` e `renderProviderHeader` em `components.js`. SVG inline + badge numérico. Chama `LarCareFeatures.openNotifsSheet()` (API já existente).
+4. **Deploy em domínio próprio** — `CNAME` na raiz + `DEPLOY.md` com guia completo (compra, DNS, HTTPS, smoke test, rollback). Owner pronto pra ir live em ~30 min de trabalho + ~2h de propagação DNS.
+5. **i18n expandido** — +30 chaves por locale (demand, proposal, review, chat, emergency, favorites, history). Total 63 chaves × 3 locales = 189 traduções.
+
+### Deferidos com razão
+
+- **Refator 22 telas antigas para tokens** — 6ª deferral em sequência. Db técnico aceito. Refator amplo em projeto vivo sem QA visual é alto risco; vai num PR dedicado pós-deploy com screenshots antes/depois.
+- **Agenda do prestador** (3 views dia/semana/mês + lembretes via setTimeout + sincronização automática) — escopo de pelo menos 600 linhas de código novo + lógica de date math. Plug-in pós-deploy quando houver demanda real.
+- **"Disponível agora" wire em todos os cards** — API exposta (`getProviderStatus`/`setProviderStatus`), badges em busca e detalhe. Wire em `proposalCard`/`proposalsList` em `views.js` deferido para evitar regressão em telas críticas pré-deploy.
+
+### Arquivos novos
+
+- `js/audio_recorder.js` — wrapper MediaRecorder
+- `CNAME` — placeholder de domínio
+- `DEPLOY.md` — guia de deploy passo-a-passo
+
+### Storage adicionado em v2.1.0
+
+Nenhuma chave nova. `larcare:chat:{dem}:{int}` agora aceita campo `type: 'audio'|'photo'|'text'` em cada mensagem.
+
+### Notas técnicas
+
+- MediaRecorder requer HTTPS para funcionar em produção (file:// e http:// localhost são exceções).
+- iOS Safari 16.4+ suporta MediaRecorder; versões anteriores caem em fallback (toast informativo).
+- Lightbox de foto usa `position: fixed` + `inset: 0` + z-index 9999 — sobrepõe qualquer modal/sheet existente.
+- Compressão de foto via canvas é síncrona; fotos > 5MB podem causar lag perceptível.
+- `CNAME` deve conter UMA linha com o domínio, sem `http://`, sem `/`, sem espaços. Owner edita ao registrar.
+
+---
+
 ## ANEXO H — PROFUNDIDADE PRÉ-LANÇAMENTO v2.0.0 (2026-05-15)
 
 Oitavo e último sprint antes da v2.0. 7 sistemas adicionados, PNGs gerados, ~3 frentes deferidas conscientemente. Stack ainda vanilla, sem build.

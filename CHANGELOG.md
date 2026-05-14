@@ -2,6 +2,52 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.1.0 — 15 de maio de 2026 — Sprint terminal pré-deploy
+
+### Added
+
+#### Chat com áudio (MediaRecorder + waveform)
+- `js/audio_recorder.js`: wrapper completo da MediaRecorder API. Detecção de mime suportado (webm/opus, mp4, ogg). Análise de espectro via `AudioContext.AnalyserNode` para gerar waveform de 32 amostras downsampled.
+- Botão microfone no composer (substitui Enviar quando input vazio). Press-and-hold pattern: touchstart inicia gravação (após delay 200ms), touchend envia.
+- UI durante gravação: ponto vermelho pulsante + cronômetro 0:00 + hint "Solte pra enviar".
+- Bolha de áudio com play/pause + waveform SVG colorido + duração + ticks.
+- Áudio do interlocutor mock: waveform fake determinística por seed do msg.id.
+- Persistência: `dataUrl` base64 em `larcare:chat:{dem}:{int}` (~50KB por mensagem, máx 60s).
+
+#### Chat com fotos (compressão + lightbox)
+- Anexo via `<input type="file" accept="image/*">` quando tap no botão clip.
+- Compressão automática via canvas: max 800px lado maior, JPEG quality 0.7 (~80-150KB por foto).
+- Preview com legenda opcional + 2 botões de tag (**📋 Antes** / **✨ Depois**).
+- Bolha de foto com tag pill colorida + caption.
+- Lightbox fullscreen ao tocar: overlay 92% black + foto centralizada 92vw/90vh + botão fechar redondo.
+
+#### Sino global no header
+- Botão `notif-bell` integrado em `renderClientHeader` e `renderProviderHeader` (não em públicos).
+- SVG inline de sino + badge numérico oculto quando 0.
+- Tap chama `LarCareFeatures.openNotifsSheet()` (já existente).
+- `LarCareFeatures.updateBellBadge()` chamado em cada render para refletir contagem.
+
+#### Deploy em domínio próprio
+- `CNAME` na raiz com placeholder `larcare.com.br` (owner edita).
+- `DEPLOY.md` novo na raiz com guia completo: compra de domínio (.com.br via Registro.br, .com via Cloudflare), configuração DNS (4 registros A + CNAME www), edição CNAME no repo, ativação no GitHub Pages, HTTPS via Let's Encrypt, verificação por `nslookup`, smoke test pós-deploy, rollback. Custo total documentado: ~R$ 40-50/ano.
+- 404.html já estava em ordem (SPA fallback + logo + CTA voltar).
+
+#### i18n expandido
+- +30 chaves por locale em `js/i18n.js`: demand, proposal, review, chat, emergency, favorites, history.
+- Total: 63 chaves × 3 locales = 189 traduções.
+
+### Changed
+- `CACHE_VERSION` → `larcare-v2.1.0`
+- `LarCareConfig.VERSION` → `2.1.0`
+- `sw.js` precache: + `audio_recorder.js`
+
+### Deferred (mantido, documentado)
+- Refator das 22 telas antigas para tokens — 6ª deferral consciente.
+- Agenda do prestador (3 views + lembretes + sincronização) — escopo > 1 sessão.
+- Disponível agora wire em TODAS as telas — API exposta, badges em busca e detalhe; integração em proposalCard/proposalsList deferida.
+
+---
+
 ## v2.0.0 — 15 de maio de 2026 — Profundidade pré-lançamento
 
 **Foco**: adicionar 7 sistemas estruturais que faltavam para LarCare ter densidade de produto pré-Série A.

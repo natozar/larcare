@@ -2653,3 +2653,85 @@ body.no-scroll { overflow: hidden; }
 @media (max-width: 480px) {
   .map-container--large { height: 320px; }
 }
+
+/* =========================================================================
+   CHAT AUDIO + PHOTO + LIGHTBOX
+   ========================================================================= */
+.chat-composer__mic {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; border: 0;
+  transition: background var(--t-fast), transform var(--t-fast);
+  flex: 0 0 auto;
+}
+.chat-composer__mic:hover { background: var(--primary-dark); }
+.chat-composer__mic:active { transform: scale(0.92); }
+
+.chat-recorder {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--danger-soft); color: var(--danger);
+  border-top: 1px solid var(--border);
+}
+.chat-recorder__dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--danger);
+  animation: chat-rec-pulse 1s ease-in-out infinite;
+}
+@keyframes chat-rec-pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+.chat-recorder__timer { font-family: monospace; font-weight: 600; font-size: 14px; min-width: 40px; }
+.chat-recorder__hint { font-size: 11px; color: var(--text-dim); flex: 1; }
+.chat-recorder__cancel { background: transparent; border: 0; font-size: 16px; cursor: pointer; color: var(--danger); padding: 4px 8px; }
+
+.chat-bubble--audio {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px;
+}
+.audio-bubble__play {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.18); color: inherit;
+  border: 0; cursor: pointer; font-size: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.chat-bubble--them .audio-bubble__play { background: var(--primary-tint); color: var(--primary); }
+.audio-bubble__wave { display: inline-flex; align-items: center; }
+.audio-bubble__dur { font-size: 11px; opacity: 0.7; min-width: 32px; }
+
+.chat-bubble--photo { padding: 4px; }
+.photo-bubble { position: relative; border-radius: 12px; overflow: hidden; }
+.photo-bubble img { display: block; max-width: 240px; width: 100%; height: auto; border-radius: 12px; cursor: zoom-in; }
+.photo-bubble__tag {
+  position: absolute; top: 8px; left: 8px;
+  padding: 4px 8px; border-radius: 999px;
+  background: rgba(0,0,0,0.6); color: #fff;
+  font-size: 11px; font-weight: 600;
+}
+.photo-bubble__tag--depois { background: var(--success); }
+
+.chat-photo-preview {
+  padding: 16px; background: var(--surface); border-top: 1px solid var(--border);
+}
+.chat-photo-preview img {
+  max-width: 100%; max-height: 220px; border-radius: var(--radius-md);
+  display: block; margin: 0 auto 12px;
+}
+.chat-photo-preview .input { width: 100%; }
+.chat-photo-preview [data-photo-tag].is-active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.photo-lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  animation: photo-lightbox-in 200ms var(--ease-out) both;
+}
+@keyframes photo-lightbox-in { from { opacity: 0; } to { opacity: 1; } }
+.photo-lightbox img { max-width: 92vw; max-height: 90vh; border-radius: 8px; }
+.photo-lightbox__close {
+  position: absolute; top: 16px; right: 16px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); color: #fff;
+  border: 0; cursor: pointer; font-size: 18px;
+}
+
+/* Notif bell badge — show via JS when count > 0 */
+.notif-bell { background: transparent; border: 0; cursor: pointer; padding: 0; }

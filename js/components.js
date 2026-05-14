@@ -110,6 +110,15 @@
     `;
   }
 
+  function notifBell() {
+    return `
+      <button class="notif-bell" type="button" data-notif-bell aria-label="Notificações">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"/><path d="M10 21h4"/></svg>
+        <span class="notif-bell__badge" style="display:none;"></span>
+      </button>
+    `;
+  }
+
   function renderClientHeader(currentRoute) {
     const c = LarCareData.DEMO_CLIENT;
     return `
@@ -118,9 +127,10 @@
         <nav class="nav" aria-label="Navegação cliente">
           <a class="nav__link${currentRoute === '/cliente' ? ' is-active' : ''}" href="#/cliente">Início</a>
           <a class="nav__link" href="#/cliente/nova-demanda">Nova solicitação</a>
-          <a class="nav__link${currentRoute === '/cliente/historico' ? ' is-active' : ''}" href="#/cliente/historico">Histórico</a>
+          <a class="nav__link${currentRoute === '/historico' ? ' is-active' : ''}" href="#/historico">Histórico</a>
         </nav>
         <div class="header-actions">
+          ${notifBell()}
           <span class="avatar avatar--sm avatar--accent" title="${c.first_name}">${c.initials}</span>
           <button class="menu-toggle" type="button" aria-label="Menu" data-action="toggle-mobile-nav">${icon('menu',22)}</button>
         </div>
@@ -145,6 +155,7 @@
           <a class="nav__link${currentRoute === '/prestador/perfil' ? ' is-active' : ''}" href="#/prestador/perfil">Perfil</a>
         </nav>
         <div class="header-actions">
+          ${notifBell()}
           <span class="avatar avatar--sm" title="${p.first_name}">${p.initials}</span>
           <button class="menu-toggle" type="button" aria-label="Menu" data-action="toggle-mobile-nav">${icon('menu',22)}</button>
         </div>
