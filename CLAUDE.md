@@ -1065,7 +1065,7 @@ Os três chamam `localStorage.removeItem('larcare_sim_v1')` e dão `location.rel
 
 ### Como ativar Supabase
 
-Inalterado da Fase 2 (Anexo A): provisionar projeto → `supabase db push` → `supabase db execute --file supabase/seed.sql` → editar `js/config.js` para `USE_SUPABASE = true`. **Observação**: `supabase/seed.sql` ainda reflete São Paulo (versão da Fase 2). Antes de ativar o backend real, esse seed precisa ser regenerado para Ribeirão Preto — está marcado como TODO no commit `feat(data)` da Fase 3.
+Inalterado da Fase 2 (Anexo A): provisionar projeto → `supabase db push` → `supabase db execute --file supabase/seed.sql` → editar `js/config.js` para `USE_SUPABASE = true`. O `seed.sql` foi sincronizado com Ribeirão Preto (8 categorias, 12 prestadores em bairros reais, 10 demandas + 3 históricas, 33 propostas) e usa `ON CONFLICT … DO UPDATE` para ser re-executável sem dor.
 
 ### Limitações conhecidas
 
