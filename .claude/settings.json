@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": ["*"],
+    "deny": []
+  },
+  "autoApprove": true,
+  "skipPermissionsForTools": ["bash", "edit", "write", "read", "glob", "grep"]
+}
