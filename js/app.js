@@ -424,6 +424,8 @@
     root.querySelectorAll('[data-form="provider-send-proposal"]').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        // Sinaliza para o sistema de instalação que prestador enviou proposta
+        document.dispatchEvent(new CustomEvent('larcare:provider-proposed'));
         UI.toast('Proposta enviada à cliente', 'success');
         // Simula resposta do cliente após 12-18s
         setTimeout(() => {
@@ -468,6 +470,23 @@
     // Buscar atualização manual
     root.querySelectorAll('[data-action="check-update"]').forEach((btn) => {
       btn.addEventListener('click', () => checkForUpdates());
+    });
+
+    // Abrir bottom sheet de instalação sob demanda (botão em Perfil > Aplicativo)
+    root.querySelectorAll('[data-action="open-install"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareInstall) global.LarCareInstall.open({ reason: 'manual' });
+      });
+    });
+
+    // Reset de estado de instalação (modo dev em Perfil)
+    root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (global.LarCareInstall) {
+          global.LarCareInstall.resetState();
+          UI.toast('Estado de instalação resetado');
+        }
+      });
     });
 
     // chips that toggle (e.g., specialties in provider signup step 4)
@@ -761,7 +780,8 @@
     window.addEventListener('hashchange', render);
     window.addEventListener('scroll', onScroll, { passive: true });
     render();
-    setupInstallBanner();
+    // Sistema novo de instalação PWA (bottom sheet, 3 variantes, heurística)
+    if (global.LarCareInstall) global.LarCareInstall.start();
     setupDemoFab();
     registerSW();
     // Auto-start guided tour when arriving from LP via ?tour=1

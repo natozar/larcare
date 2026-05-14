@@ -91,21 +91,22 @@
     <span class="demo-fab__label">Ver demonstração rápida</span>
   </button>
 
-  <div id="install-banner" class="install-banner" hidden>
-    <div class="install-banner__inner">
-      <div class="install-banner__copy">
-        <strong>Instale o LarCare no seu celular</strong>
-        <span id="install-banner-hint">Acesso rápido, sem entrar pelo navegador.</span>
-      </div>
-      <div class="install-banner__actions">
-        <button class="btn btn--ghost btn--sm" id="install-dismiss" type="button">Agora não</button>
-        <button class="btn btn--primary btn--sm" id="install-accept" type="button">Instalar</button>
-      </div>
+  <!-- Bottom sheet customizado de instalação PWA (3 variantes: android/ios/in-app) -->
+  <div id="install-sheet" class="install-sheet" role="dialog" aria-modal="true" aria-labelledby="install-sheet-title" hidden>
+    <div class="install-sheet__backdrop" aria-hidden="true"></div>
+    <div class="install-sheet__card">
+      <button class="install-sheet__close" type="button" data-install-action="dismiss" aria-label="Fechar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
+      </button>
+      <div class="install-sheet__handle" aria-hidden="true"></div>
+      <div class="install-sheet__body"></div>
     </div>
   </div>
 
   <script src="js/config.js"></script>
   <script src="js/audio.js"></script>
+  <script src="js/install_detector.js"></script>
+  <script src="js/install_prompt.js"></script>
   <script src="js/mock_data.js"></script>
   <script src="js/data_layer.js"></script>
   <script src="js/simulator.js"></script>

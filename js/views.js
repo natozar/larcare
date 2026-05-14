@@ -1320,6 +1320,37 @@
             </div>
           </div>
 
+          <!-- Aplicativo (instalação + atualização + versão) -->
+          <div class="card mt-5">
+            <h3>Aplicativo</h3>
+            <div class="stack mt-3">
+              ${(() => {
+                const installed = global.LarCareInstall && global.LarCareInstall.isInstalled();
+                if (installed) {
+                  return `
+                    <div class="row row--between" style="padding: 8px 0;">
+                      <div><strong>✓ Instalado</strong><div class="t-dim fs-13">LarCare está na sua tela inicial</div></div>
+                      <span class="status status--done" style="font-size:11px;">ativo</span>
+                    </div>
+                  `;
+                }
+                return `
+                  <button class="row row--between" type="button" data-action="open-install" style="padding: 12px 0; background:none; border:0; cursor:pointer; width:100%; text-align:left; border-bottom: 1px solid var(--border);">
+                    <span><strong>Instalar na tela inicial</strong><div class="t-dim fs-13">Acesso rápido como um app</div></span>
+                    ${UI.icon('arrow_right', 16)}
+                  </button>
+                `;
+              })()}
+              <div class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+                <div><strong>Verificar atualizações</strong><div class="t-dim fs-13">Versão atual: v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div></div>
+                <button class="btn btn--outline btn--sm" type="button" data-action="check-update">Atualizar</button>
+              </div>
+              <a href="#/sobre" class="row row--between" style="padding: 12px 0;">
+                <span>Sobre o LarCare</span>${UI.icon('arrow_right', 16)}
+              </a>
+            </div>
+          </div>
+
           <!-- Atalhos demo -->
           <div class="card mt-5">
             <h3>Modo demonstração</h3>
@@ -1327,17 +1358,7 @@
             <div class="stack mt-3">
               <button class="btn btn--outline" type="button" data-action="fast-forward">${UI.icon('play', 14)} Avançar timers (acelera propostas pendentes)</button>
               <button class="btn btn--ghost" type="button" data-action="reset-demo" style="color: var(--danger);">Resetar demo</button>
-            </div>
-          </div>
-
-          <!-- Versão -->
-          <div class="card mt-5">
-            <div class="row row--between" style="align-items:center;">
-              <div>
-                <div style="font-weight:600;">LarCare v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div>
-                <div class="t-dim fs-13 mt-1">Se algo parecer estranho, busque atualizações.</div>
-              </div>
-              <button class="btn btn--outline btn--sm" type="button" data-action="check-update">Buscar atualização</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-action="reset-install-state" style="color: var(--text-faint); font-size: 12px;">Resetar estado de instalação (dev)</button>
             </div>
           </div>
 
