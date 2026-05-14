@@ -541,6 +541,9 @@
     // ---------- CHAT: bind composer + back ----------
     if (global.LarCareChat) global.LarCareChat.bindChat(root);
 
+    // ---------- ONBOARDING: bind handlers de cada step ----------
+    if (global.LarCareOnboarding) global.LarCareOnboarding.bindOnboarding(root);
+
     // Reset de estado de instalação (modo dev em Perfil)
     root.querySelectorAll('[data-action="reset-install-state"]').forEach((btn) => {
       btn.addEventListener('click', () => {
