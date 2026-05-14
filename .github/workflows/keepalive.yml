@@ -1,0 +1,52 @@
+name: Supabase keepalive
+
+# Por que: o Free Tier do Supabase pausa projetos inativos por ~7 dias.
+# Como: faz um GET na tabela 'categorias' (leitura pública por RLS) a cada
+# 6 horas e on-demand via workflow_dispatch. Custo: zero (Actions é grátis
+# em repo público); manutenção: nenhuma; sem dependência de infra externa.
+#
+# Pré-requisitos (configurar uma vez no GitHub repo):
+#   Settings → Secrets and variables → Actions → New repository secret:
+#     SUPABASE_URL       = https://<ref>.supabase.co
+#     SUPABASE_ANON_KEY  = eyJhbGciOi...   (anon key, pública por design)
+#
+# Enquanto USE_SUPABASE em js/config.js estiver false (default), este
+# workflow ainda mantém o projeto ativo — útil em transição.
+
+on:
+  schedule:
+    # A cada 6 horas. UTC.
+    - cron: '0 */6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-keepalive
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST
+        env:
+          URL:  ${{ secrets.SUPABASE_URL }}
+          KEY:  ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::notice::SUPABASE_URL ou SUPABASE_ANON_KEY ausentes; pulando."
+            exit 0
+          fi
+          status=$(curl -s -o /tmp/resp.json -w "%{http_code}" \
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY" \
+            "$URL/rest/v1/categorias?select=id&limit=1")
+          echo "HTTP $status"
+          cat /tmp/resp.json | head -c 400
+          echo
+          if [ "$status" != "200" ]; then
+            echo "::error::Supabase keepalive falhou (HTTP $status)."
+            exit 1
+          fi
