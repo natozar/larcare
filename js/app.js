@@ -457,8 +457,18 @@
   // ------------------------------------------------------------------
   // Boot
   // ------------------------------------------------------------------
-  function boot() {
+  async function boot() {
     global.LarCareApp = { state };
+    // Hot-swap: se USE_SUPABASE=true em js/config.js, bootstrap troca
+    // window.LarCareData por dados reais do Supabase. Senão, no-op imediato.
+    try {
+      if (global.LarCareData && typeof global.LarCareData.bootstrap === 'function') {
+        await global.LarCareData.bootstrap();
+      }
+    } catch (_) { /* fallback já tratado dentro do data_layer */ }
+    // Re-bind D após possível swap do namespace
+    Object.assign(D, global.LarCareData);
+
     if (!window.location.hash) window.location.hash = '#/';
     window.addEventListener('hashchange', render);
     window.addEventListener('scroll', onScroll, { passive: true });
