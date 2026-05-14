@@ -7,6 +7,7 @@
   const D  = global.LarCareData;
   const V  = global.LarCareViews;
   const { formatDate, escapeHtml } = V._helpers;
+  function escapeAttr(s) { return escapeHtml(String(s)).replace(/'/g, '&#39;'); }
 
   // ====================================================================
   // VIEW 15 — Cadastro do prestador (6 etapas)
@@ -875,45 +876,355 @@
   // VIEWS 23-26 — Institucional
   // ====================================================================
   function privacy() {
-    return institutionalPage('Privacidade & LGPD', 'Como tratamos seus dados', `
-      <p>O LarCare opera em conformidade com a Lei nº 13.709/2018 (LGPD). Tratamos seus dados pessoais com finalidade específica e sob princípios de minimização, transparência e segurança.</p>
-      <h3>Dados que coletamos</h3>
-      <p>Dados de identificação (nome, CPF, e-mail, telefone), endereço para emparelhamento por proximidade, e dados de uso da plataforma. Para prestadores, também documentos para verificação de identidade e antecedente.</p>
-      <h3>Para que usamos</h3>
-      <p>Conectar clientes a prestadores qualificados, comunicar sobre serviços contratados, manter segurança da plataforma e cumprir obrigações legais. Para análises agregadas, sempre anonimizamos.</p>
-      <h3>O que nunca fazemos</h3>
-      <p>Não vendemos dados pessoais identificados. Não compartilhamos com terceiros sem base legal ou seu consentimento explícito. Não usamos seus dados para finalidades não declaradas.</p>
-      <h3>Seus direitos</h3>
-      <p>Você pode pedir acesso, correção, exclusão e portabilidade dos seus dados a qualquer momento. Basta escrever para <a href="mailto:privacidade@larcare.app">privacidade@larcare.app</a>.</p>
-    `);
+    return `
+      <section class="page legal-page">
+        <div class="container container--narrow">
+          <nav class="legal-breadcrumb" aria-label="Breadcrumb">
+            <a href="#/">Início</a> <span aria-hidden="true">›</span> <a href="#/sobre">Sobre</a> <span aria-hidden="true">›</span> <span>Política de Privacidade</span>
+          </nav>
+          <header class="legal-header">
+            <h1>Política de Privacidade</h1>
+            <p class="legal-meta">Versão 1.0 · Última atualização: 15 de maio de 2026 · LarCare Tecnologia Ltda. — Ribeirão Preto, SP</p>
+            <button class="btn btn--ghost btn--sm" type="button" onclick="window.print()">Imprimir</button>
+          </header>
+
+          <div class="legal-content">
+            <section>
+              <h2>1. Apresentação</h2>
+              <p>O LarCare ("nós", "nossa Plataforma") é mantido pela LarCare Tecnologia Ltda., inscrita no CNPJ sob nº [a definir], com sede em Ribeirão Preto, São Paulo. Esta Política de Privacidade ("Política") explica como coletamos, usamos, compartilhamos e protegemos seus dados pessoais quando você usa a Plataforma LarCare, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018, "LGPD").</p>
+              <p>Nosso Encarregado de Proteção de Dados (DPO) pode ser contatado pelo e-mail <a href="mailto:privacidade@larcare.com.br">privacidade@larcare.com.br</a>.</p>
+            </section>
+
+            <section>
+              <h2>2. Dados pessoais coletados</h2>
+              <p><strong>2.1. Dados de cadastro (clientes):</strong> nome completo, CPF, data de nascimento, e-mail, telefone com WhatsApp, endereço de atendimento (CEP, logradouro, número, complemento, bairro, cidade, estado), foto de perfil opcional.</p>
+              <p><strong>2.2. Dados de cadastro (prestadores):</strong> todos os dados acima, mais cópia de RG ou CNH (frente e verso), comprovante de residência recente, certidão de antecedentes criminais, foto profissional, especialidades, anos de experiência, faixa de preço, raio de atendimento, dados bancários (somente quando aplicável e mediante consentimento específico para repasses futuros).</p>
+              <p><strong>2.3. Dados de uso da Plataforma:</strong> histórico de demandas, propostas enviadas e recebidas, avaliações dadas e recebidas, conversas via chat interno, localização aproximada (com seu consentimento explícito), preferências de notificação, configurações de privacidade.</p>
+              <p><strong>2.4. Dados técnicos:</strong> endereço IP, identificador de dispositivo, sistema operacional, navegador, idioma, fuso horário, datas/horas de acesso, páginas visitadas, ações realizadas. Esses dados são coletados automaticamente para fins de segurança, análise de uso e melhoria contínua da Plataforma.</p>
+              <p><strong>2.5. Dados de pagamento:</strong> nesta fase, o LarCare não processa pagamentos. Cliente e prestador combinam diretamente. Quando essa funcionalidade for incluída, esta Política será atualizada e você será notificado.</p>
+            </section>
+
+            <section>
+              <h2>3. Finalidades do tratamento</h2>
+              <p><strong>3.1.</strong> Permitir que clientes e prestadores se conectem por meio de demandas, propostas e mensagens.</p>
+              <p><strong>3.2.</strong> Verificar a identidade e idoneidade dos prestadores antes da habilitação na Plataforma.</p>
+              <p><strong>3.3.</strong> Operar o sistema de avaliações cruzadas, mantendo a reputação dos usuários.</p>
+              <p><strong>3.4.</strong> Comunicar-se com você sobre o serviço (notificações, atualizações da Plataforma, respostas a contatos de suporte).</p>
+              <p><strong>3.5.</strong> Detectar e prevenir fraudes, abusos, condutas inadequadas e violações destes Termos.</p>
+              <p><strong>3.6.</strong> Cumprir obrigações legais, regulatórias, contratuais e atender requisições de autoridades competentes.</p>
+              <p><strong>3.7.</strong> Realizar análises estatísticas agregadas (sempre anonimizadas) para melhoria da Plataforma.</p>
+            </section>
+
+            <section>
+              <h2>4. Bases legais (Art. 7º da LGPD)</h2>
+              <p><strong>4.1. Execução de contrato (Art. 7º, V):</strong> a maioria dos dados é tratada para viabilizar a prestação do serviço de intermediação que você contratou ao se cadastrar.</p>
+              <p><strong>4.2. Cumprimento de obrigação legal (Art. 7º, II):</strong> dados de prestadores (verificação de antecedentes, registro de transações) são tratados para cumprir exigências legais.</p>
+              <p><strong>4.3. Consentimento (Art. 7º, I):</strong> dados sensíveis (como certidão criminal) e usos não-essenciais (comunicações de marketing, geolocalização precisa) dependem de consentimento explícito, que você pode revogar a qualquer momento.</p>
+              <p><strong>4.4. Legítimo interesse (Art. 7º, IX):</strong> análises agregadas, prevenção de fraude e segurança da Plataforma.</p>
+            </section>
+
+            <section>
+              <h2>5. Compartilhamento de dados</h2>
+              <p><strong>5.1. Com prestadores:</strong> quando você cria uma demanda, prestadores compatíveis recebem informações sobre o pedido (bairro, descrição, fotos, faixa de orçamento). Seus dados de contato (telefone, endereço completo) são compartilhados apenas após você aceitar uma proposta.</p>
+              <p><strong>5.2. Com clientes (no caso de prestadores):</strong> nome, foto, avaliações, especialidades e bio ficam públicos para clientes interessados. Documentos de verificação não são compartilhados.</p>
+              <p><strong>5.3. Com fornecedores técnicos:</strong> usamos serviços de terceiros para hospedagem, autenticação, envio de mensagens, processamento de pagamentos futuros — todos contratualmente obrigados a cumprir a LGPD.</p>
+              <p><strong>5.4. Com autoridades:</strong> quando legalmente exigido (ordem judicial, requisição de Ministério Público ou autoridade policial competente).</p>
+              <p><strong>5.5.</strong> Nunca vendemos seus dados pessoais identificados a terceiros para fins de publicidade ou outras finalidades comerciais não-autorizadas.</p>
+            </section>
+
+            <section>
+              <h2>6. Armazenamento e segurança</h2>
+              <p><strong>6.1. Onde armazenamos:</strong> servidores no Brasil, com criptografia em trânsito (TLS 1.3) e em repouso (AES-256).</p>
+              <p><strong>6.2. Prazo de retenção:</strong> dados de conta ativa são mantidos enquanto sua conta existir. Após exclusão da conta, dados pessoais são apagados em até 30 dias, salvo registros mínimos exigidos por lei (transações, prevenção de fraude — até 5 anos).</p>
+              <p><strong>6.3. Medidas técnicas:</strong> controle de acesso por papel, autenticação multifator para a equipe interna, monitoramento de incidentes, logs auditáveis, treinamento contínuo, programa de gestão de incidentes.</p>
+              <p><strong>6.4. Incidentes:</strong> em caso de incidente de segurança que possa afetar seus direitos, notificaremos você e a ANPD nos prazos legais.</p>
+            </section>
+
+            <section>
+              <h2>7. Seus direitos (Art. 18 da LGPD)</h2>
+              <p>Como titular dos dados, você tem direito a:</p>
+              <p><strong>7.1.</strong> Confirmar a existência de tratamento dos seus dados.</p>
+              <p><strong>7.2.</strong> Acessar seus dados pessoais a qualquer momento.</p>
+              <p><strong>7.3.</strong> Corrigir dados incompletos, inexatos ou desatualizados.</p>
+              <p><strong>7.4.</strong> Solicitar anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com a LGPD.</p>
+              <p><strong>7.5.</strong> Portabilidade dos seus dados a outro fornecedor de serviço.</p>
+              <p><strong>7.6.</strong> Eliminação dos dados tratados com base no seu consentimento, exceto nas hipóteses de retenção legal.</p>
+              <p><strong>7.7.</strong> Informação sobre com quem compartilhamos seus dados.</p>
+              <p><strong>7.8.</strong> Revogar o consentimento a qualquer tempo.</p>
+              <p><strong>7.9.</strong> Opor-se a tratamentos realizados com base em legítimo interesse.</p>
+            </section>
+
+            <section>
+              <h2>8. Como exercer seus direitos</h2>
+              <p>Para exercer qualquer direito acima, envie e-mail para <a href="mailto:privacidade@larcare.com.br">privacidade@larcare.com.br</a> com a descrição da solicitação. Responderemos em até 15 (quinze) dias corridos, conforme exigido pela LGPD. Pode ser necessária verificação adicional de identidade para garantir segurança.</p>
+            </section>
+
+            <section>
+              <h2>9. Cookies e tecnologias similares</h2>
+              <p>Usamos cookies essenciais para autenticação e funcionamento da Plataforma. Cookies analíticos e de preferência são opcionais — você pode controlá-los em Perfil &gt; Preferências.</p>
+            </section>
+
+            <section>
+              <h2>10. Crianças e adolescentes</h2>
+              <p>O LarCare destina-se a maiores de 18 anos. Não coletamos dados de crianças e adolescentes intencionalmente. Caso identifiquemos cadastro irregular, a conta será imediatamente excluída.</p>
+            </section>
+
+            <section>
+              <h2>11. Transferência internacional</h2>
+              <p>Nesta fase, todos os dados são armazenados no Brasil. Caso, no futuro, utilizemos fornecedores fora do Brasil, garantiremos as salvaguardas previstas no Art. 33 da LGPD.</p>
+            </section>
+
+            <section>
+              <h2>12. Alterações desta Política</h2>
+              <p>Podemos atualizar esta Política para refletir mudanças legais, técnicas ou operacionais. Você será notificado com pelo menos 30 dias de antecedência para alterações substanciais. A versão vigente está sempre disponível nesta página.</p>
+            </section>
+
+            <section>
+              <h2>13. Contato</h2>
+              <p><strong>Encarregado (DPO):</strong> Renato Cesar Rodrigues<br/>
+              <strong>E-mail:</strong> <a href="mailto:privacidade@larcare.com.br">privacidade@larcare.com.br</a><br/>
+              <strong>Endereço:</strong> Ribeirão Preto, SP — endereço completo disponibilizado em requisições formais.</p>
+              <p>Em caso de não-resolução ou insatisfação, você pode contatar a Autoridade Nacional de Proteção de Dados (ANPD) em <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">www.gov.br/anpd</a>.</p>
+            </section>
+
+            <p class="legal-footer">© 2026 LarCare Tecnologia Ltda. Documento em conformidade com a Lei nº 13.709/2018 (LGPD).</p>
+          </div>
+        </div>
+      </section>
+    `;
   }
+
   function terms() {
-    return institutionalPage('Termos de uso', 'Regras claras para os dois lados', `
-      <p>Estes Termos regem o uso da plataforma LarCare. Ao criar conta, você confirma que leu e aceita as condições abaixo.</p>
-      <h3>Natureza do serviço</h3>
-      <p>O LarCare é plataforma de conexão entre clientes e prestadores autônomos. Não somos empregadores dos prestadores, não fornecemos serviços diretamente e não respondemos solidariamente pela qualidade da execução, salvo nos limites previstos em legislação aplicável.</p>
-      <h3>Compromissos do cliente</h3>
-      <p>Descrever a demanda com honestidade, respeitar prestadores cadastrados, cumprir o pagamento combinado e avaliar com critério após o serviço.</p>
-      <h3>Compromissos do prestador</h3>
-      <p>Manter documentação atualizada, cumprir o valor e prazo propostos, atender com postura profissional e responder com clareza nas comunicações com o cliente.</p>
-      <h3>Suspensão e desligamento</h3>
-      <p>Reservamo-nos o direito de suspender ou desligar contas que violem estes Termos, com ou sem aviso prévio, conforme gravidade. Documentos falsos resultam em desligamento imediato.</p>
-    `);
+    return `
+      <section class="page legal-page">
+        <div class="container container--narrow">
+          <nav class="legal-breadcrumb" aria-label="Breadcrumb">
+            <a href="#/">Início</a> <span aria-hidden="true">›</span> <a href="#/sobre">Sobre</a> <span aria-hidden="true">›</span> <span>Termos de Uso</span>
+          </nav>
+          <header class="legal-header">
+            <h1>Termos de Uso</h1>
+            <p class="legal-meta">Versão 1.0 · Última atualização: 15 de maio de 2026 · LarCare Tecnologia Ltda. — Ribeirão Preto, SP</p>
+            <button class="btn btn--ghost btn--sm" type="button" onclick="window.print()">Imprimir</button>
+          </header>
+
+          <div class="legal-content">
+            <section>
+              <h2>1. Aceitação dos Termos</h2>
+              <p><strong>1.1.</strong> Estes Termos de Uso ("Termos") regulamentam a utilização da plataforma digital LarCare ("Plataforma"), de titularidade da LarCare Tecnologia Ltda., CNPJ [a definir], com sede em Ribeirão Preto-SP.</p>
+              <p><strong>1.2.</strong> Ao criar conta, acessar ou utilizar qualquer funcionalidade da Plataforma, você ("Usuário") declara ter lido, compreendido e aceito integralmente estes Termos, bem como a Política de Privacidade.</p>
+              <p><strong>1.3.</strong> Caso não concorde com qualquer disposição, encerre imediatamente o uso da Plataforma.</p>
+            </section>
+
+            <section>
+              <h2>2. Definições</h2>
+              <p><strong>Plataforma:</strong> aplicativo, site e demais serviços digitais oferecidos pela LarCare para conexão entre Clientes e Prestadores.</p>
+              <p><strong>Usuário:</strong> pessoa física maior de 18 anos cadastrada na Plataforma, seja como Cliente ou Prestador.</p>
+              <p><strong>Cliente:</strong> Usuário que utiliza a Plataforma para solicitar serviços domésticos.</p>
+              <p><strong>Prestador:</strong> Usuário autônomo que oferece serviços por meio da Plataforma.</p>
+              <p><strong>Demanda:</strong> solicitação de serviço criada pelo Cliente.</p>
+              <p><strong>Proposta:</strong> oferta enviada por Prestador em resposta a uma Demanda.</p>
+              <p><strong>Serviço:</strong> trabalho de reparo, manutenção, limpeza ou cuidado contratado entre Cliente e Prestador.</p>
+            </section>
+
+            <section>
+              <h2>3. Cadastro e Conta</h2>
+              <p><strong>3.1.</strong> O cadastro é gratuito e exige idade mínima de 18 anos, fornecimento de informações verdadeiras, completas e atualizadas.</p>
+              <p><strong>3.2.</strong> Prestadores devem fornecer documentação adicional (RG/CNH, comprovante de residência, certidão de antecedentes criminais) para verificação.</p>
+              <p><strong>3.3.</strong> O Usuário é único responsável pela segurança da sua conta. Compartilhamento de credenciais é vedado.</p>
+              <p><strong>3.4.</strong> A LarCare reserva-se o direito de recusar cadastros, exigir comprovação adicional ou suspender contas em caso de suspeita de fraude ou descumprimento destes Termos.</p>
+            </section>
+
+            <section>
+              <h2>4. Uso da Plataforma</h2>
+              <p><strong>4.1.</strong> O Usuário compromete-se a utilizar a Plataforma exclusivamente para finalidades lícitas relacionadas à intermediação de serviços domésticos.</p>
+              <p><strong>4.2.</strong> É vedado: (i) publicar conteúdo ofensivo, discriminatório, fraudulento ou ilegal; (ii) tentar burlar mecanismos de verificação ou segurança; (iii) usar a Plataforma para finalidade comercial diversa da prevista; (iv) coletar dados de outros Usuários sem autorização.</p>
+              <p><strong>4.3.</strong> Violações destes Termos podem resultar em suspensão temporária ou definitiva da conta, sem prejuízo de medidas legais cabíveis.</p>
+            </section>
+
+            <section>
+              <h2>5. Papel do LarCare</h2>
+              <p><strong>5.1.</strong> O LarCare atua exclusivamente como <strong>intermediário tecnológico</strong> entre Clientes e Prestadores. Não somos empregadores dos Prestadores, não fornecemos serviços domésticos diretamente, e não respondemos solidariamente pela qualidade ou execução dos serviços contratados, salvo nos estritos limites da legislação aplicável.</p>
+              <p><strong>5.2.</strong> A Plataforma oferece ferramentas (verificação de identidade, sistema de avaliação cruzada, canal de mediação) para aumentar a confiança e qualidade das interações, sem garantir resultados específicos.</p>
+            </section>
+
+            <section>
+              <h2>6. Relação entre Cliente e Prestador</h2>
+              <p><strong>6.1.</strong> A relação entre Cliente e Prestador é direta, autônoma e independente, regida pelo Código Civil e pelo Código de Defesa do Consumidor quando aplicável.</p>
+              <p><strong>6.2.</strong> Não há vínculo trabalhista, societário ou de subordinação entre os Usuários e o LarCare.</p>
+              <p><strong>6.3.</strong> Pagamentos, garantias, prazos e demais termos do serviço são negociados diretamente entre as partes, sob sua exclusiva responsabilidade.</p>
+            </section>
+
+            <section>
+              <h2>7. Avaliações e Conteúdo do Usuário</h2>
+              <p><strong>7.1.</strong> Avaliações devem refletir a experiência real, em linguagem respeitosa e sem dados pessoais de terceiros.</p>
+              <p><strong>7.2.</strong> O Usuário concede ao LarCare licença não-exclusiva, gratuita, para exibir avaliações e conteúdo dentro da Plataforma.</p>
+              <p><strong>7.3.</strong> Reservamo-nos o direito de moderar (ocultar ou remover) avaliações que violem estes Termos, sem prejuízo de notificação ao Usuário responsável.</p>
+            </section>
+
+            <section>
+              <h2>8. Pagamento e Comissão</h2>
+              <p><strong>8.1.</strong> Na fase atual, o uso da Plataforma é gratuito tanto para Clientes quanto para Prestadores.</p>
+              <p><strong>8.2.</strong> Pagamentos pelos serviços ocorrem diretamente entre Cliente e Prestador, fora da Plataforma. O LarCare não intermedia financeiramente as transações nesta fase.</p>
+              <p><strong>8.3.</strong> No futuro, poderá ser implementada comissão sobre transações concluídas. Você será notificado com pelo menos 60 dias de antecedência.</p>
+            </section>
+
+            <section>
+              <h2>9. Suspensão e Encerramento</h2>
+              <p><strong>9.1.</strong> O Usuário pode encerrar sua conta a qualquer momento, em Perfil &gt; Configurações &gt; "Excluir minha conta".</p>
+              <p><strong>9.2.</strong> O LarCare pode suspender ou encerrar contas em caso de: (a) violação destes Termos; (b) fraude ou tentativa de fraude; (c) condutas que coloquem em risco outros Usuários; (d) decisão judicial.</p>
+              <p><strong>9.3.</strong> O encerramento não exime o Usuário de obrigações pendentes (avaliações, contestações em andamento, obrigações legais).</p>
+            </section>
+
+            <section>
+              <h2>10. Propriedade Intelectual</h2>
+              <p><strong>10.1.</strong> Todos os direitos sobre a Plataforma, incluindo marca, logotipo, software, design e conteúdo editorial, pertencem ao LarCare ou seus licenciantes.</p>
+              <p><strong>10.2.</strong> O acesso à Plataforma não confere ao Usuário qualquer direito de cópia, modificação, distribuição ou exploração comercial, salvo autorização expressa e por escrito.</p>
+            </section>
+
+            <section>
+              <h2>11. Limitação de Responsabilidade</h2>
+              <p><strong>11.1.</strong> O LarCare não se responsabiliza por: (a) qualidade, prazo ou execução de serviços contratados entre Usuários; (b) danos decorrentes de uso indevido da Plataforma; (c) interrupções programadas ou eventuais de funcionamento; (d) condutas dolosas de Usuários, ainda que verificados.</p>
+              <p><strong>11.2.</strong> Em qualquer hipótese, a responsabilidade total do LarCare está limitada ao valor pago pelo Usuário à Plataforma nos últimos 12 meses (ou zero, na fase atual gratuita).</p>
+            </section>
+
+            <section>
+              <h2>12. Modificações dos Termos</h2>
+              <p>Estes Termos podem ser atualizados periodicamente. Mudanças substanciais serão notificadas com antecedência mínima de 30 dias. O uso continuado da Plataforma após mudanças significa aceitação dos novos Termos.</p>
+            </section>
+
+            <section>
+              <h2>13. Lei Aplicável e Foro</h2>
+              <p>Estes Termos são regidos pelas leis da República Federativa do Brasil. Fica eleito o foro da Comarca de Ribeirão Preto, Estado de São Paulo, para dirimir quaisquer controvérsias, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+            </section>
+
+            <section>
+              <h2>14. Disposições Gerais</h2>
+              <p><strong>14.1.</strong> A invalidade de qualquer cláusula não afeta as demais.</p>
+              <p><strong>14.2.</strong> A tolerância eventual a violações não significa renúncia a direitos.</p>
+              <p><strong>14.3.</strong> Estes Termos constituem o acordo integral entre as partes sobre o uso da Plataforma.</p>
+            </section>
+
+            <section>
+              <h2>15. Contato</h2>
+              <p>Para dúvidas sobre estes Termos, envie e-mail para <a href="mailto:juridico@larcare.com.br">juridico@larcare.com.br</a> ou acesse <a href="#/contato">a página de Contato</a>.</p>
+            </section>
+
+            <p class="legal-footer">© 2026 LarCare Tecnologia Ltda. Todos os direitos reservados.</p>
+          </div>
+        </div>
+      </section>
+    `;
   }
-  function faq() {
-    const items = [
-      ['O LarCare cobra pelo serviço?', 'Não cobramos do cliente para usar a plataforma. Para o prestador, a comissão é pequena e cobrada apenas em propostas aceitas. O pagamento do serviço acontece direto entre cliente e prestador.'],
-      ['Em quanto tempo recebo a primeira proposta?', 'A média atual é de 2 horas em horário comercial. Em demandas urgentes, costuma ser bem mais rápido.'],
-      ['Como sei que o prestador é confiável?', 'Todo prestador passa por verificação de identidade, antecedente criminal e endereço antes de receber qualquer demanda. As avaliações de outros clientes ficam visíveis no perfil.'],
-      ['E se eu tiver um problema com o serviço?', 'Nosso suporte humano resolve casos com risco em até 48 horas. Acesse o canal de Contato.'],
-      ['Sou prestador. Quanto tempo até ser aprovado?', 'Em geral, entre 24 e 72 horas após o envio dos documentos. Casos complexos podem levar mais.'],
-      ['Posso cancelar uma proposta aceita?', 'Sim, com aviso prévio. Cancelamentos repetidos afetam sua reputação.']
-    ];
-    return institutionalPage('Perguntas frequentes', 'Respostas diretas para o que mais perguntam', `
-      <div class="stack-lg">
-        ${items.map(([q, a]) => `<details class="card"><summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 18px;">${q}</summary><p class="t-dim mt-3" style="line-height:1.65;">${a}</p></details>`).join('')}
-      </div>
-    `);
+  function faq(params) {
+    const FAQ_DATA = {
+      cliente: {
+        label: 'Para clientes',
+        items: [
+          ['Como funciona o LarCare?', 'Você descreve o que precisa (categoria, fotos, prazo), prestadores qualificados da sua região recebem a demanda e enviam propostas com valor, prazo e mensagem. Você compara, escolhe, e o contato é liberado pra combinarem direto.'],
+          ['Quanto custa pra eu usar?', 'Nada. Você não paga por se cadastrar, criar demandas ou aceitar propostas. O valor é só do serviço, combinado diretamente com o prestador. Não cobramos comissão do cliente.'],
+          ['Como sei que o prestador é confiável?', 'Todo prestador passa por verificação de identidade, antecedente criminal e endereço antes de aparecer na plataforma. Quem completa o processo recebe o selo "Verificado". Cada serviço gera avaliação pública, e a média fica no perfil.'],
+          ['Em quanto tempo recebo a primeira proposta?', 'A média é de 2 horas em horário comercial, com pico durante o dia. Demandas urgentes (status "Hoje") costumam receber propostas em até 30 minutos.'],
+          ['E se o serviço não ficar bom?', 'Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Para urgências, há canal direto pelo WhatsApp do suporte. Avaliação ruim afeta o ranking do prestador.'],
+          ['Posso cancelar uma demanda depois de criada?', 'Sim, sem custo, enquanto estiver aguardando propostas ou comparando. Depois que aceitar uma proposta, cancele só em casos excepcionais — combine direto com o prestador.'],
+          ['Posso pedir orçamento sem compromisso?', 'Pode. Receber propostas não te obriga a contratar. Você só compromete quando aceita uma proposta — e mesmo assim, pode renegociar com o prestador antes do serviço começar.']
+        ]
+      },
+      prestador: {
+        label: 'Para prestadores',
+        items: [
+          ['Quanto eu pago pra estar no LarCare?', 'Nada na fase atual. Sem mensalidade, sem comissão por proposta aceita. No futuro pode entrar comissão pequena, sempre transparente e comunicada com antecedência.'],
+          ['Como recebo as demandas?', 'Demandas compatíveis com suas categorias e dentro do seu raio de atendimento aparecem no feed do app. Você pode filtrar por urgência, distância, faixa de orçamento. Receba notificação no celular quando aparecer demanda nova.'],
+          ['Posso recusar uma demanda?', 'Pode. Você só envia proposta no que faz sentido pra você. Não há penalidade por não responder a uma demanda específica.'],
+          ['E se o cliente não pagar?', 'O pagamento acontece direto entre vocês. Sempre combine antes (Pix, transferência, dinheiro) e nunca comece o serviço sem confirmar a forma. Em caso de calote, registre conosco pelo app — clientes com histórico de calote são banidos.'],
+          ['Como funciona a verificação?', 'Você envia foto de RG ou CNH e comprovante de residência. Conferimos em até 48h e seu perfil ganha o selo "Verificado", que aumenta sua visibilidade na busca e a confiança do cliente.'],
+          ['Posso aumentar minha visibilidade?', 'Sim, principalmente: completando 100% do perfil (bio + foto + verificação), respondendo demandas em menos de 30 minutos, mantendo nota acima de 4.5, e tendo alta taxa de aceite.'],
+          ['Como saio da plataforma?', 'Em Perfil > Configurações > "Excluir minha conta". Seus dados pessoais são apagados em até 30 dias (mantemos só o mínimo legal exigido). Avaliações públicas anonimizadas permanecem pra preservar histórico de clientes.']
+        ]
+      },
+      pagamento: {
+        label: 'Pagamento',
+        items: [
+          ['Como o cliente paga o prestador?', 'Direto, da forma que combinarem: Pix (mais comum), dinheiro, transferência, ou cartão se o prestador aceitar. Nenhum dinheiro passa pela plataforma nesta fase.'],
+          ['O LarCare cobra alguma comissão?', 'Não cobramos comissão de cliente nem de prestador. A plataforma se sustenta de outras formas (parcerias B2B futuras com financeiras e seguradoras, sempre opcional para o usuário).'],
+          ['Posso pagar com cartão? PIX?', 'Depende do prestador. Cada um aceita as formas que prefere. Pix é universal — todos aceitam. Combine no chat antes de fechar.'],
+          ['Quando o prestador recebe?', 'No momento que combinarem. Maioria recebe no fim do serviço (Pix na hora) ou metade antes / metade depois. Nunca antes de iniciar o atendimento.'],
+          ['Tem nota fiscal?', 'Prestadores MEI podem emitir nota fiscal. Combine isso antes de fechar se você precisa de NF para reembolso ou imposto. Não-MEI emite recibo simples.'],
+          ['Tem garantia?', 'Varia por prestador. A maioria oferece 30 dias de garantia em serviços técnicos (elétrica, hidráulica, eletrônica). Combine no chat antes de fechar. Em caso de problema na garantia, registre conosco.']
+        ]
+      },
+      seguranca: {
+        label: 'Segurança',
+        items: [
+          ['Meus dados estão seguros?', 'Sim. Operamos em conformidade com a LGPD (Lei nº 13.709/2018). Seus dados são criptografados em trânsito e em repouso, com acesso restrito por papel. Nunca vendemos dados pessoais identificados.'],
+          ['O prestador vai saber meu endereço completo?', 'Só após você aceitar a proposta dele. Antes disso, ele vê apenas seu bairro e a distância aproximada. Endereço completo só é liberado no momento da contratação.'],
+          ['E se eu não me sentir seguro?', 'Você pode cancelar a contratação a qualquer momento antes do serviço começar. Se houver risco (ameaça, fraude, comportamento inadequado), use o botão "Reportar" no perfil do prestador — analisamos em 24h.'],
+          ['Vocês fazem verificação de antecedentes?', 'Sim. Para prestadores: identidade (foto de documento), antecedente criminal (consulta gratuita da Polícia Civil), endereço (comprovante recente). Reverificamos a cada 6 meses.'],
+          ['O que faço se for vítima de fraude?', 'Acione nosso suporte imediatamente pelo WhatsApp do contato. Reúna evidências (prints da conversa, comprovante de pagamento, fotos). Auxiliamos com BO online e bloqueamos o prestador na plataforma.'],
+          ['Como denuncio um prestador?', 'No perfil dele, toque em "Reportar". Descreva o que aconteceu, anexe evidências se tiver. Investigamos em até 48h. Denúncias graves levam a suspensão imediata.']
+        ]
+      },
+      app: {
+        label: 'Sobre o app',
+        items: [
+          ['Preciso instalar?', 'Não precisa instalar pela Play Store ou App Store. O LarCare é um PWA — funciona direto no navegador, mas você pode "instalar" como um app no celular (atalho na tela inicial). Vá em Perfil > Aplicativo > Instalar.'],
+          ['Funciona offline?', 'Sim, parcialmente. Você consegue abrir o app sem internet (depois da 1ª visita) e ver demandas e propostas em cache. Para novas demandas e mensagens, precisa de conexão.'],
+          ['Por que ainda não tem em outras cidades?', 'Estamos focando em Ribeirão Preto pra testar o produto com profundidade antes de escalar. Próxima cidade no plano: Araraquara, ainda em 2026.'],
+          ['Vai ter app na Play Store / App Store?', 'No futuro, sim. Por enquanto, o PWA cobre as funcionalidades principais com ótima experiência. Vantagem: não ocupa espaço, não tem aprovação demorada, atualiza instantaneamente.'],
+          ['Como vocês se sustentam financeiramente?', 'Hoje, com investimento inicial dos fundadores. No médio prazo: comissão simbólica de prestadores em propostas aceitas. No longo prazo: parcerias B2B com financeiras, seguradoras e varejo de material de construção, sempre opcionais para o usuário.'],
+          ['Quem está por trás do LarCare?', 'Renato Cesar Rodrigues, fundador e mantenedor, baseado em Ribeirão Preto-SP. O projeto começou em 2025 como protótipo e está em validação ativa com prestadores e clientes da praça.']
+        ]
+      }
+    };
+
+    const activeTab = (params && params.tab) || 'cliente';
+    const searchQ = (params && params.q) || '';
+    const tab = FAQ_DATA[activeTab] || FAQ_DATA.cliente;
+    const lowerQ = searchQ.toLowerCase();
+    const filtered = searchQ ? tab.items.filter(([q, a]) =>
+      q.toLowerCase().includes(lowerQ) || a.toLowerCase().includes(lowerQ)
+    ) : tab.items;
+
+    return `
+      <section class="page">
+        <div class="container container--narrow">
+          <span class="eyebrow">FAQ</span>
+          <h1 class="mt-3">Perguntas Frequentes</h1>
+          <p class="lead mt-3">Tudo o que você precisa saber sobre o LarCare em Ribeirão Preto.</p>
+
+          <div class="faq-search mt-6">
+            <span class="faq-search__icon" aria-hidden="true">${UI.icon('search', 16)}</span>
+            <input type="search" class="faq-search__input" id="faq-search-input" placeholder="Buscar dúvida (ex: pagamento, segurança, instalação)" value="${escapeAttr(searchQ)}" autocomplete="off" />
+          </div>
+
+          <div class="faq-tabs mt-5" role="tablist">
+            ${Object.entries(FAQ_DATA).map(([key, t]) => `
+              <a class="faq-tab ${key === activeTab ? 'is-active' : ''}" href="#/faq?tab=${key}${searchQ ? '&q=' + encodeURIComponent(searchQ) : ''}" role="tab" aria-selected="${key === activeTab}">${t.label}</a>
+            `).join('')}
+          </div>
+
+          <div class="stack mt-5" id="faq-list">
+            ${filtered.length === 0 ? `
+              <div class="search-empty t-center" style="padding: 32px 16px;">
+                <div class="search-empty__art" aria-hidden="true">🤔</div>
+                <h3 class="mt-3">Nada encontrado pra "${escapeHtml(searchQ)}"</h3>
+                <p class="t-dim mt-2">Tente outra palavra ou navegue por categoria.</p>
+              </div>
+            ` : filtered.map(([q, a]) => `
+              <details class="faq-item">
+                <summary>${escapeHtml(q)}</summary>
+                <p class="t-dim mt-2">${escapeHtml(a)}</p>
+              </details>
+            `).join('')}
+          </div>
+
+          <div class="card card--soft mt-7">
+            <h3>Não achou o que procurava?</h3>
+            <p class="t-dim mt-2">Nosso suporte humano responde em até um dia útil.</p>
+            <a class="btn btn--primary mt-3" href="#/contato">Falar com suporte</a>
+          </div>
+        </div>
+      </section>
+    `;
   }
   function contact() {
     return institutionalPage('Contato e suporte', 'Como falar com a gente', `
