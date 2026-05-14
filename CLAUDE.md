@@ -1013,6 +1013,56 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO D — SISTEMA DE INSTALAÇÃO PWA (2026-05-14, v1.6.0)
+
+Quarto bloco do projeto. Substitui o banner genérico por sistema dedicado com bottom sheet customizado, detector de plataforma, heurística de engajamento e integração no Perfil.
+
+### Três módulos
+
+1. **`js/install_detector.js`** — API pura `LarCareDetect.*`. Detecta iOS resilientemente (cobre iPadOS-as-Mac via maxTouchPoints+platform+navigator.standalone), Android, standalone (matchMedia+iOS), in-app browser (UA markers de Instagram/FB/WhatsApp/Telegram/Twitter/LinkedIn/TikTok/Snapchat/LINE), e suporte a beforeinstallprompt (Chromium-only).
+
+2. **`js/install_prompt.js`** — `LarCareInstall.*`. Captura `beforeinstallprompt` e `appinstalled`. Renderiza bottom sheet com três variantes condicionais. Implementa heurística: 60s ativos (Visibility API), 5 telas distintas (hashchange unique set), 1ª demanda (`larcare:demand-created`) ou 1ª proposta de prestador (`larcare:provider-proposed`, dispatched no submit do form em `app.js`). Dismiss persiste 72h; 3 dismisses seguidos marcam `never_again`.
+
+3. **CSS dedicado** no fim de `css/styles.css` (~200 linhas). Bottom sheet em mobile (slide-up + drag handle + swipe-down), card centralizado em desktop ≥720px. Backdrop blur, focus trap, prefers-reduced-motion respeitado.
+
+### Variantes visuais
+
+- **Android Chromium**: logo + título "Instalar LarCare" + checklist "atalho / offline / cara de app" + CTA primary "Instalar agora" (chama `deferredPrompt.prompt()`) + secundário "Agora não".
+- **iOS Safari**: logo + título "Adicione à Tela de Início" + 3 cards numerados em cascata com ícones SVG inline (botão Compartilhar do Safari, "+", check) + microcopy fallback sobre barra superior + botão único "Entendi".
+- **In-app browser**: alerta sálvia + 3 passos para abrir no Safari/Chrome externo + "Entendi".
+
+### Storage (todas em `localStorage`)
+
+| Chave | Conteúdo |
+| --- | --- |
+| `larcare:installed_at` | timestamp do `appinstalled` |
+| `larcare:install_dismissed_at` | último dismiss (TTL 72h) |
+| `larcare:install_dismiss_count` | contador (3 → `never_again`) |
+| `larcare:install_never_again` | flag boolean `'1'` |
+| `larcare:install_seen_at` | log JSONL de exibições |
+| `larcare:active_seconds` | tempo ativo acumulado |
+| `larcare:screens_visited` | telas distintas (pipe-separated) |
+| `larcare:first_demand_done` | flag boolean `'1'` |
+| `larcare:first_provider_proposal_done` | flag boolean `'1'` |
+
+Botão **"Resetar estado de instalação"** em Perfil > Modo demonstração (visível como link dev pequeno) limpa todas. API: `LarCareInstall.resetState()`.
+
+### Integração com Perfil
+
+Nova seção "Aplicativo" entre Preferências e Modo demonstração com:
+- "Instalar na tela inicial" (abre o sheet sob demanda) OU "✓ Instalado" cinza
+- "Verificar atualizações" (botão Atualizar existente, migrado pra cá)
+- Link "Sobre o LarCare"
+
+### Limitações conhecidas
+
+- **iOS sem trigger programático**: o botão na variante iOS é só "Entendi" — Safari não tem `beforeinstallprompt`, é mecanismo do navegador. As 3 instruções visuais cobrem o ato.
+- **Visual do botão Compartilhar varia entre iOS 15/16/17/18**: o microcopy fallback compensa.
+- **Acceptance medida só via `appinstalled`**: em iOS não há esse evento, então `larcare:installed_at` fica vazio mesmo após install real. Detector cai de volta em `navigator.standalone` quando o usuário abre via Home Screen.
+- **In-app browser ainda permite o sheet abrir manualmente** via Perfil → o usuário vê a instrução para "abrir no Safari/Chrome". Auto-trigger NÃO acontece em in-app.
+
+---
+
 ## ANEXO C — SPRINT NOTURNO: CATÁLOGO EXPANDIDO + BRAND (2026-05-14)
 
 Terceira camada de polish após Fase 2 (Supabase) e Modo App Demo. Foco: aumentar a aparência de produto real do LarCare. Versão `1.5.0`.

@@ -89,6 +89,44 @@ Tempo total para rodar a checklist inteira: ~15 minutos.
 
 ---
 
+## 5.5. Sistema de instalação PWA (3 min) — v1.6.0+
+
+Para resetar o estado entre testes: **Perfil → Modo demonstração → "Resetar estado de instalação (dev)"** (botão pequeno no rodapé do card).
+
+### Android Chrome (Pixel 7 ou similar)
+- [ ] Abra a app em aba normal (não-incógnito). Após **60 segundos** de uso ativo, o bottom sheet aparece com variante **Android** (logo + título "Instalar LarCare" + checklist).
+- [ ] Toque em **"Instalar agora"**. O prompt nativo do Chrome aparece. Aceite.
+- [ ] Após instalação, ícone aparece no launcher. Abra pelo ícone.
+- [ ] No app instalado, vá em Perfil → seção "Aplicativo" mostra **"✓ Instalado"** cinza não-clicável.
+- [ ] O sheet **nunca mais aparece automaticamente** (porque `isStandalone()=true`).
+- [ ] Crie uma demanda no navegador comum (não no app instalado): o sheet aparece pela 1ª demanda? Funciona.
+
+### iOS Safari (iPhone 14 ou similar)
+- [ ] Abra a app em Safari normal. Após **60 segundos**, sheet aparece com variante **iOS** (3 cards numerados em cascata).
+- [ ] Os 3 passos têm ícones SVG inline (compartilhar / "+" / check) e copy claro?
+- [ ] Microcopy fallback "Se a barra do Safari estiver no topo, o botão Compartilhar pode estar lá em cima." aparece embaixo dos passos?
+- [ ] Toque em **Entendi** fecha o sheet com slide-down.
+- [ ] Siga as instruções: Share → Adicionar à Tela de Início → Adicionar. O ícone LarCare aparece com fundo sálvia.
+- [ ] Abra pelo ícone. Status bar é `black-translucent` (notch respeitado).
+- [ ] Em Perfil → "Aplicativo" mostra "✓ Instalado".
+
+### In-app browser (Instagram, WhatsApp, Telegram)
+- [ ] Mande o link para si mesmo no WhatsApp e abra pelo preview.
+- [ ] Após 60s, sheet aparece com **variante "Abra no navegador"** com alerta sálvia e 3 passos para "três pontinhos → Abrir no Safari/Chrome".
+- [ ] Faça o que diz: abra no Safari fora do WhatsApp. Lá, a variante mudou para iOS.
+
+### Heurística e persistência
+- [ ] Dispense o sheet (clique no ×). Sheet desaparece.
+- [ ] Recarregue a página. Sheet **não aparece** porque foi dispensado há <72h.
+- [ ] Em Perfil → "Aplicativo" → "Instalar na tela inicial": **abre o sheet sob demanda** (bypass do timer/dismiss).
+- [ ] Dispense 3x via Perfil. Sheet marca `never_again` — não aparece mais automaticamente.
+- [ ] Botão "Resetar estado de instalação" em Modo demonstração limpa tudo e o ciclo recomeça.
+
+### Acessibilidade
+- [ ] Com VoiceOver/TalkBack ligado: anunciam corretamente título e botões.
+- [ ] Tab dentro do sheet: foco fica preso (não escapa pra trás).
+- [ ] Tecla Esc fecha.
+
 ## 6. Toques finais (2 min)
 
 ### Acessibilidade tátil
