@@ -1223,6 +1223,72 @@ body.has-bottom-nav .install-banner { bottom: 64px; }
 }
 
 /* ----------------------------------------------------------------
+   Catálogo agrupado (clientNewDemand step 1)
+   ---------------------------------------------------------------- */
+.cat-group + .cat-group { margin-top: var(--space-7); }
+.cat-group__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 var(--space-4) 0;
+}
+.cat-group__emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-tint);
+  font-size: 16px;
+  line-height: 1;
+}
+.cat-group__grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 720px)  { .cat-group__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .cat-group__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (max-width: 380px)  { .cat-group__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Tile emoji-first (substitui o ícone SVG na variante --emoji) */
+.cat-tile--emoji {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 8px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  min-height: 96px;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+  text-align: center;
+  touch-action: manipulation;
+}
+.cat-tile--emoji:hover { border-color: var(--primary-soft); background: var(--bg); }
+.cat-tile--emoji:active { transform: scale(0.97); }
+.cat-tile--emoji.is-active {
+  border-color: var(--primary);
+  background: var(--primary-tint);
+  box-shadow: 0 0 0 3px rgba(62, 107, 92, 0.12);
+}
+.cat-tile__emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+.cat-tile--emoji .cat-tile__name {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.25;
+}
+.cat-tile--emoji.is-active .cat-tile__name { color: var(--primary-dark); font-weight: 600; }
+
+/* ----------------------------------------------------------------
    iOS Safari hardening
    ---------------------------------------------------------------- */
 html, body {

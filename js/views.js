@@ -642,17 +642,31 @@
     let body = '';
 
     if (step === 1) {
+      const renderGroup = (g) => {
+        const cats = D.categoriesByGroup(g.id);
+        if (!cats.length) return '';
+        return `
+          <section class="cat-group">
+            <h2 class="cat-group__title">
+              <span class="cat-group__emoji" aria-hidden="true">${g.emoji}</span>
+              ${g.name}
+            </h2>
+            <div class="cat-group__grid" data-cat-grid>
+              ${cats.map((c) => `
+                <button class="cat-tile cat-tile--emoji ${state.cat === c.id ? 'is-active' : ''}" data-cat="${c.id}" type="button" aria-label="${c.name}">
+                  <span class="cat-tile__emoji" aria-hidden="true">${c.emoji || ''}</span>
+                  <span class="cat-tile__name">${c.name}</span>
+                </button>
+              `).join('')}
+            </div>
+          </section>
+        `;
+      };
       body = `
         <h1>O que precisa ser resolvido?</h1>
-        <p class="lead mt-2">Escolha a categoria que melhor descreve.</p>
-        <div class="grid grid-3 mt-6" data-cat-grid>
-          ${D.CATEGORIES.map((c) => `
-            <button class="cat-tile ${state.cat === c.id ? 'is-active' : ''}" data-cat="${c.id}" type="button">
-              <span class="cat-tile__icon">${UI.icon(c.icon, 22)}</span>
-              <span class="cat-tile__name">${c.name}</span>
-              <span class="t-dim fs-13" style="margin-top:2px;">${c.blurb}</span>
-            </button>
-          `).join('')}
+        <p class="lead mt-2">Escolha a categoria que melhor descreve. São 18 tipos de serviço em 4 grupos.</p>
+        <div class="stack-lg mt-6">
+          ${D.GROUPS.map(renderGroup).join('')}
         </div>
         <div class="row mt-6" style="justify-content:flex-end;">
           <button class="btn btn--primary" id="step-next" type="button" ${state.cat ? '' : 'disabled aria-disabled="true"'}>Continuar</button>

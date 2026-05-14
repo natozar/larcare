@@ -403,11 +403,169 @@ on conflict (demanda_id, autor_id) do nothing;
 alter table public.avaliacoes enable trigger trg_avaliacao_recalc_rating;
 
 -- ===========================================================================
--- 8. Verificação rápida (sai no log do psql)
+-- 8. EXPANSÃO DO CATÁLOGO (migration 0003 + sprint noturno)
+--    4 grupos, +10 categorias, +3 prestadores, +5 demandas, +6 propostas
+-- ===========================================================================
+
+-- Grupos
+insert into public.grupos_categoria (id, nome, emoji, ordem) values
+  ('reparos', 'Reparos',          '🔧', 1),
+  ('limpeza', 'Limpeza',          '🫧', 2),
+  ('casa',    'Cuidado da casa',  '🏡', 3),
+  ('familia', 'Família e pet',    '🐾', 4)
+on conflict (id) do update set nome = excluded.nome, emoji = excluded.emoji, ordem = excluded.ordem;
+
+-- Preenche grupo_id + emoji nas 8 categorias originais
+update public.categorias set grupo_id = 'reparos', emoji = '💡' where id = 'eletrica';
+update public.categorias set grupo_id = 'reparos', emoji = '💧' where id = 'hidraulica';
+update public.categorias set grupo_id = 'reparos', emoji = '❄️' where id = 'ar';
+update public.categorias set grupo_id = 'reparos', emoji = '🎨' where id = 'pintura';
+update public.categorias set grupo_id = 'reparos', emoji = '🔑' where id = 'chaveiro';
+update public.categorias set grupo_id = 'reparos', emoji = '🔥' where id = 'gas';
+update public.categorias set grupo_id = 'reparos', emoji = '🛠️', nome = 'Marido de aluguel' where id = 'faz_tudo';
+update public.categorias set grupo_id = 'casa',    emoji = '📦' where id = 'montagem';
+
+-- 10 categorias novas (limpeza, casa restante, familia)
+insert into public.categorias (id, nome, icone, blurb, ordem, grupo_id, emoji) values
+  ('diarista',    'Diarista',                  'sparkle', 'Faxina semanal, casa habitada',       10, 'limpeza',  '🧹'),
+  ('faxina',      'Faxina pesada',             'sparkle', 'Limpeza profunda de toda a casa',     11, 'limpeza',  '✨'),
+  ('estofados',   'Limpeza de estofados',      'sparkle', 'Sofás, poltronas, colchões',          12, 'limpeza',  '🛋️'),
+  ('pos_obra',    'Limpeza pós-obra',          'sparkle', 'Vidros, azulejos, esquadria',         13, 'limpeza',  '🧽'),
+  ('jardinagem',  'Jardinagem',                'leaf',    'Poda, grama, plantas',                14, 'casa',     '🌿'),
+  ('dedetizacao', 'Dedetização',               'shield',  'Cupim, barata, formiga, rato',        15, 'casa',     '🪲'),
+  ('caixa_dagua', 'Limpeza de caixa d''água',  'drop',    'Limpeza semestral certificada',       16, 'casa',     '🚰'),
+  ('pet_sitter',  'Pet sitter / passeio',      'leaf',    'Passeio, alimentação, cuidado',       17, 'familia',  '🐕'),
+  ('idoso',       'Cuidado de idoso',          'shield',  'Companhia, banho, medicação',         18, 'familia',  '🤝'),
+  ('baba',        'Babá eventual',             'user',    'Cuidado infantil sob demanda',        19, 'familia',  '👶')
+on conflict (id) do update set
+  nome = excluded.nome, blurb = excluded.blurb,
+  grupo_id = excluded.grupo_id, emoji = excluded.emoji, ordem = excluded.ordem;
+
+-- 3 prestadores novos cobrindo categorias expandidas
+insert into public.profiles
+  (id, role, first_name, full_name, initials, age, avatar_color, email, phone,
+   neighborhood, city, state, address, cep, latitude, longitude, member_since)
+values
+  ('pro-013', 'prestador', 'Diana M.',  'Diana Moreira S.',  'DM', 36, 'accent',  null, null, 'Iguatemi',     'Ribeirão Preto', 'SP', null, '14091-220', -21.2306, -47.8061, '2025-06-18'),
+  ('pro-014', 'prestador', 'Helena R.', 'Helena Ribeiro S.', 'HR', 49, 'primary', null, null, 'Sumarezinho',  'Ribeirão Preto', 'SP', null, '14055-140', -21.1500, -47.8389, '2024-08-22'),
+  ('pro-015', 'prestador', 'Lúcia F.',  'Lúcia Fontana B.',  'LF', 54, 'accent',  null, null, 'Vila Tibério', 'Ribeirão Preto', 'SP', null, '14050-090', -21.1606, -47.8147, '2024-11-30')
+on conflict (id) do update set
+  neighborhood = excluded.neighborhood, cep = excluded.cep,
+  latitude = excluded.latitude, longitude = excluded.longitude;
+
+insert into public.prestadores
+  (profile_id, bio, radius_km, rating_avg, rating_count, response_minutes,
+   acceptance_rate, brings_material, has_vehicle, availability,
+   verified_identity, verified_background, verified_address, last_check, approved_at, active)
+values
+  ('pro-013',
+   'Diarista experiente com material profissional. Atendo Ribeirão Preto e Cravinhos. Faxina semanal, pesada e limpeza pós-mudança. Estofados eu também faço.',
+   12, 4.90, 54, 21, 0.93, 'sim', false,
+   '{"mon":[1,1,0],"tue":[1,1,0],"wed":[1,1,0],"thu":[1,1,0],"fri":[1,1,0],"sat":[1,0,0],"sun":[0,0,0]}'::jsonb,
+   true, true, true, '2026-04-18', '2025-06-20 12:00:00+00', true),
+
+  ('pro-014',
+   'Cuido de jardim residencial em Ribeirão há 15 anos. Faço dedetização certificada e limpeza de caixa d''água. Trabalho com produtos registrados Anvisa.',
+   18, 4.70, 22, 38, 0.84, 'sim', true,
+   '{"mon":[1,1,0],"tue":[1,1,0],"wed":[1,1,0],"thu":[1,1,0],"fri":[1,1,0],"sat":[1,1,0],"sun":[0,0,0]}'::jsonb,
+   true, true, true, '2026-04-03', '2024-08-25 12:00:00+00', true),
+
+  ('pro-015',
+   'Cuidadora profissional há 12 anos. Cuido de idoso em domicílio, pet sitter de cachorros e gatos, e babá eventual. Curso de primeiros socorros atualizado.',
+   14, 4.90, 31, 17, 0.96, 'depende', true,
+   '{"mon":[1,1,1],"tue":[1,1,1],"wed":[1,1,1],"thu":[1,1,1],"fri":[1,1,1],"sat":[1,1,0],"sun":[1,0,0]}'::jsonb,
+   true, true, true, '2026-04-22', '2024-12-02 12:00:00+00', true)
+on conflict (profile_id) do update set bio = excluded.bio, rating_avg = excluded.rating_avg, rating_count = excluded.rating_count;
+
+-- Especialidades dos 3 novos prestadores
+insert into public.prestador_categorias (prestador_id, categoria_id, years) values
+  ('pro-013', 'diarista',    10),
+  ('pro-013', 'faxina',       7),
+  ('pro-013', 'estofados',    3),
+  ('pro-014', 'jardinagem',  15),
+  ('pro-014', 'dedetizacao',  8),
+  ('pro-014', 'caixa_dagua',  5),
+  ('pro-015', 'pet_sitter',   7),
+  ('pro-015', 'idoso',       12),
+  ('pro-015', 'baba',         8)
+on conflict (prestador_id, categoria_id) do nothing;
+
+-- 5 demandas novas nas categorias expandidas
+insert into public.demandas
+  (id, client_id, categoria_id, title, description, neighborhood, address_summary,
+   latitude, longitude, urgency, urgency_label, time_pref, budget_min, budget_max,
+   photos_count, status, featured_for_demo, published_at)
+values
+  ('dem-011', 'cli-001', 'diarista',
+   'Diarista semanal para apartamento de 65 m²',
+   'Apartamento de 2 quartos, sem pet. Toda quinta-feira de manhã. Material posso fornecer.',
+   'Jardim Botânico', 'Av. Independência — Jardim Botânico', -21.2192, -47.8278,
+   'ate_7_dias', 'Até 7 dias', 'manha', 130, 200, 0,
+   'open', false, '2026-05-13 08:30:00+00'),
+
+  ('dem-012', 'cli-001', 'jardinagem',
+   'Manutenção mensal de jardim',
+   'Quintal de 80 m² com grama esmeralda e cerca viva. Manutenção mensal.',
+   'Castelo', 'Rua Quintino Bocaiuva — Castelo', -21.1822, -47.8514,
+   'sem_pressa', 'Sem pressa', 'qualquer', 180, 350, 1,
+   'open', false, '2026-05-12 14:00:00+00'),
+
+  ('dem-013', 'cli-001', 'dedetizacao',
+   'Dedetização contra cupim em armário antigo',
+   'Armário de madeira herdado, começou a soltar pó de cupim. Tratar sem tirar do lugar.',
+   'Centro', 'Rua Visconde de Inhaúma — Centro', -21.1763, -47.8208,
+   'ate_3_dias', 'Até 3 dias', 'tarde', 200, 400, 1,
+   'open', false, '2026-05-13 16:00:00+00'),
+
+  ('dem-014', 'cli-001', 'pet_sitter',
+   'Pet sitter para cachorro labrador durante viagem (5 dias)',
+   'Vou viajar 22 a 27 de maio. Preciso de visita 2x ao dia para alimentar e passear o Bento.',
+   'Jardim Califórnia', 'Rua Tomé de Souza — Jardim Califórnia', -21.2122, -47.8506,
+   'ate_7_dias', 'Até 7 dias', 'qualquer', 250, 500, 1,
+   'open', false, '2026-05-14 07:15:00+00'),
+
+  ('dem-015', 'cli-001', 'caixa_dagua',
+   'Limpeza e higienização de caixa d''água (1000L)',
+   'Caixa de 1000L de polietileno no telhado. Última limpeza foi há 11 meses. Certificado para condomínio.',
+   'Ipiranga', 'Rua Bom Pastor — Ipiranga', -21.1856, -47.8400,
+   'ate_7_dias', 'Até 7 dias', 'manha', 250, 400, 0,
+   'open', false, '2026-05-12 10:00:00+00')
+on conflict (id) do update set status = excluded.status, categoria_id = excluded.categoria_id;
+
+-- Propostas para as 5 demandas novas
+insert into public.propostas
+  (id, demanda_id, prestador_id, value, time_estimate, availability_text, message, status, sent_at)
+values
+  ('prop-011-a', 'dem-011', 'pro-013', 150.00, '6 horas / dia', 'Toda quinta de manhã',
+   'Atendo Jardim Botânico todas as quintas. Trabalho em silêncio quando há alguém em casa.',
+   'pending', now() - interval '22 hours'),
+  ('prop-011-b', 'dem-011', 'pro-007', 180.00, '6 horas', 'Quintas, sextas ou sábados',
+   'Posso atender em horários alternativos se quinta não der certo.',
+   'pending', now() - interval '8 hours'),
+  ('prop-012-a', 'dem-012', 'pro-014', 260.00, '4 horas mensais', 'Primeira terça do mês',
+   'Cuido de jardim com gramado esmeralda há 15 anos. Trabalho regular mensal com desconto.',
+   'pending', now() - interval '40 hours'),
+  ('prop-013-a', 'dem-013', 'pro-014', 320.00, '1h30 + retorno', 'Esta semana',
+   'Aplicação localizada em armário, sem precisar tirar. Produto certificado Anvisa.',
+   'pending', now() - interval '12 hours'),
+  ('prop-013-b', 'dem-013', 'pro-008', 280.00, '1h', 'Amanhã à tarde',
+   'Aplicação tradicional com seringa. Boa para cupim seco.',
+   'pending', now() - interval '8 hours'),
+  ('prop-014-a', 'dem-014', 'pro-015', 380.00, '2 visitas/dia, 5 dias', '22 a 27 de maio',
+   'Já cuidei de labrador. Mando foto e vídeo de cada visita. Curso de primeiros socorros pet.',
+   'pending', now() - interval '5 hours'),
+  ('prop-015-a', 'dem-015', 'pro-014', 310.00, '2 horas', 'Quarta de manhã',
+   'Limpeza completa com lavagem, desinfecção e secagem. Entrego certificado para o condomínio.',
+   'pending', now() - interval '46 hours')
+on conflict (id) do update set status = excluded.status, value = excluded.value;
+
+-- ===========================================================================
+-- 9. Verificação rápida (sai no log do psql)
 -- ===========================================================================
 do $$
 begin
-  raise notice 'Seed concluído (Ribeirão Preto). Contagens:';
+  raise notice 'Seed concluído (Ribeirão Preto + catálogo expandido). Contagens:';
+  raise notice '  grupos_categoria:     %', (select count(*) from public.grupos_categoria);
   raise notice '  categorias:           %', (select count(*) from public.categorias);
   raise notice '  profiles:             %', (select count(*) from public.profiles);
   raise notice '  prestadores:          %', (select count(*) from public.prestadores);
