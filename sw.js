@@ -32,13 +32,25 @@ const PRECACHE = [
   './js/dashboard.js',
   './js/onboarding.js',
   './js/demo_tour.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png',
-  './icons/apple-touch-icon.png',
+  './icons/favicon.svg',
+  './icons/favicon-16.png',
   './icons/favicon-32.png',
   './icons/favicon.ico',
-  './icons/og-image-v3.png'
+  './icons/icon-72.png',
+  './icons/icon-96.png',
+  './icons/icon-128.png',
+  './icons/icon-144.png',
+  './icons/icon-152.png',
+  './icons/icon-192.png',
+  './icons/icon-384.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-192.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/apple-touch-icon-152.png',
+  './icons/apple-touch-icon-167.png',
+  './icons/og-image.png',
+  './icons/twitter-card.png'
 ];
 
 self.addEventListener('install', (event) => {
