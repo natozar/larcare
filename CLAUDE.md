@@ -1013,6 +1013,69 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO B — MODO APP DEMO COMPLETO (2026-05-14)
+
+Esta sessão pegou o protótipo navegável e o transformou em **demo funcional impecável para celular**. Resumo do estado atual:
+
+### O que mudou
+
+- **Praça é Ribeirão Preto-SP**. Mock e helpers migrados. 12 prestadores em bairros reais (Centro, Jardim Botânico, Iguatemi, Ribeirânia, Castelo, Sumarezinho, Vila Tibério, Alto da Boa Vista, Nova Aliança, Ipiranga, Jardim Paulista). Cliente demo Maria Cristina mora no Jardim Califórnia.
+- **8 categorias finais**: Elétrica, Hidráulica, Ar-condicionado, Montagem, Pintura, Chaveiro, Gás, Faz-tudo. Demanda dem-002 virou instalação de split; dem-008 virou cheiro de gás; dem-010 fica como chaveiro urgente.
+- **Simulador de vida** em `js/simulator.js`. Demanda criada agenda propostas chegando em 10s/22s/1m15s/3min, com `navigator.vibrate` e toast. Status evolui `hired → em_atendimento → aguardando_avaliacao → completed`. Estado todo persistido em `localStorage` (chave `larcare_sim_v1`); reload preserva. 5 toques no logo abrem painel de debug com fast-forward e reset.
+- **PWA hardening**: status-bar-style `black-translucent`, theme-color light/dark, safe-area-inset no header/footer/FAB/bottom-nav, tap-highlight transparente, inputs ≥16px (sem zoom no iOS), touch-action manipulation, sw.js v1.4.0 com precache dos arquivos novos.
+- **Bottom nav fixa** em variants client/provider (mobile ≤720px), com badge dinâmica.
+- **Banner "Modo demonstração"** sticky no topo (fechável; some quando display=standalone).
+- **clientProfile** view nova em `#/cliente/perfil` com botão "Resetar demo". Mirror em `providerProfile`.
+
+### Como funciona o simulador
+
+`window.LarCareSim` expõe:
+
+| API | Quando usar |
+| --- | --- |
+| `start()` | Chamado uma vez no boot. Restaura localStorage, liga contadores, registra 5-tap. |
+| `createDemand({cat, description, urgency, ...})` | Cliente publica demanda. Insere em `D.DEMANDS`, agenda 4 propostas, emite eventos. |
+| `acceptProposal(propId)` | Cliente escolhe. Marca aceita, rejeita as outras, agenda evolução de status. |
+| `markCompleted(demandId, rating)` | Cliente envia avaliação. |
+| `fastForward()` | Colapsa todos os timers pendentes (debug). |
+| `reset()` | Limpa localStorage e dá reload. |
+| `setRole('client'\|'provider')` | Troca contexto sem login. |
+
+Eventos no `document` (CustomEvent):
+
+- `larcare:demand-created` `{ id, demand }`
+- `larcare:proposal-received` `{ proposal, demand, provider, isFirst }`
+- `larcare:proposal-accepted` `{ proposal, demand }`
+- `larcare:demand-status` `{ id, status }`
+- `larcare:counters` `{ onlineProviders, openInRP, avgResponseMin }`
+- `larcare:role-changed` `{ role }`
+- `larcare:state-reset`
+
+`app.js` escuta esses eventos e re-renderiza a view atual se ela for uma das que reagem ao tempo (proposalsList, demandPublished, clientDashboard, providerDashboard, demandDetail).
+
+### Como resetar a demo
+
+Três caminhos:
+
+1. **No app, página Perfil** (cliente ou prestador) → botão "Resetar demo" → confirma.
+2. **5 toques no logo** → painel "Modo desenvolvedor" → "Resetar demo".
+3. **Console** (DevTools mobile remoto): `window.LarCareSim.reset()`.
+
+Os três chamam `localStorage.removeItem('larcare_sim_v1')` e dão `location.reload()`.
+
+### Como ativar Supabase
+
+Inalterado da Fase 2 (Anexo A): provisionar projeto → `supabase db push` → `supabase db execute --file supabase/seed.sql` → editar `js/config.js` para `USE_SUPABASE = true`. **Observação**: `supabase/seed.sql` ainda reflete São Paulo (versão da Fase 2). Antes de ativar o backend real, esse seed precisa ser regenerado para Ribeirão Preto — está marcado como TODO no commit `feat(data)` da Fase 3.
+
+### Limitações conhecidas
+
+- Pull-to-refresh nativo, swipe horizontal pra aceitar/recusar e confetti em avaliação 5★ ficaram fora (baixo impacto no pitch).
+- Splash screens iOS dedicadas por viewport não foram geradas — uso fallback do theme color.
+- `seed.sql` Supabase ainda em SP (USE_SUPABASE=false; mock_data.js é a fonte de verdade no demo).
+- A oscilação de "X prestadores online agora" emite evento `larcare:counters` mas nenhuma view atualmente o consome visualmente; reservado para uma futura faixa de "atividade ao vivo" no header.
+
+---
+
 ## ANEXO A — FASE 2: BACKEND SUPABASE PLUMBADO (2026-05-14)
 
 A camada Supabase foi plugada em modo **opt-in default desligado**. O PWA continua rodando 100% sobre `js/mock_data.js` enquanto `js/config.js → USE_SUPABASE = false`. Detalhes de ativação, schema, RLS e operação ficam no `README.md` (seção "Fase 2 — Backend Supabase"); este anexo registra apenas o que importa para futuros agentes operando sob o protocolo de operação autônoma.
