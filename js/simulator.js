@@ -394,6 +394,7 @@
           <button class="btn btn--primary" data-debug-action="ff">Avançar timers (1h)</button>
           <button class="btn btn--accent" data-debug-action="role-client">Modo cliente</button>
           <button class="btn btn--outline" data-debug-action="role-provider">Modo prestador</button>
+          <button class="btn btn--outline" data-debug-action="admin" style="background: #1F2A28; color: #fff; border-color: #1F2A28;">Painel admin</button>
           <button class="btn btn--ghost" data-debug-action="reset" style="color:#a83e3e;">Resetar demo</button>
         </div>
         <div style="text-align:right; margin-top:18px;">
@@ -414,6 +415,7 @@
       if (action === 'ff') { fastForward(); root.setAttribute('aria-hidden','true'); root.innerHTML=''; }
       if (action === 'role-client') { setRole('client'); window.location.hash = '#/cliente'; root.setAttribute('aria-hidden','true'); root.innerHTML=''; }
       if (action === 'role-provider') { setRole('provider'); window.location.hash = '#/prestador'; root.setAttribute('aria-hidden','true'); root.innerHTML=''; }
+      if (action === 'admin') { window.location.hash = '#/admin'; root.setAttribute('aria-hidden','true'); root.innerHTML=''; }
       if (action === 'reset') reset();
     };
     root.addEventListener('click', handler);

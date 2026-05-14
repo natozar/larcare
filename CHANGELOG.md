@@ -2,6 +2,20 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v1.9.1 — 15 de maio de 2026 — Auditoria pré-pitch
+
+### Fixed
+- **Easter egg admin** (10-tap no logo) conflitava com debug-tap do simulator (5-tap) — janela de 700ms do admin expirava enquanto usuário fechava o modal do simulator. **Fix**: adicionado botão **"Painel admin"** dentro do debug panel do simulator (5-tap → debug → "Painel admin"). URL direta `#/admin` continua funcionando.
+
+### Added
+- `AUDIT_v1.9.0.md` — relatório completo da auditoria 360° pré-pitch, validando: syntax de 21 arquivos JS, JSON, CSS vars, 40+ rotas vs views, integração entre módulos (eventos custom), 27+ chaves de localStorage, PWA, acessibilidade estática, 5 fluxos críticos mentalmente walkthroughed.
+
+### Changed
+- `CACHE_VERSION` → `larcare-v1.9.1`
+- `LarCareConfig.VERSION` → `1.9.1`
+
+---
+
 ## v1.9.0 — 15 de maio de 2026 — Sprint consolidado final
 
 **Foco**: adicionar 5 sistemas estruturais que faltavam para o produto parecer "Série A" — admin panel, pagamento, dark mode, push notifications, i18n. PNGs do logo via script Node + sharp.
