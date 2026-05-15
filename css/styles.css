@@ -395,21 +395,23 @@ a:hover { color: var(--color-primary-hover); }
    3. Typography
    ------------------------------------------------------------------------- */
 h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; color: var(--text); margin: 0; line-height: var(--line-tight); letter-spacing: -0.02em; }
-h1 { font-size: clamp(24px, 4vw, 34px); line-height: 1.15; letter-spacing: -0.025em; }
-h2 { font-size: clamp(20px, 3vw, 26px); line-height: 1.18; letter-spacing: -0.02em; }
-h3 { font-size: clamp(16px, 2vw, 19px); line-height: 1.3; letter-spacing: -0.015em; }
-h4 { font-size: 15px; line-height: 1.4; letter-spacing: -0.01em; }
+h1 { font-size: clamp(22px, 3.5vw, 30px); line-height: 1.18; letter-spacing: -0.025em; }
+h2 { font-size: clamp(18px, 2.6vw, 22px); line-height: 1.22; letter-spacing: -0.02em; }
+h3 { font-size: clamp(15px, 1.8vw, 17px); line-height: 1.3; letter-spacing: -0.015em; }
+h4 { font-size: 14px; line-height: 1.4; letter-spacing: -0.01em; }
 p { margin: 0 0 var(--space-3) 0; }
 .eyebrow {
   display: inline-block;
   font-family: var(--font-sans);
-  font-size: 11px; font-weight: 600;
+  font-size: 10px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--primary);
   background: var(--primary-tint);
-  padding: 4px 10px; border-radius: var(--radius-pill);
+  padding: 3px 9px; border-radius: var(--radius-pill);
 }
-.lead { font-size: 15px; color: var(--text-dim); line-height: 1.55; }
+.lead { font-size: 14px; color: var(--text-dim); line-height: 1.55; }
+.fs-13 { font-size: 13px !important; }
+.fs-14 { font-size: 14px !important; }
 .t-dim { color: var(--text-dim); }
 .t-faint { color: var(--text-faint); }
 .t-mono-num { font-variant-numeric: tabular-nums; }
@@ -971,12 +973,16 @@ body.has-bottom-nav main { padding-bottom: calc(64px + env(safe-area-inset-botto
 
 /* footer */
 .site-footer {
-  background: var(--text); color: #cdd0cd; padding: var(--space-9) 0 var(--space-7); margin-top: var(--space-9);
+  background: #15201E; /* hardcoded dark — NUNCA usar --text aqui, vira light em dark mode */
+  color: #C4CCC9;
+  padding: var(--space-7) 0 var(--space-6);
+  margin-top: var(--space-9);
 }
-.site-footer h3, .site-footer h4 { color: #fff; font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 var(--space-3); }
-.site-footer .t-dim { color: #a4a8a4; }
-.site-footer a { color: #cdd0cd; }
-.site-footer a:hover { color: #fff; }
+.site-footer h3, .site-footer h4 { color: #FFFFFF; font-family: var(--font-sans); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--space-3); }
+.site-footer .t-dim { color: #8A928E; }
+.site-footer a { color: #C4CCC9; transition: color var(--duration-fast); }
+.site-footer a:hover { color: #FFFFFF; }
+.site-footer p { font-size: 13px; line-height: 1.55; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-6); }
 @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
