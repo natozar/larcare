@@ -39,6 +39,34 @@
   <meta name="theme-color" content="#2A4D43" media="(prefers-color-scheme: dark)" />
   <link rel="manifest" href="manifest.json" />
 
+  <!-- =================================================================
+       FORCE FRESH — abrir com ?fresh=1 nuka caches + service workers e
+       recarrega sem o param. Útil para PWAs instalados que ficam presos
+       em cache antigo. Executa SÍNCRONO antes de qualquer outro script.
+       ================================================================= -->
+  <script>
+    (function () {
+      var url = new URL(location.href);
+      if (url.searchParams.get('fresh') !== '1') return;
+      var done = function () {
+        url.searchParams.delete('fresh');
+        location.replace(url.toString());
+      };
+      var ops = [];
+      if ('caches' in window) {
+        ops.push(caches.keys().then(function (keys) {
+          return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+        }));
+      }
+      if (navigator.serviceWorker) {
+        ops.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }));
+      }
+      Promise.all(ops).then(done, done);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />

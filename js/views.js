@@ -1414,9 +1414,13 @@
                 `;
               })()}
               <div class="row row--between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
-                <div><strong>Verificar atualizações</strong><div class="t-dim fs-13">Versão atual: v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div></div>
+                <div><strong>Verificar atualização</strong><div class="t-dim fs-13">Versão atual: v${(global.LarCareConfig && global.LarCareConfig.VERSION) || '1.0'}</div></div>
                 <button class="btn btn--outline btn--sm" type="button" data-action="check-update">Atualizar</button>
               </div>
+              <button class="row row--between" type="button" data-action="force-fresh" style="padding: 12px 0; background:none; border:0; cursor:pointer; width:100%; text-align:left; border-bottom: 1px solid var(--border);">
+                <div><strong style="color: var(--color-danger);">Forçar atualização total</strong><div class="t-dim fs-13">Nuka cache + service worker. Use se o app continuar travado em versão antiga.</div></div>
+                ${UI.icon('arrow_right', 16)}
+              </button>
               <a href="#/sobre" class="row row--between" style="padding: 12px 0;">
                 <span>Sobre o LarCare</span>${UI.icon('arrow_right', 16)}
               </a>

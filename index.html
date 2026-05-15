@@ -59,6 +59,19 @@
   <meta name="application-name" content="LarCare" />
   <meta name="msapplication-TileColor" content="#3E6B5C" />
 
+  <!-- FORCE FRESH — abrir com ?fresh=1 nuka caches + service workers -->
+  <script>
+    (function () {
+      var url = new URL(location.href);
+      if (url.searchParams.get('fresh') !== '1') return;
+      var done = function () { url.searchParams.delete('fresh'); location.replace(url.toString()); };
+      var ops = [];
+      if ('caches' in window) ops.push(caches.keys().then(function (keys) { return Promise.all(keys.map(function (k) { return caches.delete(k); })); }));
+      if (navigator.serviceWorker) ops.push(navigator.serviceWorker.getRegistrations().then(function (regs) { return Promise.all(regs.map(function (r) { return r.unregister(); })); }));
+      Promise.all(ops).then(done, done);
+    })();
+  </script>
+
   <!-- Performance hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

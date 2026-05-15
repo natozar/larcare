@@ -536,6 +536,17 @@
       });
     });
 
+    // Forçar atualização TOTAL: nuka caches + SWs e recarrega
+    root.querySelectorAll('[data-action="force-fresh"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!confirm('Vai limpar cache e service workers do app. Você não vai perder dados de pedidos. Continuar?')) return;
+        UI.toast('Limpando cache…');
+        const url = new URL(location.href);
+        url.searchParams.set('fresh', '1');
+        location.replace(url.toString());
+      });
+    });
+
     // ---------- BUSCA: input debounce + ações ----------
     const searchInput = root.querySelector('#search-input');
     if (searchInput && global.LarCareSearch) {
