@@ -1013,6 +1013,53 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO J — SPRINT DE REPOSICIONAMENTO E COPY DEFINITIVA v2.2.0 (2026-05-14)
+
+Décimo sprint. Não adicionou features — reposicionou o produto e reescreveu toda copy externa para refletir o **público dual oficial** (chefe de casa 75% + ocupado 25%) e estabelecer a **tagline principal** que vai pro pitch.
+
+### Entregue
+
+1. **Bíblia de copy** — `docs/COPY_GUIDELINES.md` (voz da marca, vocabulário-chave, vocabulário proibido, dual público 75/25 sem segmentação, exemplos antes/depois, checklist de validação). `docs/POSITIONING.md` (público dual, posicionamento geográfico operacional vs pitch, tese do dataset acessível, 5 candidatas analisadas).
+2. **Tagline definitiva** — "**Casa em dia, sem dor de cabeça**" (6 palavras, dual público, narrativa de recorrência). Aplicada literalmente em 7 lugares (hero, OG, JSON-LD, about, FAQ, meta title, footer brand). Slogan legado "Cuidar do lar..." mantido em footer institucional por reconhecimento.
+3. **Landing pública (index.html)** — hero, métricas (47→18/2h→30min), problema, how, featured, categories, trust, depoimentos (3 perfis-tipo do dual público), provider section, FAQ 8 perguntas, final CTA, footer — tudo realinhado com vocabulário-chave.
+4. **3 landings reescritas** — about() com tese do dataset visível + seção "Quem está construindo"; forClients() com hero "Sua casa pede atenção. A gente resolve." + 4 cards dual + 3 depoimentos + grid categorias + 7 FAQs; forProviders() com hero "Trabalho sério, com cliente que respeita." + 4 cards + 5 passos + 3 perfis mock + **tabela honesta de quanto ganha** + 6 FAQs.
+5. **FAQ expandida** — de 32 → **50 perguntas** em 6 categorias. Nova tab "Ribeirão Preto" com 6 perguntas sobre praça.
+6. **Microcopy global** — 10+ toasts reescritos, mensagens do simulador ("Primeira proposta de X chegou!" → "X enviou a primeira proposta"), empty states com ilustração + título + descrição + CTA, placeholders trocados por exemplos concretos.
+7. **i18n expandido** — 63 → **150 chaves por locale** (pt-BR/en-US/es-ES), 450 traduções totais.
+8. **Onboarding cliente** — `js/onboarding_client.js`, 3 telas full-screen com SVG ilustrativo. Aparece UMA vez na primeira visita. Persistência em `larcare:onboarding_client_done`.
+9. **Hero contextual do app** — saudação dinâmica + "O que precisa hoje?" + linha contextual reativa (propostas pendentes, serviços em andamento ou zero state com CTA) + grid de 3 ações rápidas (Emergência, Buscar, Favoritos).
+10. **SEO** — meta tags, OG, Twitter, JSON-LD slogan, FAQPage, audienceType, priceRange, sitemap.xml todos migrados pra larcare.com.br + nova tagline.
+
+### Decisões tomadas sob ambiguidade
+
+- **Tagline vencedora**: "Casa em dia, sem dor de cabeça" — escolhida por especificidade-clareza-emoção-brevidade nessa ordem; bonus de carregar narrativa de recorrência que alinha com tese do dataset implicitamente. Outras 4 documentadas em POSITIONING.md §5.
+- **Slogan legado preservado**: "Cuidar do lar, sem depender de ninguém" mantida no footer e como sub-eyebrow institucional por reconhecimento de marca acumulado. Não substitui a tagline principal, mas convive.
+- **Posicionamento dual sem segmentação**: NUNCA criar "modo feminino" vs "modo profissional ocupado". A copy é UMA SÓ, com 75% das linhas falando à chefe de casa e 25% com pivote universal pra valor "tempo". Mecânica documentada em COPY_GUIDELINES.md §4.
+- **Praça**: app diz "atendemos Ribeirão Preto" (operacional, claim verificável). Material institucional/pitch (about) diz "começando por Ribeirão Preto" (tese de expansão explícita). Ambas verdadeiras.
+- **Tese do dataset publicamente**: linguagem acessível em about() ("mapa completo dos prestadores autônomos confiáveis... e dos lares que precisam de manutenção regular"). Proibido na copy pública: "dataset proprietário", "endereçável", "B2B", "ativo de longo prazo".
+- **FAQ tab nova "Ribeirão Preto"**: criada como categoria própria em vez de espalhar perguntas geográficas pelas outras tabs. Decisão de discoverability — usuário que pergunta "atendem aqui?" encontra direto.
+- **22 telas antigas com hardcoded copy não foram refatoradas**: 7ª deferral em sequência. Risco de regressão alto sem QA visual completo. Tagline principal e CTAs primários estão alinhados; copy interna detalhada de 22 fluxos secundários vai em PR dedicado pós-deploy.
+
+### Arquivos novos
+- `docs/COPY_GUIDELINES.md`, `docs/POSITIONING.md`
+- `js/onboarding_client.js`
+
+### Arquivos modificados
+- `index.html`, `app.html`, `js/views.js`, `js/views_provider.js`, `js/views_search.js`, `js/chat.js`, `js/app.js`, `js/i18n.js`, `js/config.js`, `css/styles.css`, `sw.js`, `sitemap.xml`, `CHANGELOG.md`, `CLAUDE.md`
+
+### Storage adicionado em v2.2.0
+
+| Chave | Conteúdo |
+| --- | --- |
+| `larcare:onboarding_client_done` | flag boolean `'1'` quando cliente viu o quick-start |
+| `larcare:onboarding_client_step` | passo atual durante o flow (1-3), apagado ao concluir |
+
+### Versão
+- `LarCareConfig.VERSION` → 2.2.0
+- `CACHE_VERSION` → larcare-v2.2.0
+
+---
+
 ## ANEXO I — SPRINT TERMINAL PRÉ-DEPLOY v2.1.0 (2026-05-15)
 
 Nono e provavelmente último sprint antes do go-live em domínio próprio. 5 entregas concretas + 3 deferrals conscientes.

@@ -244,3 +244,78 @@ window.LarCareSim.reset()                # limpa localStorage + reload
 ```
 
 Lighthouse target: Performance ≥90, Accessibility ≥95, Best Practices ≥95, SEO ≥95. Validar antes de cada pitch — última medição registrada no QA de 2026-05-14 (Performance 99, todos os demais ≥95).
+
+---
+
+## 15. v2.2.0 — Reposicionamento e copy definitiva (5 min)
+
+Foco: validar que a tagline principal aparece consistente, que as 3 landings reescritas renderizam, que onboarding cliente aparece na primeira visita e que microcopy não voltou ao tom antigo.
+
+### 15.1. Tagline principal nos 7 lugares
+
+- [ ] Hero da landing pública (index.html) — "Casa em dia, sem dor de cabeça."
+- [ ] Open Graph `og:title` — abrir devtools > Elements e conferir
+- [ ] JSON-LD `slogan` — devtools > Elements > buscar `application/ld+json`
+- [ ] Topo da página Sobre (`#/sobre`) — h1 reescrito
+- [ ] Topo do FAQ (`#/faq`) — h1 reescrito
+- [ ] `<title>` da landing pública — começa com "LarCare — Casa em dia"
+- [ ] Footer da landing pública — linha "Casa em dia, sem dor de cabeça."
+
+### 15.2. Landings reescritas
+
+- [ ] `#/sobre` — seção "Como o LarCare se sustenta" presente (tese do dataset)
+- [ ] `#/sobre` — seção "Quem está construindo" presente (Renato + Reila)
+- [ ] `#/para-clientes` — hero "Sua casa pede atenção. A gente resolve."
+- [ ] `#/para-clientes` — grid de 12 categorias clicáveis
+- [ ] `#/para-clientes` — 7 perguntas frequentes incluindo "Posso não estar em casa quando o prestador chegar?"
+- [ ] `#/para-prestadores` — hero "Trabalho sério, com cliente que respeita."
+- [ ] `#/para-prestadores` — tabela "Quanto se ganha" com 5 categorias visíveis
+- [ ] `#/para-prestadores` — 3 perfis mock (Carlos H./Diana M./Pedro T.)
+
+### 15.3. FAQ 50 perguntas em 6 categorias
+
+- [ ] Tab "Pra clientes" carrega 12 perguntas
+- [ ] Tab "Pra prestadores" carrega 11 perguntas
+- [ ] Tab "Pagamento" carrega 8 perguntas
+- [ ] Tab "Segurança" carrega 8 perguntas
+- [ ] **Tab "Ribeirão Preto" NOVA** carrega 6 perguntas (incluindo "Atendem só Ribeirão Preto?", "Quando vai pra outras cidades?")
+- [ ] Tab "Sobre o app" carrega 5 perguntas
+- [ ] Search filtra perguntas dentro da tab ativa
+
+### 15.4. Onboarding cliente quick-start
+
+- [ ] Em browser privado, abrir `app.html` — overlay aparece após ~800ms
+- [ ] Tela 1: SVG casa+coração, título "Bem-vinda ao LarCare", botão "Próximo"
+- [ ] Tela 2: SVG fluxo 3 passos, título "Como funciona"
+- [ ] Tela 3: SVG check, título "Pronto pra começar", botões "Pedir um serviço" + "Explorar primeiro"
+- [ ] Skip a qualquer momento funciona
+- [ ] Após concluir, recarregar — overlay **não** reaparece
+- [ ] `localStorage.getItem('larcare:onboarding_client_done')` = `"1"`
+
+### 15.5. Hero contextual do client dashboard
+
+- [ ] Saudação dinâmica por hora (Bom dia / Boa tarde / Boa noite)
+- [ ] Sub: "O que precisa hoje?"
+- [ ] Card destacado mostra linha contextual baseada no estado (propostas pendentes / serviços em andamento / zero)
+- [ ] Grid de 3 ações rápidas: Emergência (borda vermelha) / Buscar / Favoritos
+- [ ] Empty state em "Seus pedidos" mostra emoji + CTA quando lista vazia
+
+### 15.6. Microcopy unificado (vocabulário-chave)
+
+- [ ] Toast após enviar demanda: "Pedido enviado. Aguarde as propostas" (NÃO "Demanda criada com sucesso")
+- [ ] Toast após avaliar: "Avaliação enviada. Valeu!" (NÃO "Obrigado pela avaliação")
+- [ ] Empty state em propostas: "Os prestadores estão olhando seu pedido" (NÃO "Aguardando primeira proposta")
+- [ ] Placeholder da descrição: "Ex: torneira da pia da cozinha pingando há 2 dias" (NÃO "Digite aqui sua demanda")
+- [ ] Placeholder do chat: "Escreva sua mensagem…" (NÃO "Mensagem")
+- [ ] Placeholder da busca: "Ex: eletricista, Vila Tibério, diarista" (NÃO "Buscar prestador, categoria, bairro")
+- [ ] CTAs: "Pedir um reparo", "Pedir um serviço" (NÃO "Quero contratar um serviço")
+
+### 15.7. Vocabulário proibido NÃO aparece em texto visível
+
+- [ ] Buscar Cmd+F nas 3 landings: NÃO encontra "marketplace", "plataforma" (exceto em legal), "ecossistema", "solução", "excelência", "qualidade" (como adjetivo vazio), "inovador", "querida", "amiga"
+
+### 15.8. i18n switching
+
+- [ ] Em Perfil > Idioma, trocar pra English — homepage muda pra "I need a repair" / "I'm a provider"
+- [ ] Trocar pra Español — "Necesito una reparación" / "Soy prestador"
+- [ ] Voltar pra Português — copy reverte

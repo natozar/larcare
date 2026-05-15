@@ -2,6 +2,94 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.2.0 — 14 de maio de 2026 — Sprint de reposicionamento e copy definitiva
+
+### Added
+
+#### Bíblia de copy (docs/)
+- `docs/COPY_GUIDELINES.md`: voz da marca, vocabulário-chave, vocabulário proibido, dual público 75/25, exemplos antes/depois, checklist de validação
+- `docs/POSITIONING.md`: público dual oficial com peso narrativo, posicionamento geográfico (operacional "atendemos Ribeirão Preto" vs pitch "começando por Ribeirão Preto"), tese do dataset em linguagem acessível, análise das 5 taglines candidatas
+
+#### Tagline principal definitiva
+- **"Casa em dia, sem dor de cabeça"** (6 palavras, dual público, narrativa de recorrência implícita)
+- Aplicada literalmente em: hero da landing pública, app landing(), about(), OG/Twitter meta, JSON-LD slogan, meta title, FAQ topo
+- Slogan legado "Cuidar do lar, sem depender de ninguém" preservado no footer institucional por reconhecimento de marca
+
+#### Sub-taglines por contexto
+- App contextual: "O que precisa hoje?" (saudação operacional)
+- Para clientes: "Sua casa pede atenção. A gente resolve."
+- Para prestadores: "Trabalho sério, com cliente que respeita."
+
+#### Onboarding cliente quick-start (3 telas)
+- `js/onboarding_client.js`: 3 telas full-screen overlay com SVG ilustrativos
+- Persistência em `larcare:onboarding_client_done`; aparece UMA vez na primeira visita
+- Skip a qualquer momento; CSS `.oc-*` em styles.css
+
+#### Hero contextual do client dashboard
+- Saudação dinâmica por hora + "O que precisa hoje?"
+- Linha contextual reativa: "Você tem N pedidos com propostas pra avaliar" / "N serviços em andamento" / fallback de zero state
+- Grid de 3 ações rápidas: Emergência (com borda vermelha), Buscar prestador, Favoritos
+- Empty state pro "Seus pedidos" com emoji + CTA quando vazio
+
+### Changed
+
+#### Landing pública (index.html)
+- Hero: "Pequenos reparos, sem depender de ninguém" → "Casa em dia, sem dor de cabeça."
+- Sub-tagline: eletricista/encanador/diarista/faz-tudo em Ribeirão Preto
+- Eyebrow: "Operando em São Paulo" → "Atendemos Ribeirão Preto · Verificação 100%"
+- Metrics band: 47/2h/100%/R$0 → 18/30min/100%/R$0
+- CTA primário: "Quero contratar um serviço" → "Pedir um reparo"
+- Depoimentos migrados para perfis-tipo: chefe de casa (Maria Cristina), ocupado (Ricardo M.), mulher só (Helena R.)
+- FAQ 7 → 8 perguntas, curadas pra dual público + Ribeirão + dataset
+- Final CTA reescrito com nova tagline
+
+#### Landings dedicadas (views_provider.js)
+- `forClients()` reescrita: hero "Sua casa pede atenção. A gente resolve.", 4 cards de benefício com pivote dual, 3 depoimentos diversos, grid de 12 categorias clicáveis, 7 perguntas (incluindo "Posso não estar em casa quando o prestador chegar?")
+- `forProviders()` reescrita: hero "Trabalho sério, com cliente que respeita.", 4 cards, 5 passos de como começar, 3 perfis mock realistas, **tabela honesta de quanto se ganha por categoria** (com comissão LarCare visível), 6 dúvidas específicas
+
+#### Sobre o LarCare (about() em views.js)
+- Hero: "O lar como prioridade" → "Casa em dia, sem dor de cabeça."
+- **Nova seção "Como o LarCare se sustenta"**: tese do dataset em linguagem acessível (comissão 5%, mapa proprietário, parcerias futuras opcionais)
+- **Nova seção "Quem está construindo"**: Renato, trajetória, Reila como base
+
+#### FAQ expandido (views_provider.js)
+- De 32 perguntas em 5 categorias → **50 perguntas em 6 categorias**
+- Nova tab "Ribeirão Preto" com 6 perguntas sobre praça
+- Cliente: 12 perguntas (incluindo "Posso não estar em casa", "Como acompanho sem estar em casa")
+- Prestador: 11 perguntas (incluindo "Quando recebo pagamento", "Posso emitir NF")
+- Pagamento: 8 perguntas (incluindo "Por que 5% e não mais")
+
+#### Microcopy global unificado
+- 10+ toasts em app.js reescritos
+- Mensagens do simulador: "Primeira proposta de X chegou!" → "X enviou a primeira proposta"
+- Empty states reescritos
+- Placeholders trocados por exemplos concretos
+
+#### i18n
+- Expansão de 63 → **150 chaves por locale** (pt-BR, en-US, es-ES)
+- 450 traduções totais
+- Novos namespaces: brand, home contextual, profile app_section, payment card, chat audio/foto, demand toast, proposal empty/received, favorites/history empty, verification, onboarding, errors
+
+#### SEO
+- `index.html`: meta description reescrita pra Ribeirão Preto + dual público
+- OG/Twitter title, description, image URL atualizados pra `larcare.com.br`
+- JSON-LD `slogan` = "Casa em dia, sem dor de cabeça", `priceRange` = "R$"
+- JSON-LD `FAQPage` 7 perguntas curadas pra v2.2.0
+- `app.html`: title + description + OG/canonical alinhados
+- `sitemap.xml` expandido pra 9 URLs e domínio larcare.com.br
+
+### Removed
+- "São Paulo" como praça operacional (Ribeirão Preto sempre por extenso)
+- "Pinheiros" como bairro de demo (substituído por "Jardim Califórnia")
+- Adjetivos vazios em todos os textos visíveis
+- "Demanda" como sinônimo de pedido em CTAs e empty states
+
+### Version
+- `LarCareConfig.VERSION` → 2.2.0
+- `CACHE_VERSION` → larcare-v2.2.0
+
+---
+
 ## v2.1.0 — 15 de maio de 2026 — Sprint terminal pré-deploy
 
 ### Added
