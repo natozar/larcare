@@ -61,7 +61,7 @@
                 <a class="btn btn--primary btn--lg" href="#/cliente/nova-demanda">Pedir um reparo</a>
                 <a class="btn btn--outline btn--lg" href="#/onboarding-prestador">Sou prestador</a>
               </div>
-              <div class="row mt-6" style="gap: 18px; color: var(--text-dim); font-size: 13px;">
+              <div class="row mt-6" style="gap: var(--space-5); color: var(--text-dim); font-size: 13px;">
                 <span class="row" style="gap: 6px;">${UI.icon('shield_check', 16, 'style="color: var(--success);"')} Antecedente verificado</span>
                 <span class="row" style="gap: 6px;">${UI.icon('check', 16, 'style="color: var(--success);"')} Sem cobrança extra na chegada</span>
                 <span class="row" style="gap: 6px;">${UI.icon('check', 16, 'style="color: var(--success);"')} Avaliação cruzada</span>
@@ -613,37 +613,36 @@
     return `
       <section class="page page--app">
         <div class="container">
-          <div class="row row--between mb-5" style="gap: 12px;">
+          <div class="row row--between mb-5" style="gap: var(--space-3);">
             <div>
-              <span class="eyebrow">${greeting()}</span>
-              <h1 class="mt-2">${greeting()}, ${c.first_name.split(' ')[0]}</h1>
-              <p class="t-dim">O que precisa hoje?</p>
+              <h1>${greeting()}, ${c.first_name.split(' ')[0]}</h1>
+              <p class="t-dim mt-2">O que precisa hoje?</p>
             </div>
             <a class="btn btn--primary" href="#/cliente/nova-demanda">${UI.icon('plus', 16)} Pedir</a>
           </div>
 
           <div class="card card--feature mb-5">
-            <div class="row row--between" style="align-items: center; gap: 24px;">
-              <div style="flex:1; min-width: 240px;">
-                <p style="color: rgba(255,255,255,0.92); font-size: 17px; line-height: 1.4;">${contextualLine}</p>
+            <div class="row row--between" style="align-items: center; gap: var(--space-4);">
+              <div style="flex:1; min-width: 200px;">
+                <p style="color: rgba(255,255,255,0.92); font-size: 17px; line-height: 1.4; margin: 0;">${contextualLine}</p>
               </div>
-              <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir um reparo</a>
+              <a class="btn btn--accent" href="#/cliente/nova-demanda">Pedir um reparo</a>
             </div>
           </div>
 
-          <!-- Ações rápidas pra contexto dual público -->
-          <div class="grid grid-3 mb-7" style="gap: 10px;">
-            <a class="card card--interactive t-center" href="#/emergencia" style="padding: 14px 10px; border-left: 3px solid #C53030;">
-              <div style="font-size: 22px;">🚨</div>
-              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Emergência</div>
+          <!-- Ações rápidas — grid customizado que mantém 3 colunas em mobile -->
+          <div class="quick-actions mb-7">
+            <a class="quick-action quick-action--danger" href="#/emergencia">
+              <span class="quick-action__icon" aria-hidden="true">🚨</span>
+              <span class="quick-action__label">Emergência</span>
             </a>
-            <a class="card card--interactive t-center" href="#/buscar" style="padding: 14px 10px;">
-              <div style="font-size: 22px;">🔎</div>
-              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Buscar prestador</div>
+            <a class="quick-action" href="#/buscar">
+              <span class="quick-action__icon" aria-hidden="true">🔎</span>
+              <span class="quick-action__label">Buscar</span>
             </a>
-            <a class="card card--interactive t-center" href="#/favoritos" style="padding: 14px 10px;">
-              <div style="font-size: 22px;">⭐</div>
-              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Favoritos</div>
+            <a class="quick-action" href="#/favoritos">
+              <span class="quick-action__icon" aria-hidden="true">⭐</span>
+              <span class="quick-action__label">Favoritos</span>
             </a>
           </div>
 

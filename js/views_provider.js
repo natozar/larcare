@@ -791,8 +791,8 @@
 
           <h2 class="mt-8">Quanto se ganha</h2>
           <p class="t-dim mt-3">Valores de referência baseados em ticket médio praticado em Ribeirão Preto. Você define seu preço dentro da faixa de mercado.</p>
-          <div class="card mt-4" style="padding: 0; overflow-x: auto;">
-            <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+          <div class="card mt-4" style="padding: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <table style="width:100%; min-width: 480px; border-collapse: collapse; font-size: 14px;">
               <thead style="background: var(--bg); color: var(--text-dim); font-weight: 600;">
                 <tr>
                   <th style="text-align:left; padding: 12px 16px;">Categoria</th>

@@ -2743,8 +2743,12 @@ body.no-scroll { overflow: hidden; }
   position: fixed; inset: 0; z-index: 10000;
   background: var(--bg);
   display: flex; align-items: center; justify-content: center;
-  padding: 24px;
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-right: max(24px, env(safe-area-inset-right));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-left: max(24px, env(safe-area-inset-left));
   animation: oc-fade-in 280ms var(--ease-out) both;
+  overflow-y: auto;
 }
 @keyframes oc-fade-in { from { opacity: 0; } to { opacity: 1; } }
 .oc-card {
@@ -2767,4 +2771,39 @@ body.no-scroll { overflow: hidden; }
 @media (max-width: 480px) {
   .oc-title { font-size: 26px; }
   .oc-body { font-size: 15px; }
+}
+
+/* ============================================================
+   Quick actions row — 3 colunas em mobile (NÃO usar .grid-3
+   porque ele colapsa pra 1 coluna em <=480px)
+   ============================================================ */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.quick-action {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  padding: var(--space-3) var(--space-2);
+  min-height: 72px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  text-align: center;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.quick-action:hover {
+  transform: translateY(-1px);
+  border-color: var(--primary-soft);
+  box-shadow: var(--shadow-2);
+  color: var(--text);
+}
+.quick-action:active { transform: translateY(0); }
+.quick-action__icon { font-size: 22px; line-height: 1; }
+.quick-action__label { font-size: 13px; font-weight: 600; line-height: 1.2; }
+.quick-action--danger { border-left: 3px solid var(--danger); }
+@media (max-width: 360px) {
+  .quick-action__label { font-size: 12px; }
 }
