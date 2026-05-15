@@ -292,7 +292,7 @@ p { margin: 0 0 var(--space-3) 0; }
 }
 .app-bottom-nav__item.is-active { color: var(--primary); background: var(--primary-tint); }
 .app-bottom-nav__icon { width: 22px; height: 22px; }
-body.has-bottom-nav main { padding-bottom: 88px; }
+body.has-bottom-nav main { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
 
 /* -------------------------------------------------------------------------
    6. Buttons
@@ -1150,7 +1150,7 @@ body.has-bottom-nav main { padding-bottom: 88px; }
   font-family: var(--font-sans);
   isolation: isolate;
 }
-body.has-bottom-nav .update-banner { bottom: 64px; }
+body.has-bottom-nav .update-banner { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
 @keyframes update-banner-in {
   0%   { transform: translateY(100%); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
@@ -1364,13 +1364,20 @@ body.has-bottom-nav .demo-fab {
 }
 
 /* Toast notifications stacking — empilha múltiplos toasts */
+/* NOTA: substitui a definição original de .toast-root da seção 12.
+   Definidas explicitamente right:auto e width pra evitar conflito com
+   right:0 da regra anterior (que causava toast-root com largura 50% do
+   viewport e toasts longos truncavam). */
 .toast-root {
   position: fixed;
   left: 50%;
+  right: auto;
+  width: max-content;
+  max-width: calc(100vw - 32px);
   bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
   transform: translateX(-50%);
   z-index: 1000;
-  display: flex; flex-direction: column-reverse; gap: 8px;
+  display: flex; flex-direction: column-reverse; align-items: center; gap: 8px;
   pointer-events: none;
 }
 body.has-bottom-nav .toast-root { bottom: calc(env(safe-area-inset-bottom, 0px) + 88px); }
