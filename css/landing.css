@@ -915,14 +915,15 @@ section.block { padding: 96px 0; }
 .final-cta__card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 36px 28px;
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
   text-align: center;
   transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  color: var(--text);
 }
-.final-cta__card:hover { transform: translateY(-4px); border-color: var(--primary-soft); box-shadow: var(--shadow-3); }
-.final-cta__card h3 { font-size: 20px; margin-bottom: 8px; font-family: 'Fraunces', serif; }
-.final-cta__card p { font-size: 14px; color: var(--text-dim); margin-bottom: 22px; }
+.final-cta__card:hover { transform: translateY(-2px); border-color: var(--primary-soft); box-shadow: var(--shadow-2); }
+.final-cta__card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; font-family: 'Inter', sans-serif; color: var(--text); letter-spacing: -0.01em; }
+.final-cta__card p { font-size: 13px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5; }
 
 /* -------------------------------------------------------------------------
    Footer
@@ -995,3 +996,75 @@ section.block { padding: 96px 0; }
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* =========================================================================
+   Theme toggle button (header) — landing pública
+   ========================================================================= */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  border: 0;
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms, transform 100ms;
+  position: relative;
+}
+.theme-toggle:hover { background: rgba(62, 107, 92, 0.08); color: var(--primary); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-toggle__icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity 200ms, transform 200ms;
+}
+.theme-toggle[data-theme-state="light"] .theme-toggle__icon--sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+.theme-toggle[data-theme-state="light"] .theme-toggle__icon--moon { opacity: 1; transform: rotate(0) scale(1); }
+.theme-toggle[data-theme-state="dark"] .theme-toggle__icon--sun { opacity: 1; transform: rotate(0) scale(1); }
+.theme-toggle[data-theme-state="dark"] .theme-toggle__icon--moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+/* =========================================================================
+   DARK MODE — landing pública (faltava completamente, causava bug de contraste
+   quando user togglava dark na home antes de entrar no app)
+   ========================================================================= */
+:root[data-theme="dark"] {
+  --bg: #0E1411;
+  --surface: #1A2620;
+  --primary: #5DAB8E;
+  --primary-soft: #5DAB8E;
+  --primary-deep: #4A8E73;
+  --accent: #E2BB90;
+  --accent-soft: #4A3D2E;
+  --text: #ECF0EE;
+  --text-dim: #B8C5BF;
+  --text-soft: #8A9B93;
+  --border: rgba(236, 240, 238, 0.08);
+  --border-strong: rgba(236, 240, 238, 0.16);
+}
+
+[data-theme="dark"] body { background: var(--bg); color: var(--text); }
+[data-theme="dark"] .hero__bg {
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(226, 187, 144, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(93, 171, 142, 0.12), transparent 60%);
+}
+[data-theme="dark"] .problem,
+[data-theme="dark"] .trust { background: var(--bg); }
+[data-theme="dark"] .featured { background: linear-gradient(180deg, #0A0F0D 0%, #060A09 100%); }
+[data-theme="dark"] .mockup,
+[data-theme="dark"] .mockup__head,
+[data-theme="dark"] .mockup__card,
+[data-theme="dark"] .fp-list,
+[data-theme="dark"] .fp-item,
+[data-theme="dark"] .final-cta__card { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .cat-item { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] .cat-name { color: var(--text); }
+[data-theme="dark"] .cat-sub { color: var(--text-dim); }
+[data-theme="dark"] .nav { background: rgba(14, 20, 17, 0.85); border-bottom: 1px solid var(--border); }
+[data-theme="dark"] .nav.is-scrolled { background: rgba(14, 20, 17, 0.95); }
+[data-theme="dark"] .nav__links a { color: var(--text); }
+[data-theme="dark"] .nav__links a:hover { color: var(--primary); }
+[data-theme="dark"] .metrics { background: var(--surface); border-color: var(--border); }

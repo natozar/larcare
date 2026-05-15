@@ -940,6 +940,14 @@
       if (e.target.closest('[data-action="apply-update"]')) applyUpdate();
     });
 
+    // Theme toggle global (delegação no document, funciona em todos os headers)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-theme-toggle]');
+      if (btn && global.LarCareTheme) {
+        global.LarCareTheme.toggle();
+      }
+    });
+
     // Re-render quando o simulador muta os dados (proposta nova, status muda etc.)
     const liveEvents = ['larcare:proposal-received', 'larcare:demand-status', 'larcare:proposal-accepted', 'larcare:demand-created'];
     liveEvents.forEach((evt) => document.addEventListener(evt, (e) => {

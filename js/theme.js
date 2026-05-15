@@ -15,12 +15,27 @@
   const VALID = ['light', 'dark', 'system'];
 
   function getPreference() {
-    try { const v = localStorage.getItem(STORE); return VALID.includes(v) ? v : 'system'; } catch (_) { return 'system'; }
+    // Default LIGHT (brand identity: cream + sálvia). Light é mais luxuoso.
+    // Auto-system desativado por padrão — usuário troca explicitamente se quiser.
+    try { const v = localStorage.getItem(STORE); return VALID.includes(v) ? v : 'light'; } catch (_) { return 'light'; }
   }
   function setPreference(v) {
     if (!VALID.includes(v)) return;
     try { localStorage.setItem(STORE, v); } catch (_) {}
     apply();
+  }
+  // Toggle simples: light ↔ dark. (Modo system fica em LarCareTheme.cycle)
+  function toggle() {
+    const pref = getPreference();
+    const current = pref === 'system' ? effectiveTheme() : pref;
+    setPreference(current === 'dark' ? 'light' : 'dark');
+  }
+  // Cycle 3-estados: light → dark → system → light
+  function cycle() {
+    const pref = getPreference();
+    if (pref === 'light') setPreference('dark');
+    else if (pref === 'dark') setPreference('system');
+    else setPreference('light');
   }
   function effectiveTheme() {
     const pref = getPreference();
@@ -32,7 +47,12 @@
     document.documentElement.setAttribute('data-theme', t);
     // Atualiza meta theme-color para o PWA status bar
     const meta = document.querySelector('meta[name="theme-color"]:not([media])');
-    if (meta) meta.setAttribute('content', t === 'dark' ? '#1A2E27' : '#3E6B5C');
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#0E1411' : '#3E6B5C');
+    // Atualiza header toggle button se já renderizado
+    document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+      btn.setAttribute('aria-label', t === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro');
+      btn.dataset.themeState = t;
+    });
   }
   function init() {
     apply();
@@ -43,5 +63,5 @@
     }
   }
 
-  global.LarCareTheme = { getPreference, setPreference, effectiveTheme, init, apply };
+  global.LarCareTheme = { getPreference, setPreference, effectiveTheme, init, apply, toggle, cycle };
 })(window);
