@@ -175,7 +175,7 @@
         <form class="chat-composer" id="chat-composer">
           <button class="chat-composer__attach" type="button" data-action="chat-attach" aria-label="Anexar">${UI.icon('plus', 18)}</button>
           <input type="file" accept="image/*" id="chat-photo-input" hidden />
-          <textarea class="chat-composer__input" id="chat-input" placeholder="Mensagem" rows="1" autocomplete="off"></textarea>
+          <textarea class="chat-composer__input" id="chat-input" placeholder="Escreva sua mensagem…" rows="1" autocomplete="off"></textarea>
           <button class="chat-composer__mic" type="button" id="chat-mic" aria-label="Gravar áudio">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
           </button>
@@ -191,7 +191,7 @@
 
         <div class="chat-photo-preview" id="chat-photo-preview" hidden>
           <img id="chat-photo-img" alt="Pré-visualização" />
-          <input type="text" id="chat-photo-caption" class="input" placeholder="Adicionar legenda (opcional)" />
+          <input type="text" id="chat-photo-caption" class="input" placeholder="Legenda (opcional). Ex: antes do conserto" />
           <div class="row" style="gap: 8px; margin-top: 12px;">
             <button class="btn btn--ghost btn--sm" type="button" data-action="cancel-photo">Cancelar</button>
             <button class="btn btn--outline btn--sm" type="button" data-photo-tag="antes">📋 Antes</button>
@@ -495,13 +495,13 @@
     }
     async function startRecording() {
       if (!global.LarCareRecorder) { UI.toast('Áudio não disponível neste navegador', 'warning'); return; }
-      if (!global.LarCareRecorder.supported()) { UI.toast('Áudio não disponível neste navegador', 'warning'); return; }
+      if (!global.LarCareRecorder.supported()) { UI.toast('Áudio não suportado aqui. Tenta pelo celular', 'warning'); return; }
       try {
         await global.LarCareRecorder.start();
         showRecorderUI();
         if (global.LarCareAudio) global.LarCareAudio.vibrate(40);
       } catch (e) {
-        UI.toast('Permita acesso ao microfone', 'danger');
+        UI.toast('Libere acesso ao microfone pra gravar', 'danger');
       }
     }
     async function finishRecording() {
@@ -509,7 +509,7 @@
       const result = await global.LarCareRecorder.stop();
       hideRecorderUI();
       if (recordCancelled) return;
-      if (!result || result.duration < 1) { UI.toast('Áudio muito curto', 'warning'); return; }
+      if (!result || result.duration < 1) { UI.toast('Áudio curto demais. Grava de novo', 'warning'); return; }
       // Persiste em base64 (tamanho razoável para até 60s)
       const msgs = loadConvo(demandaId, interlocutorId);
       msgs.push({

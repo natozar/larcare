@@ -747,14 +747,14 @@
       `;
     } else if (step === 2) {
       body = `
-        <h1>Conte com detalhes</h1>
-        <p class="lead mt-2">Quanto mais específico, melhores serão as propostas.</p>
+        <h1>Conta o que precisa resolver</h1>
+        <p class="lead mt-2">Pode ser específico. Quanto mais detalhe, melhores as propostas.</p>
         <form class="stack mt-6" data-form="new-demand-step" data-next="#/cliente/nova-demanda?step=3">
           ${UI.field({
             label: 'Descrição',
             name: 'description',
             type: 'textarea',
-            placeholder: 'Ex: a torneira da pia da cozinha está pingando há dois dias. Já apertei a base e não resolveu.',
+            placeholder: 'Ex: torneira da pia da cozinha pingando há 2 dias. Já apertei a base e não resolveu.',
             required: true,
             value: state.description || ''
           })}
@@ -947,8 +947,8 @@
         <div class="pulse-dot" style="width:64px; height:64px; margin:0 auto var(--space-4); border-radius:50%; background: var(--primary-tint); color: var(--primary); display:inline-flex; align-items:center; justify-content:center;">
           ${UI.icon('bell', 28)}
         </div>
-        <h3>Aguardando primeira proposta</h3>
-        <p class="t-dim mt-2">Sua demanda foi enviada para prestadores qualificados em Ribeirão Preto. Costuma chegar em poucos minutos.</p>
+        <h3>Os prestadores estão olhando seu pedido</h3>
+        <p class="t-dim mt-2">Seu pedido foi enviado pros prestadores verificados próximos em Ribeirão Preto. Em alguns minutos chegam as primeiras propostas.</p>
         <div class="row mt-5" style="justify-content:center; gap: 6px;">
           <span class="skeleton skeleton--prop"></span>
           <span class="skeleton skeleton--prop"></span>
@@ -988,7 +988,7 @@
             ${empty ? emptyState : proposals.map((p) => proposalCard(p, dem)).join('')}
           </div>
 
-          <p class="t-dim fs-13 mt-7 t-center">Você não é cobrado pelo LarCare por aceitar uma proposta. O pagamento acontece direto entre você e o prestador.</p>
+          <p class="t-dim fs-13 mt-7 t-center">Cliente não paga taxa por aceitar proposta. O pagamento acontece pelo app (Pix/cartão) ou direto com o prestador, como você preferir.</p>
         </div>
       </section>
     `;
@@ -1247,7 +1247,7 @@
               `).join('')}
               <div>
                 <label class="field__label">Quer deixar um comentário? <span class="t-dim">(opcional)</span></label>
-                <textarea class="textarea mt-2" name="comment" placeholder="Conte rapidamente como foi"></textarea>
+                <textarea class="textarea mt-2" name="comment" placeholder="Conta como foi (opcional). Outras pessoas leem."></textarea>
               </div>
               <label class="check">
                 <input type="checkbox" checked />

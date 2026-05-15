@@ -255,7 +255,7 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         window.location.hash = form.dataset.next;
-        if (form.dataset.next === '#/cliente') UI.toast('Cadastro concluído', 'success');
+        if (form.dataset.next === '#/cliente') UI.toast('Pronto. Bem-vinda ao LarCare', 'success');
       });
     });
 
@@ -264,7 +264,7 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         window.location.hash = form.dataset.next;
-        if (form.dataset.next === '#/prestador/status') UI.toast('Cadastro enviado para análise', 'success');
+        if (form.dataset.next === '#/prestador/status') UI.toast('Cadastro enviado. Aprovação em até 24h', 'success');
       });
     });
 
@@ -334,7 +334,7 @@
               budget_max: nd.budget_max || 280
             })
           : null;
-        UI.toast('Demanda publicada', 'success');
+        UI.toast('Pedido enviado. Aguarde as propostas', 'success');
         const targetId = created ? created.id : 'dem-001';
         window.location.hash = `#/cliente/demanda/${targetId}/aguardando`;
       });
@@ -409,7 +409,7 @@
           if (s.activeDemand) global.LarCareSim.markCompleted(s.activeDemand, 5);
         }
         if (global.LarCareAudio) global.LarCareAudio.reviewSubmitted();
-        UI.toast('Obrigado pela avaliação', 'success');
+        UI.toast('Avaliação enviada. Valeu!', 'success');
         window.location.hash = form.dataset.form === 'client-review' ? '#/cliente' : '#/prestador';
       });
     });
@@ -460,7 +460,7 @@
     root.querySelectorAll('[data-action="fast-forward"]').forEach((btn) => {
       btn.addEventListener('click', () => {
         if (global.LarCareSim) global.LarCareSim.fastForward();
-        UI.toast('Tempo avançado — propostas pendentes entregues');
+        UI.toast('Tempo adiantado. Propostas entregues');
       });
     });
 
@@ -483,10 +483,10 @@
         e.preventDefault();
         // Sinaliza para o sistema de instalação que prestador enviou proposta
         document.dispatchEvent(new CustomEvent('larcare:provider-proposed'));
-        UI.toast('Proposta enviada à cliente', 'success');
+        UI.toast('Proposta enviada. Boa sorte!', 'success');
         // Simula resposta do cliente após 12-18s
         setTimeout(() => {
-          if (global.LarCareUI) global.LarCareUI.toast('Sua proposta foi aceita!', 'success');
+          if (global.LarCareUI) global.LarCareUI.toast('Você foi escolhido! Combine no chat', 'success');
           try { navigator.vibrate && navigator.vibrate([60, 40, 80]); } catch (_) {}
         }, 12000 + Math.random() * 6000);
         window.location.hash = '#/prestador/propostas';
@@ -628,7 +628,7 @@
           slaEl.textContent = `${min}:${String(sec).padStart(2,'0')}`;
           if (respEl && s % 8 === 0) respEl.textContent = String(3 + Math.floor((120 - s) / 12));
           if (s === 105) {
-            UI.toast('Carlos H. aceitou! Está vindo até você.', 'success');
+            UI.toast('Carlos H. aceitou. Está vindo até você', 'success');
             setTimeout(() => { window.location.hash = '#/cliente/contratado/prop-001-a'; }, 1500);
             clearInterval(t);
           }
@@ -855,10 +855,10 @@
 
   function checkForUpdates() {
     if (!('serviceWorker' in navigator)) {
-      UI.toast('Atualizações automáticas não disponíveis neste navegador');
+      UI.toast('Atualização automática não disponível neste navegador');
       return;
     }
-    UI.toast('Verificando…');
+    UI.toast('Procurando atualização…');
     navigator.serviceWorker.getRegistration().then((reg) => {
       if (!reg) {
         UI.toast('Service Worker não registrado. Recarregue a página.');
@@ -872,13 +872,13 @@
           const newWaiting = !!reg.waiting && reg.waiting !== (hadWaiting ? reg.waiting : null);
           if (waitingWorker || newWaiting) {
             // banner já foi mostrado pelo updatefound listener
-            UI.toast('Nova versão pronta — toque em "Atualizar agora".', 'success');
+            UI.toast('Nova versão pronta. Toque em "Atualizar agora"', 'success');
           } else {
-            UI.toast('Você já está na versão mais recente.', 'success');
+            UI.toast('Você já está na versão mais recente', 'success');
           }
         }, 1600);
       }).catch(() => {
-        UI.toast('Não foi possível verificar atualizações agora.');
+        UI.toast('Não deu pra verificar atualização agora');
       });
     });
   }
@@ -937,17 +937,16 @@
       const liveRoutes = ['proposalsList', 'demandPublished', 'clientDashboard', 'providerDashboard', 'demandDetail'];
       if (evt === 'larcare:proposal-received' && e.detail) {
         const pro = e.detail.provider;
-        const dem = e.detail.demand;
         const msg = e.detail.isFirst
-          ? `Primeira proposta de ${pro.first_name} chegou!`
-          : `Nova proposta de ${pro.first_name} para "${dem.title.slice(0, 40)}"`;
+          ? `${pro.first_name} enviou a primeira proposta`
+          : `${pro.first_name} enviou uma proposta`;
         UI.toast(msg, 'success');
       }
       if (evt === 'larcare:demand-status' && e.detail) {
         const labels = {
           em_atendimento: 'O prestador está a caminho',
-          aguardando_avaliacao: 'Serviço concluído — sua avaliação importa',
-          completed: 'Serviço marcado como concluído'
+          aguardando_avaliacao: 'Serviço concluído. Avalie quando puder',
+          completed: 'Serviço finalizado'
         };
         const t = labels[e.detail.status];
         if (t) UI.toast(t);

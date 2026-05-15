@@ -589,7 +589,7 @@
               `).join('')}
               <div>
                 <label class="field__label">Comentário <span class="t-dim">(opcional)</span></label>
-                <textarea class="textarea mt-2" name="comment" placeholder="Conte rapidamente como foi o atendimento"></textarea>
+                <textarea class="textarea mt-2" name="comment" placeholder="Conta como foi atender o cliente (opcional)"></textarea>
               </div>
             </div>
             <div class="row mt-6" style="justify-content:space-between;">

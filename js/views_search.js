@@ -131,7 +131,7 @@
           <div class="container container--narrow">
             <div class="search-bar">
               <span class="search-bar__icon" aria-hidden="true">${UI.icon('search', 18)}</span>
-              <input class="search-bar__input" type="search" id="search-input" placeholder="Buscar prestador, categoria, bairro" value="${escapeAttr(query)}" autocomplete="off" />
+              <input class="search-bar__input" type="search" id="search-input" placeholder="Ex: eletricista, Vila Tibério, diarista" value="${escapeAttr(query)}" autocomplete="off" />
               ${query ? `<button class="search-bar__clear" type="button" data-action="clear-search" aria-label="Limpar busca">${UI.icon('close', 16)}</button>` : ''}
             </div>
             <div class="search-actions">
