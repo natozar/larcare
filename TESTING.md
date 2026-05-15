@@ -319,3 +319,47 @@ Foco: validar que a tagline principal aparece consistente, que as 3 landings ree
 - [ ] Em Perfil > Idioma, trocar pra English — homepage muda pra "I need a repair" / "I'm a provider"
 - [ ] Trocar pra Español — "Necesito una reparación" / "Soy prestador"
 - [ ] Voltar pra Português — copy reverte
+
+---
+
+## 16. v2.2.1 — Smoke test visual pós-hotfix (5 min)
+
+Após hard-reload no celular (recarregar página completamente, NÃO só cache), verificar:
+
+### 16.1. Ações rápidas no dashboard (CRÍTICO)
+- [ ] `#/cliente` → ver grid de 3 ações rápidas (Emergência / Buscar / Favoritos)
+- [ ] As 3 ações estão lado a lado em uma única linha (não empilhadas verticalmente)
+- [ ] Card "Emergência" tem borda esquerda VERMELHA fina visível
+- [ ] Em dark mode (Perfil > Tema > Escuro): vermelho da Emergência ainda visível, mas com tom da paleta dark
+
+### 16.2. Onboarding cliente em iPhone com notch
+- [ ] Abrir em browser privado (pra resetar `larcare:onboarding_client_done`)
+- [ ] Overlay com 3 telas aparece ~800ms depois
+- [ ] Botão "Pular" embaixo NÃO está sob o home indicator (visível e clicável)
+- [ ] SVG ilustração no topo NÃO está cortada pela dynamic island
+- [ ] Em viewport pequeno (iPhone SE 320×568): conteúdo scrolla verticalmente se necessário
+
+### 16.3. Toasts em mensagens longas
+- [ ] Criar uma demanda → toast "Pedido enviado. Aguarde as propostas" deve aparecer CENTRADO horizontalmente
+- [ ] Toast não está cortado em 50% do viewport
+- [ ] Em iPhone com bottom-nav: toast aparece ACIMA da bottom-nav, não atrás
+
+### 16.4. Bottom-nav e safe-area
+- [ ] Em iPhone com home indicator: bottom-nav inclui a área do indicator (não fica atrás)
+- [ ] Em qualquer página com bottom-nav: rolar até o final do conteúdo — última linha visível NÃO está atrás da nav
+
+### 16.5. Tabela "Quanto se ganha" em /para-prestadores
+- [ ] `#/para-prestadores` → rolar até a tabela
+- [ ] Em mobile, tabela tem scroll horizontal (deslize com o dedo pra ver "Você recebe")
+- [ ] Headers das colunas não truncam ("Comissão LarCare" inteiro visível ao scrollar)
+- [ ] Linhas alternadas com border-top sutil
+
+### 16.6. Update banner em iPhone
+- [ ] (Apenas após próximo deploy) Quando aparecer banner "Nova versão disponível": botão "Atualizar agora" NÃO está sob home indicator
+
+### 16.7. Smoke test geral
+- [ ] Nenhuma tela tem scroll horizontal indesejado (deslizar pra direita não deveria mostrar conteúdo cortado)
+- [ ] FAQ `#/faq` com 6 tabs: scroll horizontal funciona (rolar com dedo na faixa de tabs)
+- [ ] Header sticky com demo-banner: ambos aparecem no topo sem sobreposição quando você rola para baixo
+
+Se algum item falhar, screenshot + hash da URL + me passa.

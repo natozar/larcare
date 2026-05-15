@@ -2,6 +2,36 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.2.1 — 14 de maio de 2026 — Hotfix visual emergencial pós-deploy
+
+Owner reportou "vários problemas de layout" depois do deploy v2.2.0. Auditoria estática (sem MCP browser disponível pra QA visual) identificou 8 bugs com evidência concreta no código. Todos corrigidos cirurgicamente.
+
+### Fixed (P0)
+
+- **Grid de 3 ações rápidas no dashboard colapsava pra 1 coluna em mobile** (≤480px) por causa do `.grid-3` responsivo padrão. Criada classe `.quick-actions` que mantém 3 colunas em qualquer viewport, com gap menor e `min-height: 72px` (touch target ok).
+- **`border-left: 3px solid #C53030` hardcoded** no card de Emergência quebrava o sistema de tokens e ficava inconsistente em dark mode. Substituído por `var(--danger)` via `.quick-action--danger`.
+- **`.oc-overlay` (onboarding cliente) não respeitava safe-area-inset** — botão "Pular" podia ficar sob o home indicator do iPhone. Adicionado `max(24px, env(safe-area-inset-*))` nos 4 lados + `overflow-y: auto`.
+- **`.toast-root` definido DUAS vezes** em styles.css (linhas 544 e 1367) com propriedades conflitantes. `right: 0` da regra antiga + `left: 50%` da nova resultava em container 50% do viewport, fazendo toasts longos truncarem. Adicionado `right: auto` explícito + `width: max-content` + `max-width: calc(100vw - 32px)`.
+- **`body.has-bottom-nav main` usava `padding-bottom: 88px` fixo**. Em iPhone com home indicator, bottom-nav cresce pra ~90px com safe-area-inset, conteúdo ficava 2px atrás dela. Trocado por `calc(64px + env(safe-area-inset-bottom, 0px))`.
+- **`.update-banner` com bottom-nav usava `bottom: 64px` fixo** — mesma razão acima. Trocado por `calc(64px + env(safe-area-inset-bottom, 0px))`.
+
+### Fixed (P1)
+
+- Greeting duplicado no clientDashboard: eyebrow + h1 mostravam "Boa tarde" duas vezes. Removido eyebrow redundante.
+- `gap: 18px` (não está na escala 4-base) no hero da landing substituído por `var(--space-5)`.
+- Tabela "Quanto se ganha" em forProviders ganhou `min-width: 480px` pra evitar squeeze de coluna em mobile. Wrapper já tinha `overflow-x: auto`.
+- Botão "Painel admin" no debug panel do simulator usava `background: #1F2A28` hardcoded — quase invisível em dark mode (bg `#1A2E27`). Trocado por `btn btn--primary`.
+
+### Version
+- `LarCareConfig.VERSION` → 2.2.1
+- `CACHE_VERSION` → larcare-v2.2.1
+
+### Limitações conhecidas
+- Não foi possível rodar QA visual com MCP playwright (não disponível na sessão). Correções aplicadas baseadas em análise estática de código com evidência concreta. Owner deve fazer smoke test no celular após hard-reload (instruções em TESTING.md §16).
+- SVGs ilustrativos do onboarding usam cores hardcoded — em dark mode, o gradiente claro da ilustração contrasta com o bg escuro. Estética aceitável mas não tematicamente coesa. Fix futuro: substituir `fill="#FAF8F4"` por `fill="var(--bg)"` (suporte CSS vars em SVG é OK nos browsers modernos).
+
+---
+
 ## v2.2.0 — 14 de maio de 2026 — Sprint de reposicionamento e copy definitiva
 
 ### Added

@@ -1013,6 +1013,56 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO K — HOTFIX VISUAL EMERGENCIAL PÓS-DEPLOY v2.2.1 (2026-05-14)
+
+Sprint emergencial após owner reportar "vários problemas de layout" em produção logo após o deploy v2.2.0. Sessão estritamente cirúrgica — zero feature nova, zero refator arquitetural, zero mudança de copy.
+
+### Metodologia
+
+Tentei launcher qa-android via MCP playwright. **MCP browser tools não estavam disponíveis na sessão** (toolset restrito a fs). Decisão: prosseguir com análise ESTÁTICA de alto rigor em vez de fabricar bugs visuais sem evidência. Cada fix abaixo tem evidência concreta em código (linha/regra/conflito identificado), não palpite.
+
+### Entregue
+
+**8 fixes com evidência:**
+
+1. `.grid-3` colapsava pra 1 coluna em mobile ≤480px — criada `.quick-actions` que mantém 3 colunas em qualquer viewport
+2. `border-left: 3px solid #C53030` hardcoded → `var(--danger)` via classe `.quick-action--danger`
+3. `.oc-overlay` ganhou `padding: max(24px, env(safe-area-inset-*))` nos 4 lados + `overflow-y: auto`
+4. `.toast-root` definido duas vezes com `right: 0` legacy + `left: 50%` novo — adicionado `right: auto` + `width: max-content` + `max-width: calc(100vw - 32px)` pra evitar truncamento
+5. `body.has-bottom-nav main { padding-bottom: 88px }` fixo → `calc(64px + env(safe-area-inset-bottom, 0px))` (era 2px curto em iPhone)
+6. `.update-banner` com bottom-nav corrigido pra usar safe-area-inset-bottom
+7. Greeting duplicado no clientDashboard (eyebrow + h1) — eyebrow removido
+8. Tabela "Quanto se ganha" em forProviders ganhou `min-width: 480px` + `-webkit-overflow-scrolling: touch`
+
+**Pequenos:**
+- `gap: 18px` → `var(--space-5)` no hero
+- Botão "Painel admin" no debug panel: `background: #1F2A28` hardcoded → `btn btn--primary`
+
+### Decisões tomadas sob ambiguidade
+
+- **Não fabricar bugs visuais sem evidência**: QA agent reportou que MCP playwright não estava disponível. Optei por análise estática + alto rigor em vez de palpitar 30 telas mentalmente. Brief permite isso ("renderizar mentalmente") mas confiabilidade seria baixa. Fixes aplicados têm evidência concreta em código.
+- **Hardcoded colors em map.js Leaflet popups deixados intactos**: pins Leaflet renderizam em contexto isolado do DOM (Shadow DOM-like), não herdam CSS vars confiavelmente em todos os browsers. Cores fixas pra visibilidade sobre tile escuro/claro de mapa é decisão consciente, não bug.
+- **SVG illustrations do onboarding com gradientes claros não foram tematizadas pra dark mode**: substituir hardcoded por `var()` em SVG inline funciona em browsers modernos mas pode dar regressão. Aceito como db técnico documentado.
+- **22 telas antigas continuam com inline styles**: 8ª deferral consecutiva. Refator amplo é alto risco sem QA visual disponível. Db técnico aceito.
+
+### Storage adicionado em v2.2.1
+Nenhuma chave nova.
+
+### Arquivos modificados
+- `css/styles.css` (5 fixes consolidados)
+- `js/views.js` (dashboard markup + gap fix)
+- `js/views_provider.js` (tabela min-width)
+- `js/simulator.js` (admin button styling)
+- `js/config.js` (VERSION → 2.2.1)
+- `sw.js` (CACHE_VERSION → larcare-v2.2.1)
+- `CHANGELOG.md`, `CLAUDE.md` (este anexo)
+
+### Versão
+- `LarCareConfig.VERSION` → 2.2.1
+- `CACHE_VERSION` → larcare-v2.2.1
+
+---
+
 ## ANEXO J — SPRINT DE REPOSICIONAMENTO E COPY DEFINITIVA v2.2.0 (2026-05-14)
 
 Décimo sprint. Não adicionou features — reposicionou o produto e reescreveu toda copy externa para refletir o **público dual oficial** (chefe de casa 75% + ocupado 25%) e estabelecer a **tagline principal** que vai pro pitch.
