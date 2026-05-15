@@ -711,77 +711,139 @@
     return `
       <section class="page">
         <div class="container container--narrow">
-          <span class="eyebrow">Para prestadores</span>
-          <h1 class="mt-3">Trabalhe por conta, com segurança e fluxo de clientes em Ribeirão</h1>
-          <p class="lead mt-4">Você é eletricista, encanador, pintor, diarista, jardineiro, marido de aluguel, técnico de ar, chaveiro? O LarCare conecta seu trabalho a quem precisa, sem você ter que caçar cliente no Facebook ou no boca a boca.</p>
+          <span class="eyebrow">Pra prestadores</span>
+          <h1 class="mt-3">Trabalho sério, com cliente que respeita.</h1>
+          <p class="lead mt-4">Você é eletricista, encanador, diarista, jardineiro, faz-tudo, técnico de ar, chaveiro? Receba pedidos qualificados em Ribeirão Preto, sem pagar mensalidade. Cliente que já descreveu o problema, tem endereço, sabe o que quer.</p>
 
           <div class="grid grid-2 mt-7">
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">📲</span>
-                <strong>Demandas vêm até você</strong>
+                <strong>Sem mensalidade</strong>
               </div>
-              <p class="t-dim fs-14">Cliente publica, prestadores compatíveis recebem notificação. Você só envia proposta no que faz sentido.</p>
+              <p class="t-dim fs-14">Você só paga quando trabalha — 5% sobre o serviço resolvido. Sem custo fixo, sem cobrança escondida.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
-                <span style="font-size:24px;">⭐</span>
-                <strong>Reputação que fica</strong>
+                <span style="font-size:24px;">🎯</span>
+                <strong>Cliente já chega decidido</strong>
               </div>
-              <p class="t-dim fs-14">Cada serviço bem feito vira avaliação. Cliente novo vê histórico antes de te contratar.</p>
+              <p class="t-dim fs-14">Descreveu o problema, tem endereço, sabe o que quer. Você só envia proposta no que faz sentido pra sua agenda.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">💰</span>
                 <strong>Pagamento direto</strong>
               </div>
-              <p class="t-dim fs-14">Você combina o valor e recebe direto do cliente. LarCare não tira percentual nessa fase.</p>
+              <p class="t-dim fs-14">Pix na hora ou cartão pelo app. Você combina a forma e recebe sem intermediação demorada.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
-                <span style="font-size:24px;">🛡️</span>
-                <strong>Selo de verificado</strong>
+                <span style="font-size:24px;">⭐</span>
+                <strong>Reputação que fica</strong>
               </div>
-              <p class="t-dim fs-14">Quem completa verificação ganha destaque na busca. Cliente confia mais e aceita mais propostas.</p>
+              <p class="t-dim fs-14">Cada serviço bem feito vira avaliação pública. Cliente novo vê seu histórico antes de te contratar.</p>
             </div>
           </div>
 
           <h2 class="mt-8">Como começar</h2>
           <div class="steps-card mt-4">
-            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Faça seu cadastro</h3><p class="t-dim mt-2">5 minutos no celular: dados, foto, o que você faz, onde atende.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Veja as demandas</h3><p class="t-dim mt-2">Lista filtrada pela sua categoria e raio de atendimento. Atualiza em tempo real.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Envie sua proposta</h3><p class="t-dim mt-2">Valor, prazo e mensagem. Cliente recebe e escolhe entre os prestadores.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Faça o serviço, receba</h3><p class="t-dim mt-2">Combinou e fez. Cliente paga direto. Os dois se avaliam ao final.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Faça seu cadastro</h3><p class="t-dim mt-2">5 minutos no celular: dados, foto, o que você faz, onde atende em Ribeirão Preto.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Envie fotos do seu trabalho</h3><p class="t-dim mt-2">Antes/depois de serviços que você já fez. Cliente confia mais em quem mostra obra entregue.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Verificação em até 24h</h3><p class="t-dim mt-2">Conferimos RG, antecedente e endereço. Você recebe o selo "Verificado" e fica mais visível.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Receba os primeiros pedidos</h3><p class="t-dim mt-2">Notificação no celular quando aparece pedido compatível com sua categoria e raio.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">5</span><h3>Faça, receba, avalie</h3><p class="t-dim mt-2">Combinou e fez. Recebe pelo Pix ou cartão. Os dois se avaliam ao final.</p></div>
           </div>
 
-          <h2 class="mt-8">Perguntas frequentes</h2>
+          <h2 class="mt-8">Quem se dá bem aqui</h2>
+          <div class="grid grid-3 mt-4">
+            <div class="card">
+              <div class="row" style="gap: 12px; margin-bottom: 8px;">
+                <span class="avatar avatar--accent">CH</span>
+                <div>
+                  <div style="font-weight:600;">Carlos H., 45</div>
+                  <div class="t-dim fs-13">Vila Tibério · 20 anos de bairro</div>
+                </div>
+              </div>
+              <p class="t-dim fs-14">"O LarCare me trouxe pedidos de bairros que eu nem atendia. Hoje fecho a semana com agenda cheia, sem caçar cliente."</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap: 12px; margin-bottom: 8px;">
+                <span class="avatar avatar--accent">DM</span>
+                <div>
+                  <div style="font-weight:600;">Diana M., 38</div>
+                  <div class="t-dim fs-13">Diarista · Sumarezinho</div>
+                </div>
+              </div>
+              <p class="t-dim fs-14">"Antes era WhatsApp das amigas. Hoje organizo agenda no app, tenho avaliação que fica, e o cliente paga pelo Pix sem precisar lembrar."</p>
+            </div>
+            <div class="card">
+              <div class="row" style="gap: 12px; margin-bottom: 8px;">
+                <span class="avatar avatar--accent">PT</span>
+                <div>
+                  <div style="font-weight:600;">Pedro T., 28</div>
+                  <div class="t-dim fs-13">Faz-tudo · Jardim Paulista</div>
+                </div>
+              </div>
+              <p class="t-dim fs-14">"Comecei autônomo agora e a verificação me deu credibilidade. Cliente vê o selo e topa pagar o preço justo do trabalho."</p>
+            </div>
+          </div>
+
+          <h2 class="mt-8">Quanto se ganha</h2>
+          <p class="t-dim mt-3">Valores de referência baseados em ticket médio praticado em Ribeirão Preto. Você define seu preço dentro da faixa de mercado.</p>
+          <div class="card mt-4" style="padding: 0; overflow-x: auto;">
+            <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+              <thead style="background: var(--bg); color: var(--text-dim); font-weight: 600;">
+                <tr>
+                  <th style="text-align:left; padding: 12px 16px;">Categoria</th>
+                  <th style="text-align:right; padding: 12px 16px;">Ticket médio</th>
+                  <th style="text-align:right; padding: 12px 16px;">Comissão LarCare</th>
+                  <th style="text-align:right; padding: 12px 16px;">Você recebe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-top: 1px solid var(--border);"><td style="padding: 12px 16px;">Elétrica residencial</td><td style="text-align:right; padding: 12px 16px;">R$ 180</td><td style="text-align:right; padding: 12px 16px;">R$ 9</td><td style="text-align:right; padding: 12px 16px; font-weight:600;">R$ 171</td></tr>
+                <tr style="border-top: 1px solid var(--border);"><td style="padding: 12px 16px;">Hidráulica</td><td style="text-align:right; padding: 12px 16px;">R$ 220</td><td style="text-align:right; padding: 12px 16px;">R$ 11</td><td style="text-align:right; padding: 12px 16px; font-weight:600;">R$ 209</td></tr>
+                <tr style="border-top: 1px solid var(--border);"><td style="padding: 12px 16px;">Diarista (8h)</td><td style="text-align:right; padding: 12px 16px;">R$ 180</td><td style="text-align:right; padding: 12px 16px;">R$ 9</td><td style="text-align:right; padding: 12px 16px; font-weight:600;">R$ 171</td></tr>
+                <tr style="border-top: 1px solid var(--border);"><td style="padding: 12px 16px;">Montagem de móveis</td><td style="text-align:right; padding: 12px 16px;">R$ 200</td><td style="text-align:right; padding: 12px 16px;">R$ 10</td><td style="text-align:right; padding: 12px 16px; font-weight:600;">R$ 190</td></tr>
+                <tr style="border-top: 1px solid var(--border);"><td style="padding: 12px 16px;">Faz-tudo (dia)</td><td style="text-align:right; padding: 12px 16px;">R$ 250</td><td style="text-align:right; padding: 12px 16px;">R$ 12,50</td><td style="text-align:right; padding: 12px 16px; font-weight:600;">R$ 237,50</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="t-dim fs-13 mt-2">Valores de referência baseados em mercado de Ribeirão Preto. Você define o preço dentro da faixa.</p>
+
+          <h2 class="mt-8">Suas dúvidas</h2>
           <div class="stack mt-4">
             <details class="faq-item">
-              <summary>Quanto custa pra usar?</summary>
-              <p class="t-dim mt-2">Nada na fase inicial. Não cobramos mensalidade nem comissão por serviço. No futuro pode entrar uma comissão pequena, sempre transparente.</p>
+              <summary>Quanto custa pra estar no LarCare?</summary>
+              <p class="t-dim mt-2">Sem mensalidade. Você só paga 5% sobre o valor de cada serviço resolvido. Sem cobrança escondida, sem assinatura.</p>
             </details>
             <details class="faq-item">
               <summary>Como funciona a verificação?</summary>
-              <p class="t-dim mt-2">Pedimos foto de RG ou CNH + comprovante de residência. Conferimos em até 48h e seu perfil ganha o selo "Verificado".</p>
+              <p class="t-dim mt-2">Você envia foto de RG ou CNH, comprovante de residência e antecedente criminal (gratuito pela Polícia Civil). Conferimos em até 24h e seu perfil ganha o selo "Verificado".</p>
             </details>
             <details class="faq-item">
               <summary>E se o cliente não pagar?</summary>
-              <p class="t-dim mt-2">O pagamento acontece direto entre vocês. Sempre combine antes (à vista, Pix, transferência) e nunca comece sem confirmar. Em caso de problema, o LarCare ajuda na mediação.</p>
+              <p class="t-dim mt-2">O pagamento acontece pelo app (Pix ou cartão) ou direto entre vocês. Sempre combine antes. Em caso de calote, registre conosco — clientes com histórico de calote são banidos.</p>
             </details>
             <details class="faq-item">
               <summary>Quantas categorias posso cadastrar?</summary>
-              <p class="t-dim mt-2">Até 5 no cadastro inicial. Mas escolha as que você faz bem, não tudo. Cliente percebe quando o prestador é especialista.</p>
+              <p class="t-dim mt-2">Até 5 no cadastro inicial. Mas escolha as que você faz bem, não tudo. Cliente percebe quem é especialista.</p>
             </details>
             <details class="faq-item">
               <summary>Posso atender só algumas regiões?</summary>
-              <p class="t-dim mt-2">Sim. Você define o bairro de partida e o raio máximo de atendimento (1 a 30 km). Demandas fora do raio não aparecem pra você.</p>
+              <p class="t-dim mt-2">Sim. Você define seu bairro de partida e o raio máximo (1 a 30 km). Pedidos fora do raio não aparecem pra você.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Como saio da plataforma se quiser?</summary>
+              <p class="t-dim mt-2">Em Perfil > Configurações > "Excluir minha conta". Seus dados são apagados em até 30 dias. Avaliações públicas anonimizadas permanecem pra preservar histórico de clientes.</p>
             </details>
           </div>
 
           <div class="card card--feature mt-8 t-center">
             <h2 style="color:#fff;">Pronto pra começar?</h2>
-            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Cadastro em 5 minutos. Atende Ribeirão Preto e região.</p>
-            <a class="btn btn--accent btn--lg" href="#/onboarding-prestador">Quero ser prestador</a>
+            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Cadastro em 5 minutos. Atende Ribeirão Preto.</p>
+            <a class="btn btn--accent btn--lg" href="#/onboarding-prestador">Cadastrar agora — 5 minutos</a>
           </div>
         </div>
       </section>
@@ -795,77 +857,137 @@
     return `
       <section class="page">
         <div class="container container--narrow">
-          <span class="eyebrow">Para clientes</span>
-          <h1 class="mt-3">Cuidado para sua casa, sem dor de cabeça</h1>
-          <p class="lead mt-4">Torneira pingando, lâmpada queimada, móvel pra montar, mancha no sofá, dedetização, jardim pra cuidar. Em Ribeirão Preto você descreve, recebe propostas em minutos e escolhe.</p>
+          <span class="eyebrow">Pra clientes</span>
+          <h1 class="mt-3">Sua casa pede atenção. A gente resolve.</h1>
+          <p class="lead mt-4">Eletricista, encanador, diarista, faz-tudo — todos verificados, perto de você em Ribeirão Preto. Você descreve o que precisa, recebe propostas em minutos e escolhe quem topa o seu serviço.</p>
 
-          <div class="grid grid-2 mt-7">
+          <div class="t-center mt-6">
+            <a class="btn btn--primary btn--lg" href="#/cliente/nova-demanda">Pedir um serviço agora</a>
+          </div>
+
+          <h2 class="mt-8">Como funciona em 3 passos</h2>
+          <div class="steps-card mt-4">
+            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Você descreve o que precisa</h3><p class="t-dim mt-2">Categoria, descrição, foto opcional, prazo. Em três minutos seu pedido tá publicado.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Prestadores próximos enviam orçamento</h3><p class="t-dim mt-2">Em média 30 minutos pra primeira proposta. Você compara valor, prazo, nota, distância.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Você escolhe, contrata, avalia</h3><p class="t-dim mt-2">Aceita a proposta que topou, combina no chat, paga pelo Pix ou cartão. No fim avalia.</p></div>
+          </div>
+
+          <h2 class="mt-8">Por que LarCare</h2>
+          <div class="grid grid-2 mt-4">
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">🛡️</span>
                 <strong>Prestadores verificados</strong>
               </div>
-              <p class="t-dim fs-14">Identidade, antecedente criminal e endereço conferidos antes de cada prestador entrar.</p>
+              <p class="t-dim fs-14">RG, antecedente criminal e endereço conferidos antes de cada prestador aparecer no app.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">⚡</span>
-                <strong>Propostas em minutos</strong>
+                <strong>Em até 30 minutos</strong>
               </div>
-              <p class="t-dim fs-14">Em média você recebe 4 propostas em até 2 horas. Compara valor, prazo, avaliações.</p>
+              <p class="t-dim fs-14">Primeira proposta na sua tela em meia hora em horário comercial. Pedidos urgentes, ainda mais rápido.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
-                <span style="font-size:24px;">💬</span>
-                <strong>Contato direto</strong>
+                <span style="font-size:24px;">💰</span>
+                <strong>Sem cobrança escondida</strong>
               </div>
-              <p class="t-dim fs-14">Aceitou a proposta? Conversa no chat do app ou WhatsApp. Combina detalhes direto, sem intermediário.</p>
+              <p class="t-dim fs-14">Você vê o preço antes de aceitar. Material à parte é informado na proposta. Sem surpresa na chegada.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">⭐</span>
-                <strong>Avaliação cruzada</strong>
+                <strong>Avaliação dos dois lados</strong>
               </div>
-              <p class="t-dim fs-14">Você avalia o prestador, ele te avalia. Reputação real, dos dois lados, todo serviço.</p>
+              <p class="t-dim fs-14">Você avalia o prestador, ele te avalia. Quem trabalha bem fica bem visto. Quem não cumpre, perde espaço.</p>
             </div>
           </div>
 
-          <h2 class="mt-8">Como pedir um serviço</h2>
-          <div class="steps-card mt-4">
-            <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Escolha a categoria</h3><p class="t-dim mt-2">18 tipos de serviço em 4 grupos: reparos, limpeza, cuidado da casa, família e pet.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Descreva o problema</h3><p class="t-dim mt-2">Quanto mais detalhes (foto ajuda muito), melhores as propostas.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Receba propostas</h3><p class="t-dim mt-2">Compare valor, prazo, distância, avaliações. Sem pressa.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">4</span><h3>Aceite e combine</h3><p class="t-dim mt-2">Contato liberado. Vocês combinam no app, WhatsApp ou no telefone.</p></div>
+          <h2 class="mt-8">Quem usa o LarCare</h2>
+          <div class="grid grid-3 mt-4">
+            <article class="card">
+              <div class="row" style="gap: 12px;">
+                <span class="avatar avatar--accent">MC</span>
+                <div>
+                  <div style="font-weight:600;">Maria Cristina, 42</div>
+                  <div class="t-dim fs-13">Jd. Califórnia</div>
+                </div>
+              </div>
+              <div class="rating mt-3">${UI.ratingStars(5)}</div>
+              <p class="mt-3" style="line-height:1.6;">"Tinha uma torneira pingando há semanas. Em meia hora tinha quatro propostas. À tarde tava resolvido."</p>
+            </article>
+            <article class="card">
+              <div class="row" style="gap: 12px;">
+                <span class="avatar avatar--accent">RM</span>
+                <div>
+                  <div style="font-weight:600;">Ricardo M., 36</div>
+                  <div class="t-dim fs-13">Iguatemi</div>
+                </div>
+              </div>
+              <div class="rating mt-3">${UI.ratingStars(5)}</div>
+              <p class="mt-3" style="line-height:1.6;">"Trabalho fora o dia todo. Combinei pelo app, deixei a chave na portaria, cheguei e tava pronto."</p>
+            </article>
+            <article class="card">
+              <div class="row" style="gap: 12px;">
+                <span class="avatar avatar--accent">HR</span>
+                <div>
+                  <div style="font-weight:600;">Helena R., 38</div>
+                  <div class="t-dim fs-13">Ribeirânia</div>
+                </div>
+              </div>
+              <div class="rating mt-3">${UI.ratingStars(5)}</div>
+              <p class="mt-3" style="line-height:1.6;">"Moro sozinha. Aqui vejo a nota e o nome verificado antes de aceitar. Outro nível."</p>
+            </article>
           </div>
 
-          <h2 class="mt-8">Perguntas frequentes</h2>
+          <h2 class="mt-8">Categorias atendidas</h2>
+          <p class="t-dim mt-3">18 tipos de serviço em 4 grupos. Toque na categoria pra ir direto pro pedido.</p>
+          <div class="grid grid-4 mt-4">
+            ${D.CATEGORIES.slice(0, 12).map((c) => `
+              <a class="cat-tile" href="#/cliente/nova-demanda?cat=${c.id}">
+                <span class="cat-tile__icon">${UI.icon(c.icon, 22)}</span>
+                <span class="cat-tile__name">${c.name}</span>
+              </a>
+            `).join('')}
+          </div>
+
+          <h2 class="mt-8">Perguntas que a gente ouve sempre</h2>
           <div class="stack mt-4">
             <details class="faq-item">
-              <summary>Quanto custa pra usar o LarCare?</summary>
-              <p class="t-dim mt-2">Nada. Você não paga por usar a plataforma nem por aceitar propostas. O valor é só do serviço, combinado diretamente com o prestador.</p>
+              <summary>Quanto custa pra eu usar o LarCare?</summary>
+              <p class="t-dim mt-2">Nada. Sem mensalidade, sem taxa por pedido, sem cobrança por aceitar proposta. A LarCare cobra 5% do prestador sobre cada serviço — ele já considera isso na proposta.</p>
             </details>
             <details class="faq-item">
               <summary>Como sei que o prestador é confiável?</summary>
-              <p class="t-dim mt-2">Todo prestador passa por verificação (identidade, antecedente, endereço). Os que completam ganham o selo "Verificado". Cada serviço gera avaliação pública, e a média fica no perfil.</p>
+              <p class="t-dim mt-2">Todo prestador passa por verificação (identidade, antecedente, endereço). Quem completa ganha o selo "Verificado". Cada serviço gera avaliação pública — você vê a nota antes de aceitar.</p>
             </details>
             <details class="faq-item">
-              <summary>E se algo der errado durante o serviço?</summary>
-              <p class="t-dim mt-2">Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Para urgências, há canal direto pelo WhatsApp do suporte.</p>
+              <summary>Posso não estar em casa quando o prestador chegar?</summary>
+              <p class="t-dim mt-2">Pode. Combine no chat do app: quem abre a porta, onde fica a chave, como acompanhar pelo WhatsApp. Vários prestadores aceitam mandar foto antes/depois pra você acompanhar de longe.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Tem garantia se o serviço não ficar bom?</summary>
+              <p class="t-dim mt-2">A maioria dos prestadores oferece 30 dias de garantia em serviços técnicos. Combine isso no chat antes de fechar. Se houver problema na garantia, registre conosco pelo app.</p>
             </details>
             <details class="faq-item">
               <summary>Como pago o prestador?</summary>
-              <p class="t-dim mt-2">Diretamente com ele, da forma que combinarem (Pix, dinheiro, transferência). O LarCare não intermedia o pagamento nesta fase.</p>
+              <p class="t-dim mt-2">Pix pelo app (mais comum), cartão pelo app, ou direto com o prestador no fim do serviço. Você escolhe a forma na hora de aceitar a proposta.</p>
             </details>
             <details class="faq-item">
               <summary>Atende quais bairros de Ribeirão Preto?</summary>
               <p class="t-dim mt-2">Centro, Jardim Botânico, Iguatemi, Ribeirânia, Castelo, Sumarezinho, Vila Tibério, Jardim Califórnia, Alto da Boa Vista, Nova Aliança, Ipiranga, Jardim Paulista, e crescendo.</p>
             </details>
+            <details class="faq-item">
+              <summary>E se algo der errado durante o serviço?</summary>
+              <p class="t-dim mt-2">Reporta pelo app. Suporte humano responde em até 48h. Pra urgências, canal direto pelo WhatsApp do suporte. Avaliação negativa afeta o ranking do prestador.</p>
+            </details>
           </div>
 
           <div class="card card--feature mt-8 t-center">
-            <h2 style="color:#fff;">Pronto pra resolver?</h2>
-            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Descreva o que precisa em 3 minutos. Sem cadastro pesado.</p>
-            <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir serviço agora</a>
+            <h2 style="color:#fff;">Resolver agora.</h2>
+            <p style="color:rgba(255,255,255,0.85); margin: 12px auto 24px; max-width: 480px;">Pedir um serviço leva três minutos. Sem cadastro pesado.</p>
+            <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir um serviço</a>
           </div>
         </div>
       </section>
@@ -1118,60 +1240,83 @@
   function faq(params) {
     const FAQ_DATA = {
       cliente: {
-        label: 'Para clientes',
+        label: 'Pra clientes',
         items: [
-          ['Como funciona o LarCare?', 'Você descreve o que precisa (categoria, fotos, prazo), prestadores qualificados da sua região recebem a demanda e enviam propostas com valor, prazo e mensagem. Você compara, escolhe, e o contato é liberado pra combinarem direto.'],
-          ['Quanto custa pra eu usar?', 'Nada. Você não paga por se cadastrar, criar demandas ou aceitar propostas. O valor é só do serviço, combinado diretamente com o prestador. Não cobramos comissão do cliente.'],
-          ['Como sei que o prestador é confiável?', 'Todo prestador passa por verificação de identidade, antecedente criminal e endereço antes de aparecer na plataforma. Quem completa o processo recebe o selo "Verificado". Cada serviço gera avaliação pública, e a média fica no perfil.'],
-          ['Em quanto tempo recebo a primeira proposta?', 'A média é de 2 horas em horário comercial, com pico durante o dia. Demandas urgentes (status "Hoje") costumam receber propostas em até 30 minutos.'],
-          ['E se o serviço não ficar bom?', 'Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Para urgências, há canal direto pelo WhatsApp do suporte. Avaliação ruim afeta o ranking do prestador.'],
-          ['Posso cancelar uma demanda depois de criada?', 'Sim, sem custo, enquanto estiver aguardando propostas ou comparando. Depois que aceitar uma proposta, cancele só em casos excepcionais — combine direto com o prestador.'],
-          ['Posso pedir orçamento sem compromisso?', 'Pode. Receber propostas não te obriga a contratar. Você só compromete quando aceita uma proposta — e mesmo assim, pode renegociar com o prestador antes do serviço começar.']
+          ['Como peço um serviço no LarCare?', 'Você descreve o que precisa em 3 minutos (categoria, foto opcional, prazo). Prestadores verificados da sua região recebem o pedido e mandam proposta com valor, prazo e mensagem. Você compara, escolhe, e o contato é liberado.'],
+          ['Quanto custa pra eu usar?', 'Nada. Sem mensalidade, sem taxa por pedido, sem cobrança por aceitar proposta. A LarCare cobra 5% do prestador sobre cada serviço — ele já considera isso na proposta.'],
+          ['Como sei que o prestador é confiável?', 'Todo prestador passa por verificação de identidade (RG/CNH), antecedente criminal e endereço antes de aparecer no app. Quem completa o processo recebe o selo "Verificado". Cada serviço gera avaliação pública.'],
+          ['Em quanto tempo recebo a primeira proposta?', 'A média é 30 minutos em horário comercial. Pedidos marcados como urgentes costumam receber propostas em até 15 minutos.'],
+          ['Posso não estar em casa quando o prestador chegar?', 'Pode. Combine no chat do app: quem abre a porta, onde fica a chave, como acompanhar pelo WhatsApp. Vários prestadores aceitam fotos antes/depois pra você acompanhar de longe.'],
+          ['Como faço se eu trabalho fora o dia todo?', 'Você pode marcar serviço pra horário noturno ou fim de semana. Filtra prestadores por disponibilidade. Combina pagamento pelo Pix antes do serviço. Recibo fica no chat.'],
+          ['E se o serviço não ficar bom?', 'Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Pra urgências, canal direto pelo WhatsApp do suporte. Avaliação negativa afeta o ranking do prestador.'],
+          ['Posso cancelar um pedido depois de criado?', 'Pode, sem custo, enquanto estiver aguardando propostas ou comparando. Depois de aceitar, cancele só em casos excepcionais — combine direto com o prestador.'],
+          ['Posso pedir orçamento sem compromisso?', 'Pode. Receber propostas não te obriga a contratar. Você só se compromete quando aceita uma proposta — e mesmo assim, pode renegociar antes do serviço começar.'],
+          ['Como acompanho o serviço se não estou em casa?', 'Pelo chat do app. Peça pro prestador mandar foto do antes e do depois. Pagamento pelo Pix dentro do app deixa registro. Notificações em tempo real do status (chegou, começou, terminou).'],
+          ['Posso pedir o mesmo prestador de novo?', 'Pode. No histórico, toque em "Contratar de novo" — leva direto pra criar novo pedido com aquele prestador como prioridade.'],
+          ['Tem garantia se o serviço não ficar bom?', 'A maioria dos prestadores oferece 30 dias de garantia em serviços técnicos (elétrica, hidráulica, eletrônica). Combine isso no chat antes de fechar. Se houver problema na garantia, registre conosco pelo app.']
         ]
       },
       prestador: {
-        label: 'Para prestadores',
+        label: 'Pra prestadores',
         items: [
-          ['Quanto eu pago pra estar no LarCare?', 'Nada na fase atual. Sem mensalidade, sem comissão por proposta aceita. No futuro pode entrar comissão pequena, sempre transparente e comunicada com antecedência.'],
-          ['Como recebo as demandas?', 'Demandas compatíveis com suas categorias e dentro do seu raio de atendimento aparecem no feed do app. Você pode filtrar por urgência, distância, faixa de orçamento. Receba notificação no celular quando aparecer demanda nova.'],
-          ['Posso recusar uma demanda?', 'Pode. Você só envia proposta no que faz sentido pra você. Não há penalidade por não responder a uma demanda específica.'],
-          ['E se o cliente não pagar?', 'O pagamento acontece direto entre vocês. Sempre combine antes (Pix, transferência, dinheiro) e nunca comece o serviço sem confirmar a forma. Em caso de calote, registre conosco pelo app — clientes com histórico de calote são banidos.'],
-          ['Como funciona a verificação?', 'Você envia foto de RG ou CNH e comprovante de residência. Conferimos em até 48h e seu perfil ganha o selo "Verificado", que aumenta sua visibilidade na busca e a confiança do cliente.'],
-          ['Posso aumentar minha visibilidade?', 'Sim, principalmente: completando 100% do perfil (bio + foto + verificação), respondendo demandas em menos de 30 minutos, mantendo nota acima de 4.5, e tendo alta taxa de aceite.'],
-          ['Como saio da plataforma?', 'Em Perfil > Configurações > "Excluir minha conta". Seus dados pessoais são apagados em até 30 dias (mantemos só o mínimo legal exigido). Avaliações públicas anonimizadas permanecem pra preservar histórico de clientes.']
+          ['Quanto eu pago pra estar no LarCare?', 'Sem mensalidade. Sem custo de cadastro. Você só paga 5% sobre o valor de cada serviço que aceitar e concluir. Sem cobrança escondida, sem assinatura.'],
+          ['Como recebo os pedidos?', 'Pedidos compatíveis com suas categorias e dentro do seu raio aparecem no feed do app. Filtra por urgência, distância, faixa de orçamento. Notificação no celular quando aparecer pedido novo.'],
+          ['Posso recusar um pedido?', 'Pode. Você só envia proposta no que faz sentido pra você. Sem penalidade por não responder. Mas responder rápido melhora seu ranking.'],
+          ['E se o cliente não pagar?', 'O pagamento acontece pelo app (Pix ou cartão) ou direto entre vocês. Sempre combine antes. Em caso de calote, registre conosco — clientes com histórico de calote são banidos.'],
+          ['Como funciona a verificação?', 'Você envia foto de RG ou CNH, comprovante de residência e antecedente criminal (gratuito pela Polícia Civil). Conferimos em até 24h e seu perfil ganha o selo "Verificado".'],
+          ['Como aumento minha visibilidade?', 'Completando 100% do perfil (bio + foto + verificação), respondendo pedidos em menos de 30 minutos, mantendo nota acima de 4.5, e tendo alta taxa de aceite.'],
+          ['Posso atender só algumas regiões?', 'Sim. Você define seu bairro de partida e o raio máximo (1 a 30 km). Pedidos fora do raio não aparecem pra você.'],
+          ['Quantas categorias posso cadastrar?', 'Até 5 no cadastro. Mas escolha as que você faz bem, não tudo. Cliente percebe quem é especialista.'],
+          ['Posso emitir nota fiscal pelo app?', 'Se você é MEI, pode emitir NF tradicional. O app gera comprovante de pagamento da plataforma, que serve pra você juntar com sua NF.'],
+          ['Como saio da plataforma?', 'Em Perfil > Configurações > "Excluir minha conta". Seus dados pessoais são apagados em até 30 dias. Avaliações públicas anonimizadas permanecem.'],
+          ['Quando eu recebo o pagamento?', 'Pagamento via Pix pelo app cai na sua conta em até 1 hora útil. Cartão demora 1 dia útil. Pix direto entre vocês cai na hora.']
         ]
       },
       pagamento: {
         label: 'Pagamento',
         items: [
-          ['Como o cliente paga o prestador?', 'Direto, da forma que combinarem: Pix (mais comum), dinheiro, transferência, ou cartão se o prestador aceitar. Nenhum dinheiro passa pela plataforma nesta fase.'],
-          ['O LarCare cobra alguma comissão?', 'Não cobramos comissão de cliente nem de prestador. A plataforma se sustenta de outras formas (parcerias B2B futuras com financeiras e seguradoras, sempre opcional para o usuário).'],
-          ['Posso pagar com cartão? PIX?', 'Depende do prestador. Cada um aceita as formas que prefere. Pix é universal — todos aceitam. Combine no chat antes de fechar.'],
-          ['Quando o prestador recebe?', 'No momento que combinarem. Maioria recebe no fim do serviço (Pix na hora) ou metade antes / metade depois. Nunca antes de iniciar o atendimento.'],
-          ['Tem nota fiscal?', 'Prestadores MEI podem emitir nota fiscal. Combine isso antes de fechar se você precisa de NF para reembolso ou imposto. Não-MEI emite recibo simples.'],
-          ['Tem garantia?', 'Varia por prestador. A maioria oferece 30 dias de garantia em serviços técnicos (elétrica, hidráulica, eletrônica). Combine no chat antes de fechar. Em caso de problema na garantia, registre conosco.']
+          ['Como o cliente paga o prestador?', 'Pix pelo app (mais comum), cartão pelo app, ou direto com o prestador no fim do serviço. Você escolhe a forma na hora de aceitar a proposta.'],
+          ['O LarCare cobra alguma comissão?', 'Sim, 5% sobre cada serviço resolvido, pago pelo prestador. Cliente não paga nada pra usar o app. O prestador já considera essa comissão na proposta.'],
+          ['Posso pagar com cartão pelo app?', 'Pode. Cartão de crédito (parcelado em até 3x sem juros). Cartão de débito ou Pix são à vista. Combine a forma no chat antes de fechar.'],
+          ['Quando o prestador recebe?', 'Pix pelo app: até 1 hora útil. Cartão: 1 dia útil. Pix direto entre vocês: na hora.'],
+          ['Tem nota fiscal?', 'Prestadores MEI podem emitir NF. Combine isso antes de fechar se você precisa de NF pra reembolso ou imposto. Não-MEI emite recibo simples no chat.'],
+          ['Tem garantia?', 'Varia por prestador. Maioria oferece 30 dias de garantia em serviços técnicos. Combine no chat antes de fechar. Em caso de problema, registre conosco.'],
+          ['Posso negociar o preço com o prestador?', 'Pode. Depois de aceitar a proposta, vocês podem renegociar pelo chat. Sem interferência do app. Só lembre que mudança de valor depois do serviço começou é desaconselhada.'],
+          ['Por que vocês cobram 5% e não mais?', 'Porque queremos que prestador e cliente fiquem na plataforma. Comissão alta empurra prestador pro fora do app no segundo serviço. 5% é sustentável e justo.']
         ]
       },
       seguranca: {
         label: 'Segurança',
         items: [
-          ['Meus dados estão seguros?', 'Sim. Operamos em conformidade com a LGPD (Lei nº 13.709/2018). Seus dados são criptografados em trânsito e em repouso, com acesso restrito por papel. Nunca vendemos dados pessoais identificados.'],
-          ['O prestador vai saber meu endereço completo?', 'Só após você aceitar a proposta dele. Antes disso, ele vê apenas seu bairro e a distância aproximada. Endereço completo só é liberado no momento da contratação.'],
+          ['Meus dados estão seguros?', 'Sim. Operamos em conformidade com a LGPD (Lei nº 13.709/2018). Seus dados são criptografados em trânsito e em repouso. Acesso restrito por papel na equipe interna.'],
+          ['Vocês vendem meus dados?', 'Não. Nunca vendemos dados pessoais identificados. Insights agregados anonimizados podem ser compartilhados com parceiros (construtoras, seguradoras) — sempre opcional pra você, sempre com consentimento explícito.'],
+          ['O prestador vai saber meu endereço completo?', 'Só depois de você aceitar a proposta dele. Antes disso, ele vê apenas seu bairro e a distância aproximada. Endereço completo só é liberado no momento da contratação.'],
           ['E se eu não me sentir seguro?', 'Você pode cancelar a contratação a qualquer momento antes do serviço começar. Se houver risco (ameaça, fraude, comportamento inadequado), use o botão "Reportar" no perfil do prestador — analisamos em 24h.'],
-          ['Vocês fazem verificação de antecedentes?', 'Sim. Para prestadores: identidade (foto de documento), antecedente criminal (consulta gratuita da Polícia Civil), endereço (comprovante recente). Reverificamos a cada 6 meses.'],
-          ['O que faço se for vítima de fraude?', 'Acione nosso suporte imediatamente pelo WhatsApp do contato. Reúna evidências (prints da conversa, comprovante de pagamento, fotos). Auxiliamos com BO online e bloqueamos o prestador na plataforma.'],
-          ['Como denuncio um prestador?', 'No perfil dele, toque em "Reportar". Descreva o que aconteceu, anexe evidências se tiver. Investigamos em até 48h. Denúncias graves levam a suspensão imediata.']
+          ['Vocês fazem verificação de antecedentes?', 'Sim. Pra prestadores: identidade (foto de documento), antecedente criminal (consulta gratuita Polícia Civil), endereço (comprovante recente). Reverificamos a cada 6 meses.'],
+          ['O que faço se for vítima de fraude?', 'Acione nosso suporte imediatamente pelo WhatsApp. Reúna evidências (prints, comprovante de pagamento, fotos). Auxiliamos com BO online e bloqueamos o prestador na plataforma.'],
+          ['Como denuncio um prestador?', 'No perfil dele, toque em "Reportar". Descreva o que aconteceu, anexe evidências. Investigamos em até 48h. Denúncias graves levam a suspensão imediata.'],
+          ['Posso pedir pra ver o documento do prestador antes do serviço?', 'O selo "Verificado" significa que a equipe LarCare já conferiu o documento. Você não precisa ver o original. Mas pode pedir pra confirmar nome no chat antes de abrir a porta.']
+        ]
+      },
+      ribeirao: {
+        label: 'Ribeirão Preto',
+        items: [
+          ['Vocês atendem só Ribeirão Preto?', 'Hoje, sim. Estamos operando exclusivamente em Ribeirão Preto pra testar o produto com profundidade antes de escalar.'],
+          ['Quando vai pra outras cidades?', 'A próxima cidade no plano é Araraquara, ainda em 2026. Depois: outras capitais de estado e cidades médias com perfil parecido. Sem data fixa — primeiro queremos estar redondos aqui.'],
+          ['Atende quais bairros?', 'Centro, Jardim Botânico, Iguatemi, Ribeirânia, Castelo, Sumarezinho, Vila Tibério, Jardim Califórnia, Alto da Boa Vista, Nova Aliança, Ipiranga, Jardim Paulista — e crescendo conforme cadastramos mais prestadores.'],
+          ['Meu bairro não tá na lista. Não atendem?', 'Pode ser que ainda não tenha prestador no raio. Cadastra mesmo assim — quando entrar prestador na sua região, você é avisada.'],
+          ['Por que começaram por Ribeirão Preto?', 'Porque o fundador é daqui. Conhece a cidade, tem rede local, sabe onde estão os prestadores bons. Cidade média (700k habitantes) é tamanho ideal pra testar produto antes de escalar.'],
+          ['Posso indicar prestador de outra cidade?', 'Por enquanto só validamos prestadores que atendem Ribeirão Preto. Quando expandirmos pra cidade dele, abre a opção dele se cadastrar.']
         ]
       },
       app: {
         label: 'Sobre o app',
         items: [
-          ['Preciso instalar?', 'Não precisa instalar pela Play Store ou App Store. O LarCare é um PWA — funciona direto no navegador, mas você pode "instalar" como um app no celular (atalho na tela inicial). Vá em Perfil > Aplicativo > Instalar.'],
-          ['Funciona offline?', 'Sim, parcialmente. Você consegue abrir o app sem internet (depois da 1ª visita) e ver demandas e propostas em cache. Para novas demandas e mensagens, precisa de conexão.'],
-          ['Por que ainda não tem em outras cidades?', 'Estamos focando em Ribeirão Preto pra testar o produto com profundidade antes de escalar. Próxima cidade no plano: Araraquara, ainda em 2026.'],
-          ['Vai ter app na Play Store / App Store?', 'No futuro, sim. Por enquanto, o PWA cobre as funcionalidades principais com ótima experiência. Vantagem: não ocupa espaço, não tem aprovação demorada, atualiza instantaneamente.'],
-          ['Como vocês se sustentam financeiramente?', 'Hoje, com investimento inicial dos fundadores. No médio prazo: comissão simbólica de prestadores em propostas aceitas. No longo prazo: parcerias B2B com financeiras, seguradoras e varejo de material de construção, sempre opcionais para o usuário.'],
-          ['Quem está por trás do LarCare?', 'Renato Cesar Rodrigues, fundador e mantenedor, baseado em Ribeirão Preto-SP. O projeto começou em 2025 como protótipo e está em validação ativa com prestadores e clientes da praça.']
+          ['Preciso instalar pela Play Store ou App Store?', 'Não. O LarCare é um PWA — funciona direto no navegador, mas você pode "instalar" como um app no celular (atalho na tela inicial). Vá em Perfil > Aplicativo > Instalar.'],
+          ['Funciona offline?', 'Sim, parcialmente. Você abre o app sem internet (depois da 1ª visita) e vê pedidos e propostas em cache. Pra novos pedidos e mensagens, precisa de conexão.'],
+          ['Vai ter app na Play Store / App Store?', 'No futuro, sim. Por enquanto o PWA cobre as funcionalidades principais. Vantagem: não ocupa espaço, não tem aprovação demorada, atualiza instantaneamente.'],
+          ['Como o LarCare ganha dinheiro?', 'Comissão de 5% por serviço resolvido, paga pelo prestador. No longo prazo: parcerias com construtoras, seguradoras e varejistas, sempre opcionais pro usuário.'],
+          ['Quem está por trás do LarCare?', 'Renato Cesar Rodrigues, fundador e mantenedor, baseado em Ribeirão Preto. O projeto começou em 2025 e está em validação ativa com prestadores e clientes da praça.']
         ]
       }
     };
@@ -1187,13 +1332,13 @@
     return `
       <section class="page">
         <div class="container container--narrow">
-          <span class="eyebrow">FAQ</span>
-          <h1 class="mt-3">Perguntas Frequentes</h1>
+          <span class="eyebrow">Perguntas frequentes</span>
+          <h1 class="mt-3">Casa em dia, sem dor de cabeça.</h1>
           <p class="lead mt-3">Tudo o que você precisa saber sobre o LarCare em Ribeirão Preto.</p>
 
           <div class="faq-search mt-6">
             <span class="faq-search__icon" aria-hidden="true">${UI.icon('search', 16)}</span>
-            <input type="search" class="faq-search__input" id="faq-search-input" placeholder="Buscar dúvida (ex: pagamento, segurança, instalação)" value="${escapeAttr(searchQ)}" autocomplete="off" />
+            <input type="search" class="faq-search__input" id="faq-search-input" placeholder="Buscar (ex: pagamento, garantia, Ribeirão Preto)" value="${escapeAttr(searchQ)}" autocomplete="off" />
           </div>
 
           <div class="faq-tabs mt-5" role="tablist">
