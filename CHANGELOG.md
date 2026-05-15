@@ -2,6 +2,56 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.3.2 — 14 de maio de 2026 — Honesty pré-Ricardo + refinamento tipográfico
+
+### Fixed (honesty Mentonia-style)
+
+- **Depoimentos fictícios removidos** em 4 lugares: index.html (Maria/Ricardo/Helena), views.js landing(), views_provider.js forClients() (mesmas 3 personas), views_provider.js forProviders() (Carlos H./Diana M./Pedro T.). Substituídos por placeholder honesto:
+  - Cliente: "Em breve: primeiros casos reais. Quer ser nosso primeiro cliente em Ribeirão Preto?" + CTA "Quero ser o primeiro cliente"
+  - Prestador: "Em breve: primeiros casos reais. Quer ser nosso primeiro prestador em Ribeirão Preto?" + CTA "Quero ser o primeiro prestador"
+- **Stat "30min tempo médio" softenada para "30min meta"** em todos os lugares (3 metric bars + 2 cards + 3 textos FAQ + JSON-LD)
+- **Stat "100% prestadores verificados" REMOVIDA** dos metric bars (index.html: 4→3 cards, views.js: 3→2 cards) e do eyebrow ("Atendemos Ribeirão Preto · Verificação 100%" → "Atendemos Ribeirão Preto")
+- Política "verificação completa antes do prestador entrar" mantida como descrição (não claim de stat)
+
+### Changed (typography refinement Linear/Stripe-grade)
+
+#### Landing pública (landing.css)
+- h1: clamp(38px, 6.2vw, 64px) → **clamp(28px, 4.8vw, 44px)** (-33%)
+- h2: clamp(28px, 4vw, 44px) → **clamp(22px, 3vw, 32px)** (-27%)
+- h3: clamp(20px, 2.4vw, 26px) → **clamp(17px, 2vw, 20px)**
+- Final CTA h2: clamp(32px, 5vw, 56px) → **clamp(24px, 4vw, 38px)** (-32%)
+- Final CTA p: 17px → **15px**
+- hero__lede: clamp(17px, 1.8vw, 20px) → **clamp(15px, 1.6vw, 17px)**
+- Letter-spacing -0.025em em h1, -0.02 em h2, -0.015 em h3 (Linear-style)
+
+#### App (styles.css)
+- h1: clamp(28px, 5vw, 44px) → **clamp(24px, 4vw, 34px)** (-23%)
+- h2: clamp(22px, 3.4vw, 30px) → **clamp(20px, 3vw, 26px)**
+- h3: clamp(19px, 2.4vw, 22px) → **clamp(16px, 2vw, 19px)**
+- h4: 18px → **15px**
+- .lead: 17px → **15px**
+- .eyebrow: 12px → **11px**, padding 6/12 → 4/10 (mais discreto)
+
+#### Padding das heros
+- .hero landing: 56/0/96 → **40/0/72 mobile**, 56/0/96 desktop
+- .final-cta: 120px 0 → **64px 0 mobile**, 96px 0 desktop (-47% mobile)
+
+### Version
+- `LarCareConfig.VERSION` → 2.3.2
+- `CACHE_VERSION` → larcare-v2.3.2
+
+---
+
+## v2.3.1 — 14 de maio de 2026 — Force-fresh mechanism
+
+### Added
+- Script inline em app.html e index.html: `?fresh=1` na URL nuka caches + service workers e recarrega limpo
+- Botão "Forçar atualização total" em Perfil > Aplicativo (red text) — confirm dialog + redirect com ?fresh=1
+- LarCareConfig.VERSION → 2.3.1
+- CACHE_VERSION → larcare-v2.3.1
+
+---
+
 ## v2.3.0 — 14 de maio de 2026 — UI Premium A+++ (Linear/Stripe/Vercel-grade)
 
 ### 🚨 CORREÇÃO CRÍTICA
