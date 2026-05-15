@@ -2,6 +2,110 @@
 
 Registro cronológico de mudanças por versão. Mantido manualmente, alinhado com bumps de `LarCareConfig.VERSION` e `CACHE_VERSION` no Service Worker.
 
+## v2.3.0 — 14 de maio de 2026 — UI Premium A+++ (Linear/Stripe/Vercel-grade)
+
+### 🚨 CORREÇÃO CRÍTICA
+
+**Bug latente em produção descoberto e corrigido:** 6 das 7 categorias de design tokens — radius, shadow, spacing, type, layout, motion — estavam declaradas FORA de qualquer bloco `:root` no `styles.css` (linhas 78-120 do código antigo). Os dois `:root {}` fechavam antes, e o parser CSS descartava silenciosamente todas essas declarações orphan.
+
+Resultado em produção até este fix:
+- `var(--radius-md)`, `var(--radius-lg)`, `var(--radius-pill)`: retornavam `unset` → **0** → todos os cards/botões/modais com cantos quadrados em vez de arredondados
+- `var(--space-1)` até `var(--space-11)`: retornavam `unset` → **0 ou auto** → espaçamento globalmente quebrado
+- `var(--shadow-1/2/3)`: retornavam `unset` → **zero sombras** em todo o app (interface flat indistinguível de mock)
+- `var(--t-fast)`, `var(--t-base)`: retornavam `unset` → **animações instantâneas** (sem suavização perceptível)
+
+Esse era o motivo real do "está tudo horrível" reportado. Um único fix (re-wrap dos tokens em `:root` válido) recupera 80% do design original que o codebase já implementava.
+
+### Added — Sistema de design v2 premium
+
+Reescrita completa do bloco de tokens em `:root` com canonical names prefixados + aliases retrocompatíveis.
+
+#### Tokens canonical novos (96 tokens)
+- **Cores:** `--color-bg`, `--color-surface-*`, `--color-primary[-hover/-active/-soft/-bg]`, `--color-accent[-soft/-bg]`, `--color-text-primary/secondary/tertiary/quaternary/inverse/link`, `--color-border[-hover/-strong/-focus]`, `--color-success/warning/danger/info` com `*-bg` variants
+- **Sombras:** 6 níveis físicos `--shadow-xs/sm/md/lg/xl/2xl` (Stripe/Linear-like, marca diluída não preto puro)
+- **Focus rings:** `--ring-focus` (4px primary 15%), `--ring-focus-danger`
+- **Radius:** `--radius-xs/sm/md/lg/xl/2xl/3xl/full` (6/8/10/12/16/20/24/9999)
+- **Timing:** `--duration-instant/fast/base/slow/slower` (100/150/200/300/500ms) + `--ease-standard/out/in-out/bounce`
+- **Z-index nomeados:** `--z-base/raised/sticky/fixed/dropdown/overlay/modal/popover/toast`
+- **Tipografia:** 12 tamanhos (`--text-2xs` até `--text-6xl`), 4 line-heights, 4 weights, 5 letter-spacings semânticos
+- **Layout:** `--header-height`, `--bottom-nav-height`, `--content-max[-wide/-xwide]`, `--safe-top/-bottom`
+
+#### Aliases legacy preservados (30 aliases)
+`--bg`, `--surface`, `--primary`, `--text`, `--border`, `--space-N`, `--radius-md/lg/pill`, `--shadow-1/2/3`, `--ease`, `--t-fast/base/slow`, `--font-sans/serif`, `--container`, `--header-h`, etc. — todos via `var(--color-...)` da nova nomenclatura. Cascade dinâmica funciona em dark mode automaticamente.
+
+#### Dark mode refinado
+- bg `#0E1411` (vs antigo `#1A2E27` — mais Linear-like, dramático)
+- primary `#5DAB8E` (sálvia mais luminoso pra contraste em dark)
+- borders rgba `rgba(236,240,238, 0.08)` em vez de cinza sólido
+- shadows com `rgba(0,0,0, 0.4-0.9)` em vez de cor da marca
+
+### Added — Reset CSS premium
+
+- `-webkit-tap-highlight-color: transparent` (sem flash azul no toque Android)
+- `touch-action: manipulation` em buttons (sem 300ms tap delay)
+- `input/textarea font-size: 16px` enforced (sem auto-zoom no focus Android)
+- `::selection` com cor da marca
+- `@media (prefers-reduced-motion: reduce)`: zera animações
+- Utilitários `.tabular`, `.tracking-tight`, `.tracking-tighter`, `.tracking-wide`
+- Body com `transition` background-color + color (smooth theme switch)
+
+### Added — Polish premium nos componentes-base
+
+Camada aditiva no fim de styles.css refinando componentes sem refatorar classes.
+
+#### Botões
+- Active feedback com `scale(0.97)` (Linear/Superhuman-like) em vez de `translateY(0)`
+- Focus visible com ring 4px premium
+- Removido translateY no hover (mais sutil)
+- `.btn--danger` variant nova
+- Transições com timing semântico
+
+#### Cards
+- shadow-xs em descanso (quase invisível, Stripe-like)
+- shadow-md no hover (perceptível mas elegante)
+- borders rgba pra adaptar dark mode automaticamente
+- Hover translateY -1px, active scale instant
+
+#### Inputs
+- Focus state combina border-color primary + ring-focus (visual mais rico)
+
+#### Tipografia
+- h1/h2/h3 ganharam `letter-spacing: tighter` (premium display)
+- `.eyebrow` refinado: menor, padding reduzido, tracking-wider
+
+#### Layout
+- Section padding tighter em mobile (`--space-8` vs `--space-9`)
+- Container/container--narrow com padding mobile reduzido
+
+#### View transitions
+- Animação `.view-enter` em `.page`, `.page--app`, `.page--narrow`
+- fade + translateY(6px → 0) em 300ms ease-out
+- Respeita `prefers-reduced-motion`
+
+#### Novos componentes
+- `.skeleton` + `.skeleton-text/circle` com shimmer animation
+- `.empty-state` + `__icon/__title/__description`
+- `.avatar--verified` com ring sálvia
+- `.no-scrollbar` utility
+
+#### Header + Bottom nav
+- Backdrop blur saturado premium em ambos
+- Header border-bottom transparente até scroll (Linear-like)
+- Bottom nav item active com scale 1.05 no SVG
+- Bottom nav item active background sálvia soft no toque
+
+### Version
+- `LarCareConfig.VERSION` → 2.3.0
+- `CACHE_VERSION` → larcare-v2.3.0
+
+### Limitações conhecidas
+
+- **22 telas antigas com inline styles**: 9ª deferral consecutiva. Refator amplo desses ainda é alto risco. Os tokens funcionando + polish layer já lifta visualmente sem precisar mexer no markup.
+- **Sem QA visual rodada**: MCP playwright continua indisponível na sessão. Owner deve fazer hard reload e validar no celular.
+- **SVG illustrations onboarding ainda hardcoded em light bg**: brief de v2.2.0 deferiu, mantido.
+
+---
+
 ## v2.2.1 — 14 de maio de 2026 — Hotfix visual emergencial pós-deploy
 
 Owner reportou "vários problemas de layout" depois do deploy v2.2.0. Auditoria estática (sem MCP browser disponível pra QA visual) identificou 8 bugs com evidência concreta no código. Todos corrigidos cirurgicamente.

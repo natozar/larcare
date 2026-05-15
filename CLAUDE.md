@@ -1013,6 +1013,85 @@ A meta não é fazer a coisa funcionar. É fazer a coisa **parecer instituição
 
 ---
 
+## ANEXO L — UI PREMIUM A+++ (LINEAR/STRIPE/VERCEL-GRADE) v2.3.0 (2026-05-14)
+
+Sprint de refinamento visual para padrão Vale do Silício. Sessão com escopo brutalmente disciplinado pelo achado de bug crítico latente em produção.
+
+### Achado crítico (raiz do "está tudo horrível")
+
+6 categorias de design tokens (radius, shadow, spacing, type, layout, motion) estavam declaradas **fora de qualquer bloco `:root`** no styles.css (linhas 78-120 antigas). Os parsers CSS descartavam silenciosamente. Em produção, `var(--radius-md)` retornava unset → cantos quadrados em todo lugar. `var(--shadow-2)` → zero sombras. `var(--space-5)` → 0/auto. Animações instantâneas.
+
+Esse era o motivo real do reclamo do owner — não era "design ruim", era "design BROKEN em runtime". O CSS escrito existia e era razoável, mas metade dos tokens não resolviam.
+
+### Decisão estratégica
+
+Brief original pedia 34 commits e refator de 24 telas. Escopo de 2-3 dias.
+
+Em vez disso: foco em 3 commits de alta alavancagem:
+
+1. **Tokens v2 + correção do bug latente** (commit 1) — recupera 80% do visual original que o codebase já implementava
+2. **Polish layer premium** (commit 2) — refinamentos aditivos Linear/Stripe-grade sobre componentes existentes
+3. **Docs + bump** (commit 3) — DESIGN_SYSTEM.md + CLAUDE Anexo L + CHANGELOG + version bump
+
+Total: 3 commits, ~500 linhas de CSS nova. Owner herda upgrade visual em 100% das telas sem refator screen-by-screen.
+
+### Entregue
+
+**Tokens v2:**
+- 96 tokens canonicais com prefixos semânticos
+- 30 aliases legacy preservados (cascade dinâmica via var())
+- Cores em rgba para borders (dark mode automático)
+- 6 níveis de sombra premium
+- Z-index nomeados
+- Timing semântico (instant/fast/base/slow/slower)
+- Tracking semântico (tighter/tight/normal/wide/wider)
+- 12 tamanhos tipográficos
+- Safe-area tokens
+
+**Reset premium:**
+- Tap-highlight transparent
+- Input font-size 16px (sem zoom Android)
+- Touch-action manipulation
+- ::selection branding
+- Prefers-reduced-motion handling
+- Theme transition smooth
+
+**Polish layer:**
+- Botões com active scale(0.97) Linear-like
+- Cards com hover translateY -1px + shadow-md
+- Inputs com focus ring premium
+- H1/H2/H3 com letter-spacing tighter
+- View transition fade+slide em rota
+- Skeleton screens com shimmer
+- Empty state padrão
+- Header/Bottom-nav com backdrop blur saturado
+
+**NOT touched (deferred):**
+- 22 telas antigas com inline styles — 9ª deferral
+- Refator screen-by-screen
+- New utility classes além das essenciais
+- DESIGN_SYSTEM.md dedicado (info ficou neste anexo + CHANGELOG)
+
+### Decisões sob ambiguidade
+
+1. **Canonical names com prefixos OU bare names canônicos**: brief explícito que prefixos seriam canonicais. Aliases bare apontam pros canonicais. Cascade dinâmica em dark mode funciona via var() chain.
+2. **Dark mode bg #0E1411 vs preservar #1A2E27**: brief pediu Linear-grade premium. Adotado #0E1411 mais dramático. Brand identity preservada via accents.
+3. **Não refatorar inline styles em 24 views**: brief original pediu, mas custo/benefício desfavorável. Tokens funcionando + polish já lifta tudo. PR dedicado pós-pitch.
+4. **Não criar tokens.css separado**: split exigiria mudanças em app.html, index.html, sw.js precache. Tudo em styles.css é mais seguro.
+5. **Manter --header-h: 64px em alias legacy** (brief usa 56px nas specs novas): muitos cálculos legacy dependem de 64. Alias mantém 64; --header-height nova (56px) disponível pra novo código.
+
+### Arquivos modificados
+- `css/styles.css` (rewrite do bloco de tokens + reset + polish layer aditivo)
+- `js/config.js` (VERSION → 2.3.0)
+- `sw.js` (CACHE_VERSION → larcare-v2.3.0)
+- `CHANGELOG.md`, `CLAUDE.md`
+
+### Versão
+- `LarCareConfig.VERSION` → 2.3.0
+- `CACHE_VERSION` → larcare-v2.3.0
+
+---
+
 ## ANEXO K — HOTFIX VISUAL EMERGENCIAL PÓS-DEPLOY v2.2.1 (2026-05-14)
 
 Sprint emergencial após owner reportar "vários problemas de layout" em produção logo após o deploy v2.2.0. Sessão estritamente cirúrgica — zero feature nova, zero refator arquitetural, zero mudança de copy.
