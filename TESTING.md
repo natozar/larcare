@@ -363,3 +363,87 @@ Após hard-reload no celular (recarregar página completamente, NÃO só cache),
 - [ ] Header sticky com demo-banner: ambos aparecem no topo sem sobreposição quando você rola para baixo
 
 Se algum item falhar, screenshot + hash da URL + me passa.
+
+---
+
+## 17. v2.3.0 — Smoke test UI Premium A+++ (Android Chrome alvo)
+
+Após hard-reload (limpar cache e reabrir), validar no Android Chrome 360x800:
+
+### 17.1. Bordas arredondadas voltaram (CRÍTICO)
+- [ ] Botão "Pedir um reparo" no dashboard: cantos arredondados pill (não quadrado)
+- [ ] Cards de pedidos: cantos arredondados ~12-16px
+- [ ] Inputs no fluxo de nova demanda: cantos arredondados ~8px
+- [ ] Modais e bottom sheets: cantos arredondados generosos
+- (Se cantos quadrados em produção: cache não atualizou — force-refresh)
+
+### 17.2. Sombras voltaram
+- [ ] Cards em descanso: sombra MUITO sutil, quase invisível (correto, Stripe-like)
+- [ ] Cards no toque/hover: sombra um pouco mais perceptível
+- [ ] Modal/sheet aberto: sombra clara e elegante
+- (Se zero sombras: cache não atualizou)
+
+### 17.3. Espaçamento consistente
+- [ ] Gap entre seções no dashboard: respirado, não cramado
+- [ ] Padding interno de cards: ~20px (não 0)
+- [ ] Espaço entre botões em rows: ~8-12px consistente
+
+### 17.4. Animações suaves
+- [ ] Toque em botão primário: vê o "press" (scale 0.97 brevíssimo)
+- [ ] Mudança de tela: fade-slide sutil (6px de baixo pra cima)
+- [ ] Toggle theme claro/escuro: smooth transition do bg/cor
+- [ ] Hover de card no desktop: lift sutil
+
+### 17.5. Tipografia premium
+- [ ] H1 do hero: letras mais "juntas" (tracking tighter visível)
+- [ ] Body text: legível, line-height respirado (1.5)
+- [ ] Eyebrow ("ATENDEMOS RIBEIRÃO PRETO"): pequeno, pílula sálvia soft
+
+### 17.6. Botões com feedback premium
+- [ ] Tocar em "Pedir um reparo" → vê encolhimento brevíssimo (scale)
+- [ ] Hover (se desktop) → cor de fundo escurece um pouco
+- [ ] Focus por teclado → ring verde 4px ao redor (premium)
+
+### 17.7. Dark mode refinado
+- [ ] Perfil > Tema > Escuro → bg fica BEM escuro (#0E1411 quase preto)
+- [ ] Primary verde fica mais luminoso pra contraste
+- [ ] Cards têm borders RGBA quase invisíveis
+- [ ] Texto branco-quente, não branco puro
+
+### 17.8. Backdrop blur header/footer
+- [ ] Scroll na home → header com blur saturado (vê conteúdo borrado por trás)
+- [ ] Bottom nav: blur similar quando há conteúdo embaixo
+
+### 17.9. Touch experience Android
+- [ ] Tocar onde quer que seja: SEM flash azul (tap-highlight transparent)
+- [ ] Tap em botão: resposta imediata, sem 300ms delay
+- [ ] Pinch zoom em inputs: BLOQUEADO (zoom só fora deles)
+- [ ] Input focado: SEM auto-zoom (font 16px)
+
+### 17.10. View transitions
+- [ ] Navegar do dashboard → nova demanda: fade-slide visível
+- [ ] Navegar para FAQ: mesma animação
+- [ ] Ativar prefers-reduced-motion no SO → animações somem
+
+### 17.11. Botões Active state
+- [ ] Long-press em qualquer botão: vê scale 0.97 mantido
+- [ ] Soltar: volta ao normal smoothly
+
+### 17.12. Focus visible (teclado externo se tiver)
+- [ ] Tab pelos elementos → ring sálvia 4px visível em cada
+- [ ] Tab em botão danger (se houver) → ring vermelho
+
+### 17.13. Bottom nav safe-area
+- [ ] Em celular com botões virtuais (Android): bottom nav respeita altura
+- [ ] Última linha de conteúdo NÃO fica atrás da nav
+
+### 17.14. Header sticky com blur
+- [ ] Rolar pra baixo: header fica fixo no topo
+- [ ] Vê o blur saturado por trás do header (não opaco)
+- [ ] Border-bottom aparece sutil ao rolar (transparente quando topo)
+
+### 17.15. Versão
+- [ ] Perfil > Versão: mostra **2.3.0**
+- [ ] Se mostra 2.2.1: hard-reload novamente, cache do SW pode precisar SKIP_WAITING
+
+Se algum item falhar, screenshot + URL hash + me passa.
