@@ -2735,3 +2735,36 @@ body.no-scroll { overflow: hidden; }
 
 /* Notif bell badge — show via JS when count > 0 */
 .notif-bell { background: transparent; border: 0; cursor: pointer; padding: 0; }
+
+/* ============================================================
+   Onboarding cliente quick-start (3 telas, full-screen overlay)
+   ============================================================ */
+.oc-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  animation: oc-fade-in 280ms var(--ease-out) both;
+}
+@keyframes oc-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.oc-card {
+  max-width: 420px; width: 100%;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.oc-progress { display: flex; gap: 8px; margin-bottom: 8px; }
+.oc-dot {
+  width: 28px; height: 4px; border-radius: 2px;
+  background: var(--border);
+  transition: background 200ms var(--ease-out);
+}
+.oc-dot.is-active { background: var(--primary); }
+.oc-art { margin: 8px 0 4px; }
+.oc-title { font-family: 'Fraunces', serif; font-size: 32px; line-height: 1.15; margin: 0; }
+.oc-body { color: var(--text-dim); font-size: 16px; line-height: 1.55; max-width: 360px; margin: 0; }
+.oc-cta { width: 100%; max-width: 320px; margin-top: 12px; }
+.oc-skip { margin-top: -4px; color: var(--text-dim); }
+@media (max-width: 480px) {
+  .oc-title { font-size: 26px; }
+  .oc-body { font-size: 15px; }
+}

@@ -34,6 +34,7 @@ const PRECACHE = [
   './js/map.js',
   './js/features.js',
   './js/audio_recorder.js',
+  './js/onboarding_client.js',
   './js/demo_tour.js',
   './icons/favicon.svg',
   './icons/favicon-16.png',

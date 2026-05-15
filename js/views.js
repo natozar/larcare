@@ -597,6 +597,18 @@
     const c = D.DEMO_CLIENT;
     const myDemands = D.DEMANDS.filter((d) => d.client_id === c.id);
     const history = D.CLIENT_HISTORY;
+    const pendingProposals = myDemands.reduce((sum, d) => sum + ((d.proposal_count || 0) > 0 && d.status === 'open' ? 1 : 0), 0);
+    const inProgress = myDemands.filter((d) => d.status === 'hired' || d.status === 'em_atendimento').length;
+
+    // Tom contextual: o que existe pra você AGORA
+    let contextualLine;
+    if (pendingProposals > 0) {
+      contextualLine = `Você tem <strong>${pendingProposals}</strong> ${pendingProposals === 1 ? 'pedido com propostas' : 'pedidos com propostas'} pra avaliar.`;
+    } else if (inProgress > 0) {
+      contextualLine = `<strong>${inProgress}</strong> ${inProgress === 1 ? 'serviço' : 'serviços'} em andamento.`;
+    } else {
+      contextualLine = 'Algum reparo pendente em casa? Em três minutos seu pedido tá publicado.';
+    }
 
     return `
       <section class="page page--app">
@@ -604,36 +616,58 @@
           <div class="row row--between mb-5" style="gap: 12px;">
             <div>
               <span class="eyebrow">${greeting()}</span>
-              <h1 class="mt-2">Olá, ${c.first_name.split(' ')[0]}</h1>
-              <p class="t-dim">${c.neighborhood}, ${c.city}</p>
+              <h1 class="mt-2">${greeting()}, ${c.first_name.split(' ')[0]}</h1>
+              <p class="t-dim">O que precisa hoje?</p>
             </div>
-            <a class="btn btn--primary" href="#/cliente/nova-demanda">${UI.icon('plus', 16)} Nova solicitação</a>
+            <a class="btn btn--primary" href="#/cliente/nova-demanda">${UI.icon('plus', 16)} Pedir</a>
           </div>
 
-          <div class="card card--feature mb-7">
+          <div class="card card--feature mb-5">
             <div class="row row--between" style="align-items: center; gap: 24px;">
               <div style="flex:1; min-width: 240px;">
-                <h2 style="color:#fff;">Precisa de ajuda em casa?</h2>
-                <p style="color: rgba(255,255,255,0.85); margin-top: 8px;">Descreva o serviço, prestadores verificados respondem em até 2 horas em média.</p>
+                <p style="color: rgba(255,255,255,0.92); font-size: 17px; line-height: 1.4;">${contextualLine}</p>
               </div>
-              <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Começar agora</a>
+              <a class="btn btn--accent btn--lg" href="#/cliente/nova-demanda">Pedir um reparo</a>
             </div>
+          </div>
+
+          <!-- Ações rápidas pra contexto dual público -->
+          <div class="grid grid-3 mb-7" style="gap: 10px;">
+            <a class="card card--interactive t-center" href="#/emergencia" style="padding: 14px 10px; border-left: 3px solid #C53030;">
+              <div style="font-size: 22px;">🚨</div>
+              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Emergência</div>
+            </a>
+            <a class="card card--interactive t-center" href="#/buscar" style="padding: 14px 10px;">
+              <div style="font-size: 22px;">🔎</div>
+              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Buscar prestador</div>
+            </a>
+            <a class="card card--interactive t-center" href="#/favoritos" style="padding: 14px 10px;">
+              <div style="font-size: 22px;">⭐</div>
+              <div style="font-weight: 600; font-size: 14px; margin-top: 4px;">Favoritos</div>
+            </a>
           </div>
 
           <div class="row row--between mb-3">
-            <h2>Suas solicitações</h2>
+            <h2>Seus pedidos</h2>
             <a href="#/cliente/historico" class="t-dim fs-14">Ver histórico</a>
           </div>
 
           <div class="stack-lg">
-            ${myDemands.map((d) => clientDemandCard(d)).join('')}
+            ${myDemands.length > 0 ? myDemands.map((d) => clientDemandCard(d)).join('') : `
+              <div class="card t-center" style="padding: 32px 16px;">
+                <div style="font-size: 36px;">🏠</div>
+                <h3 class="mt-2">Nenhum pedido em andamento</h3>
+                <p class="t-dim mt-2">Algum reparo pendente em casa? Em três minutos seu pedido tá publicado.</p>
+                <a class="btn btn--primary mt-3" href="#/cliente/nova-demanda">Pedir um serviço</a>
+              </div>
+            `}
           </div>
 
           <div class="mt-8">
-            <h2 class="mb-3">Recomendações para o seu bairro</h2>
+            <h2 class="mb-3">Categorias pedidas no seu bairro</h2>
             <div class="grid grid-4">
               ${D.CATEGORIES.slice(0, 4).map((cat) => `
-                <a class="cat-tile" href="#/cliente/nova-demanda">
+                <a class="cat-tile" href="#/cliente/nova-demanda?cat=${cat.id}">
                   <span class="cat-tile__icon">${UI.icon(cat.icon, 22)}</span>
                   <span class="cat-tile__name">${cat.name}</span>
                 </a>

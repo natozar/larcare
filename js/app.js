@@ -969,6 +969,10 @@
         setTimeout(() => global.LarCareTour.start(), 600);
       }
     } catch (_) { /* noop */ }
+    // Quick-start onboarding do cliente (primeira visita)
+    if (global.LarCareClientOnboarding) {
+      setTimeout(() => global.LarCareClientOnboarding.autoShow(), 800);
+    }
   }
 
   if (document.readyState === 'loading') {
