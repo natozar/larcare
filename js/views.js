@@ -43,18 +43,12 @@
       </a>
     `).join('');
 
-    const testimonials = [
-      { name: 'Maria Cristina', city: 'Jardim Califórnia, Ribeirão Preto', text: 'Tinha uma torneira pingando há semanas. Em meia hora tinha quatro propostas. À tarde tava resolvido. Sem pedir favor pra ninguém.', initials: 'MC' },
-      { name: 'Ricardo M.', city: 'Iguatemi, Ribeirão Preto', text: 'Trabalho fora o dia todo. Combinei pelo app, deixei a chave na portaria, cheguei e tava pronto. Pagamento pelo Pix, recibo no chat.', initials: 'RM' },
-      { name: 'Helena R.', city: 'Ribeirânia, Ribeirão Preto', text: 'Moro sozinha. Prestador que vem em casa sempre me deixou desconfortável. Aqui vejo a nota, o nome verificado, sei que a empresa tem registro. Outro nível.', initials: 'HR' }
-    ];
-
     return `
       <section class="hero">
         <div class="container">
           <div class="hero__grid">
             <div>
-              <span class="eyebrow">Atendemos Ribeirão Preto · Verificação 100%</span>
+              <span class="eyebrow">Atendemos Ribeirão Preto</span>
               <h1 class="hero__title mt-4">Casa em dia,<br/>sem <em>dor de cabeça</em>.</h1>
               <p class="hero__subtitle">Eletricista, encanador, diarista, faz-tudo — verificados, perto de você em Ribeirão Preto. Você descreve, recebe propostas em minutos, escolhe quem topa.</p>
               <div class="hero__cta">
@@ -89,8 +83,7 @@
         <div class="container">
           <div class="metric-bar">
             <div class="metric"><div class="metric__value">18</div><div class="metric__label">tipos de serviço cobertos</div></div>
-            <div class="metric"><div class="metric__value">30min</div><div class="metric__label">média até a primeira proposta</div></div>
-            <div class="metric"><div class="metric__value">100%</div><div class="metric__label">prestadores com antecedente verificado</div></div>
+            <div class="metric"><div class="metric__value">30min</div><div class="metric__label">meta pra primeira proposta</div></div>
           </div>
         </div>
       </section>
@@ -149,24 +142,12 @@
 
       <section class="section section--alt">
         <div class="container">
-          <div class="t-center mb-5">
-            <span class="eyebrow">Quem já usou</span>
-            <h2 class="mt-3">Resolvido em horas, não em semanas.</h2>
-          </div>
-          <div class="grid grid-3">
-            ${testimonials.map((t) => `
-              <article class="card">
-                <div class="row" style="gap: 12px;">
-                  <span class="avatar avatar--accent">${t.initials}</span>
-                  <div>
-                    <div style="font-weight:600;">${t.name}</div>
-                    <div class="t-dim fs-13">${t.city}</div>
-                  </div>
-                </div>
-                <div class="rating mt-3">${UI.ratingStars(5)}</div>
-                <p class="mt-3" style="line-height:1.6;">"${t.text}"</p>
-              </article>
-            `).join('')}
+          <div class="t-center" style="max-width: 540px; margin: 0 auto;">
+            <span class="eyebrow">Validação real</span>
+            <h2 class="mt-3">Em breve: primeiros casos reais.</h2>
+            <p class="lead mt-3">Estamos cadastrando os primeiros clientes e prestadores em Ribeirão Preto. Sem depoimentos forjados — quando tivermos histórias reais, elas aparecem aqui.</p>
+            <a class="btn btn--primary btn--lg mt-5" href="#/cliente/nova-demanda">Quero ser o primeiro cliente</a>
+            <p class="t-dim fs-14 mt-3">Você atende em Ribeirão Preto? <a href="#/onboarding-prestador">Cadastre-se como prestador →</a></p>
           </div>
         </div>
       </section>

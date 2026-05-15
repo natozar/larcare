@@ -755,38 +755,13 @@
             <div class="steps-card__item"><span class="steps-card__num">5</span><h3>Faça, receba, avalie</h3><p class="t-dim mt-2">Combinou e fez. Recebe pelo Pix ou cartão. Os dois se avaliam ao final.</p></div>
           </div>
 
-          <h2 class="mt-8">Quem se dá bem aqui</h2>
-          <div class="grid grid-3 mt-4">
-            <div class="card">
-              <div class="row" style="gap: 12px; margin-bottom: 8px;">
-                <span class="avatar avatar--accent">CH</span>
-                <div>
-                  <div style="font-weight:600;">Carlos H., 45</div>
-                  <div class="t-dim fs-13">Vila Tibério · 20 anos de bairro</div>
-                </div>
-              </div>
-              <p class="t-dim fs-14">"O LarCare me trouxe pedidos de bairros que eu nem atendia. Hoje fecho a semana com agenda cheia, sem caçar cliente."</p>
-            </div>
-            <div class="card">
-              <div class="row" style="gap: 12px; margin-bottom: 8px;">
-                <span class="avatar avatar--accent">DM</span>
-                <div>
-                  <div style="font-weight:600;">Diana M., 38</div>
-                  <div class="t-dim fs-13">Diarista · Sumarezinho</div>
-                </div>
-              </div>
-              <p class="t-dim fs-14">"Antes era WhatsApp das amigas. Hoje organizo agenda no app, tenho avaliação que fica, e o cliente paga pelo Pix sem precisar lembrar."</p>
-            </div>
-            <div class="card">
-              <div class="row" style="gap: 12px; margin-bottom: 8px;">
-                <span class="avatar avatar--accent">PT</span>
-                <div>
-                  <div style="font-weight:600;">Pedro T., 28</div>
-                  <div class="t-dim fs-13">Faz-tudo · Jardim Paulista</div>
-                </div>
-              </div>
-              <p class="t-dim fs-14">"Comecei autônomo agora e a verificação me deu credibilidade. Cliente vê o selo e topa pagar o preço justo do trabalho."</p>
-            </div>
+          <h2 class="mt-8">Validação real</h2>
+          <div class="card card--soft t-center mt-4" style="padding: var(--space-7) var(--space-5);">
+            <p style="font-size: 17px; line-height: 1.55; max-width: 460px; margin: 0 auto;">
+              <strong>Em breve: primeiros casos reais.</strong><br/>
+              Estamos cadastrando os primeiros prestadores em Ribeirão Preto. Sem depoimentos forjados — quando tivermos histórias reais, elas aparecem aqui.
+            </p>
+            <a class="btn btn--primary mt-4" href="#/onboarding-prestador">Quero ser o primeiro prestador</a>
           </div>
 
           <h2 class="mt-8">Quanto se ganha</h2>
@@ -868,7 +843,7 @@
           <h2 class="mt-8">Como funciona em 3 passos</h2>
           <div class="steps-card mt-4">
             <div class="steps-card__item"><span class="steps-card__num">1</span><h3>Você descreve o que precisa</h3><p class="t-dim mt-2">Categoria, descrição, foto opcional, prazo. Em três minutos seu pedido tá publicado.</p></div>
-            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Prestadores próximos enviam orçamento</h3><p class="t-dim mt-2">Em média 30 minutos pra primeira proposta. Você compara valor, prazo, nota, distância.</p></div>
+            <div class="steps-card__item"><span class="steps-card__num">2</span><h3>Prestadores próximos enviam orçamento</h3><p class="t-dim mt-2">Nossa meta é responder em até 30 minutos. Você compara valor, prazo, nota, distância.</p></div>
             <div class="steps-card__item"><span class="steps-card__num">3</span><h3>Você escolhe, contrata, avalia</h3><p class="t-dim mt-2">Aceita a proposta que topou, combina no chat, paga pelo Pix ou cartão. No fim avalia.</p></div>
           </div>
 
@@ -884,9 +859,9 @@
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
                 <span style="font-size:24px;">⚡</span>
-                <strong>Em até 30 minutos</strong>
+                <strong>Meta: 30 minutos</strong>
               </div>
-              <p class="t-dim fs-14">Primeira proposta na sua tela em meia hora em horário comercial. Pedidos urgentes, ainda mais rápido.</p>
+              <p class="t-dim fs-14">Trabalhamos pra ter a primeira proposta na sua tela em meia hora em horário comercial — dado real será publicado quando tivermos volume.</p>
             </div>
             <div class="card">
               <div class="row" style="gap:8px; align-items:center; margin-bottom: 8px;">
@@ -904,41 +879,13 @@
             </div>
           </div>
 
-          <h2 class="mt-8">Quem usa o LarCare</h2>
-          <div class="grid grid-3 mt-4">
-            <article class="card">
-              <div class="row" style="gap: 12px;">
-                <span class="avatar avatar--accent">MC</span>
-                <div>
-                  <div style="font-weight:600;">Maria Cristina, 42</div>
-                  <div class="t-dim fs-13">Jd. Califórnia</div>
-                </div>
-              </div>
-              <div class="rating mt-3">${UI.ratingStars(5)}</div>
-              <p class="mt-3" style="line-height:1.6;">"Tinha uma torneira pingando há semanas. Em meia hora tinha quatro propostas. À tarde tava resolvido."</p>
-            </article>
-            <article class="card">
-              <div class="row" style="gap: 12px;">
-                <span class="avatar avatar--accent">RM</span>
-                <div>
-                  <div style="font-weight:600;">Ricardo M., 36</div>
-                  <div class="t-dim fs-13">Iguatemi</div>
-                </div>
-              </div>
-              <div class="rating mt-3">${UI.ratingStars(5)}</div>
-              <p class="mt-3" style="line-height:1.6;">"Trabalho fora o dia todo. Combinei pelo app, deixei a chave na portaria, cheguei e tava pronto."</p>
-            </article>
-            <article class="card">
-              <div class="row" style="gap: 12px;">
-                <span class="avatar avatar--accent">HR</span>
-                <div>
-                  <div style="font-weight:600;">Helena R., 38</div>
-                  <div class="t-dim fs-13">Ribeirânia</div>
-                </div>
-              </div>
-              <div class="rating mt-3">${UI.ratingStars(5)}</div>
-              <p class="mt-3" style="line-height:1.6;">"Moro sozinha. Aqui vejo a nota e o nome verificado antes de aceitar. Outro nível."</p>
-            </article>
+          <h2 class="mt-8">Validação real</h2>
+          <div class="card card--soft t-center mt-4" style="padding: var(--space-7) var(--space-5);">
+            <p style="font-size: 17px; line-height: 1.55; max-width: 460px; margin: 0 auto;">
+              <strong>Em breve: primeiros casos reais.</strong><br/>
+              Estamos cadastrando os primeiros clientes em Ribeirão Preto. Sem depoimentos forjados — quando tivermos histórias reais, elas aparecem aqui.
+            </p>
+            <a class="btn btn--primary mt-4" href="#/cliente/nova-demanda">Quero ser o primeiro cliente</a>
           </div>
 
           <h2 class="mt-8">Categorias atendidas</h2>
@@ -1245,7 +1192,7 @@
           ['Como peço um serviço no LarCare?', 'Você descreve o que precisa em 3 minutos (categoria, foto opcional, prazo). Prestadores verificados da sua região recebem o pedido e mandam proposta com valor, prazo e mensagem. Você compara, escolhe, e o contato é liberado.'],
           ['Quanto custa pra eu usar?', 'Nada. Sem mensalidade, sem taxa por pedido, sem cobrança por aceitar proposta. A LarCare cobra 5% do prestador sobre cada serviço — ele já considera isso na proposta.'],
           ['Como sei que o prestador é confiável?', 'Todo prestador passa por verificação de identidade (RG/CNH), antecedente criminal e endereço antes de aparecer no app. Quem completa o processo recebe o selo "Verificado". Cada serviço gera avaliação pública.'],
-          ['Em quanto tempo recebo a primeira proposta?', 'A média é 30 minutos em horário comercial. Pedidos marcados como urgentes costumam receber propostas em até 15 minutos.'],
+          ['Em quanto tempo recebo a primeira proposta?', 'Nossa meta é responder em até 30 minutos em horário comercial. Estamos cadastrando os primeiros prestadores em Ribeirão Preto — o tempo real de resposta vai aparecer quando tivermos volume.'],
           ['Posso não estar em casa quando o prestador chegar?', 'Pode. Combine no chat do app: quem abre a porta, onde fica a chave, como acompanhar pelo WhatsApp. Vários prestadores aceitam fotos antes/depois pra você acompanhar de longe.'],
           ['Como faço se eu trabalho fora o dia todo?', 'Você pode marcar serviço pra horário noturno ou fim de semana. Filtra prestadores por disponibilidade. Combina pagamento pelo Pix antes do serviço. Recibo fica no chat.'],
           ['E se o serviço não ficar bom?', 'Você pode reportar pelo app. Nossa equipe entra em contato em até 48h. Pra urgências, canal direto pelo WhatsApp do suporte. Avaliação negativa afeta o ranking do prestador.'],
